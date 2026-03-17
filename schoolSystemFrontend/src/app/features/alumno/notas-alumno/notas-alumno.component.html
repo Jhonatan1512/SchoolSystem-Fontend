@@ -1,0 +1,98 @@
+<div class="notas-container">
+  
+  <div class="header-actions">
+    <button class="btn-back" routerLink="/alumno">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Volver a mis cursos
+    </button>
+  </div>
+
+  <div class="section-header">
+    <h3 class="section-title">{{ nombreCurso }}</h3>
+    <p class="section-subtitle">Registro de evaluación por competencias</p>
+  </div>
+
+  <div class="final-summary-card" *ngIf="competencias.length > 0">
+    <span class="summary-label">CALIFICACIÓN FINAL DEL CURSO:</span>
+    <span class="summary-value" [ngClass]="obtenerClaseNota(promedioFinalCurso)">
+      {{ promedioFinalCurso }}
+    </span>
+  </div>
+
+  <div class="table-card">
+    <table class="grades-table">
+      <thead>
+        <tr>
+          <th class="col-competencia">Competencias Evaluadas</th>
+          <th class="col-center">Trimestre I</th>
+          <th class="col-center">Trimestre II</th>
+          <th class="col-center">Trimestre III</th>
+          <th class="col-center col-promedio">Promedio Final</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngIf="competencias.length === 0">
+          <td colspan="5" class="td-center">No hay notas registradas para este curso.</td>
+        </tr>
+
+        <tr *ngFor="let comp of competencias">
+          <td class="td-competencia">{{ comp.nombre }}</td>
+          
+          <td class="td-center">
+            <span class="badge-nota" [ngClass]="obtenerClaseNota(comp.t1)">
+              {{ comp.t1 }}
+            </span>
+          </td>
+          
+          <td class="td-center">
+            <span class="badge-nota" [ngClass]="obtenerClaseNota(comp.t2)">
+              {{ comp.t2 }}
+            </span>
+          </td>
+          
+          <td class="td-center">
+            <span class="badge-nota" [ngClass]="obtenerClaseNota(comp.t3)">
+              {{ comp.t3 }}
+            </span>
+          </td>
+
+          <td class="td-center td-promedio">
+            <span class="text-muted">-</span>
+          </td>
+        </tr>
+      </tbody>
+
+      <tfoot *ngIf="competencias.length > 0">
+        <tr class="row-total-averages">
+          <td class="td-competencia"><strong>PROMEDIO TRIMESTRAL</strong></td>
+          
+          <td class="td-center">
+            <span class="badge-nota badge-final" [ngClass]="obtenerClaseNota(promedioT1)">
+              {{ promedioT1 }}
+            </span>
+          </td>
+          
+          <td class="td-center">
+            <span class="badge-nota badge-final" [ngClass]="obtenerClaseNota(promedioT2)">
+              {{ promedioT2 }}
+            </span>
+          </td>
+          
+          <td class="td-center">
+            <span class="badge-nota badge-final" [ngClass]="obtenerClaseNota(promedioT3)">
+              {{ promedioT3 }}
+            </span>
+          </td>
+
+          <td class="td-center td-promedio-final">
+            <span class="badge-nota badge-course-final" [ngClass]="obtenerClaseNota(promedioFinalCurso)">
+              {{ promedioFinalCurso }}
+            </span>
+          </td>
+        </tr>
+      </tfoot>
+
+    </table>
+  </div>
+</div>

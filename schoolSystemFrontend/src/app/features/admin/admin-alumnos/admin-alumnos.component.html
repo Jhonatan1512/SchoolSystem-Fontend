@@ -1,0 +1,118 @@
+<div class="main-content">
+  <header class="page-header">
+    <div class="header-info">
+      <h1>Administración de Alumnos</h1>
+      <p>Total de alumnos registrados en el sistema</p>
+    </div>
+    <button class="btn-primary" (click)="abrirModal()">+ Nuevo Alumno</button>
+  </header>
+
+  <section class="panel table-panel">
+    <div class="table-controls">
+      <input type="text" placeholder="Buscar por DNI o Apellido..." class="search-input">
+    </div>
+
+    <table class="modern-table">
+      <thead>
+        <tr>
+          <th>Alumno</th>
+          <th>DNI</th>
+          <th>Aula / Grado</th>
+          <th>Email</th>
+          <th>Estado</th>
+          <th>Fecha Nacimiento</th>
+          <th>Sexo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alumno of listaAlumno">
+          <td>
+            <div class="user-info">
+              <span class="user-name">{{alumno.apellidos}} {{alumno.nombre}}</span>
+            </div>
+          </td>
+          <td>{{alumno.dni}}</td>
+          <td><span class="badge-aula">{{alumno.aula}}</span></td>
+          <td>{{alumno.email}}</td>
+          <td>
+            <span class="status-tag" [ngClass]="alumno.estado.toLowerCase()"> 
+              {{alumno.estado}}
+            </span>
+          </td>
+          <td>{{alumno.fechaNacimiento | date:'yyyy-MM-dd'}}</td>
+          <td>{{alumno.sexo}}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-icon-sm" title="Editar">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
+              <button class="btn-icon-sm danger" title="Eliminar">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+              <button class="btn-icon-sm warning" title="Editar Password">
+                <span class="material-symbols-outlined">vpn_key</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<!--Modal de Registro-->
+
+<div class="modal-overlay" *ngIf="isModal" (click)="$event.target === overlay && cerrarModal()" #overlay>
+  <div class="modal-container">
+    
+    <div class="modal-header">
+      <h2>Registrar Nuevo Alumno</h2>
+      <button class="btn-close" (click)="cerrarModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form class="modal-form">
+        
+        <div class="form-group">
+          <label>Nombres</label>
+          <input type="text" name="nombre" placeholder="Ej. Karla Yanela" [(ngModel)]="nuevoAlumno.nombre">
+        </div>
+
+        <div class="form-group">
+          <label>Apellidos</label>
+          <input type="text" name="apellidos" [(ngModel)]="nuevoAlumno.apellidos" placeholder="Ej. Flores Rubio">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>DNI</label>
+            <input type="text" name="dni" [(ngModel)]="nuevoAlumno.dni" maxlength="8" placeholder="87654321">
+          </div>
+
+          <div class="form-group">
+            <label>Sexo</label>
+            <select name="sexo" [(ngModel)]="nuevoAlumno.sexo">
+              <option value="" disabled selected>Seleccione...</option>
+              <option value="Mujer">Mujer</option>
+              <option value="Varon">Varón</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de Nacimiento</label>
+          <input type="date" name="fechaNacimiento" [(ngModel)]="nuevoAlumno.fechaNacimiento">
+        </div>
+
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-save" (click)="registrarAlumno()">Guardar Alumno</button>
+    </div>
+
+  </div>
+</div>

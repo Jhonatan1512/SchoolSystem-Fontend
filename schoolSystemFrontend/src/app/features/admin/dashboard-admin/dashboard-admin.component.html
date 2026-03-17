@@ -1,0 +1,85 @@
+<div class="main-dashboard">
+  <header class="dashboard-header">
+    <div class="welcome-text">
+      <h1>Resumen Institucional</h1>
+      <p>Control de operaciones y eventos escolares.</p>
+    </div>
+  </header>
+
+  <div class="dashboard-grid">
+    
+    <section class="panel calendar-panel">
+      <div class="panel-header">
+        <h2>Calendario Escolar</h2>
+        <div class="calendar-controls">
+          <button class="btn-text">{{monthNames[dateFocus.getMonth()]}} {{dateFocus.getFullYear()}}</button>
+          <div class="btn-group">
+            <button class="btn-icon" (click)="cambiarMes(-1)">←</button>
+            <button class="btn-icon" (click)="cambiarMes(+1)">→</button>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="calendar-wrapper">
+        <div class="calendar-days-header">
+          <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+        </div>
+        <div class="calendar-grid">
+          <div *ngFor="let day of days" class="day" [ngClass]="{'empty': day === null, 'current': esHoy(day)}">
+            <ng-container *ngIf="day">
+                {{day}}
+                <span *ngIf="day === 25" class="badge red">Examen</span>
+            </ng-container>
+          </div>
+      </div>
+       </div>
+    </section>
+
+    <div class="right-column">
+      
+      <section class="panel mini-stats">
+        <div class="stat-item">
+          <span class="label">Alumnos Matriculados</span>
+          <span class="value text-blue">1,420</span>
+        </div>
+        <hr>
+        <div class="stat-item">
+          <span class="label">Docentes en Aula</span>
+          <span class="value text-green">42/45</span>
+        </div>
+      </section>
+
+      <section class="panel activity-panel">
+        <div class="panel-header">
+          <h3>Actividad Reciente</h3>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="dot blue"></div>
+            <div class="activity-info">
+              <p><strong>Registro de Notas:</strong> Prof. Martínez finalizó 4to Grado.</p>
+              <span>Hace 10 min</span>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="dot green"></div>
+            <div class="activity-info">
+              <p><strong>Nueva Matrícula:</strong> Se registró a Sofia Larraín.</p>
+              <span>Hace 2 horas</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel alerts-panel">
+        <div class="panel-header">
+          <h3>Pendientes Críticos</h3>
+        </div>
+        <div class="alert-card warning">
+          <p>3 secciones sin horario definido para el próximo trimestre.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>

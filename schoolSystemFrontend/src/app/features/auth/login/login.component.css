@@ -1,0 +1,148 @@
+/* Contenedor principal que ocupa toda la pantalla */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  /* 💡 Si quieres una foto de fondo de tu colegio, cambia el background por: 
+     background: url('/foto-colegio.jpg') center/cover no-repeat; */
+  padding: 1rem;
+}
+
+/* Tarjeta flotante */
+.login-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  padding: 3rem 2.5rem;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cabecera */
+.login-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.logo-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.login-header h2 {
+  color: #0f172a;
+  font-size: 1.6rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.login-header p {
+  color: #64748b;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Formulario */
+.input-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  color: #334155;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Input con Icono */
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: #94a3b8;
+  font-size: 1.2rem;
+}
+
+.input-icon-wrapper input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #1e293b;
+  transition: all 0.3s;
+  background: #f8fafc;
+}
+
+.input-icon-wrapper input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Estilos de Error */
+.input-error { border-color: #ef4444 !important; }
+.error-text { color: #ef4444; font-size: 0.8rem; margin-top: 0.4rem; font-weight: 500; }
+
+/* Opciones (Recordarme y Olvidé mi contraseña) */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.forgot-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover { color: #2563eb; }
+
+/* Botón Principal */
+.btn-login {
+  width: 100%;
+  padding: 0.9rem;
+  background: #0b132b; /* Tu azul oscuro institucional */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(11, 19, 43, 0.2);
+}
+
+.btn-login:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(29, 78, 216, 0.3);
+}
+
+.api-error {
+    color: #ef4444;
+}

@@ -1,0 +1,55 @@
+<div class="layout-wrapper">
+  
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      
+      <div class="logo-section">
+        <img src="/logo.png" alt="Logo" class="logo-img">
+        <div class="logo-icon"></div> <div class="logo-text">
+          <span class="logo-title">EduSystem</span>
+          <span class="logo-subtitle">Portal Académico</span>
+        </div>
+      </div> 
+  
+      <nav class="nav-menu">
+        <a *ngFor="let item of menuItems" 
+           [routerLink]="item.ruta" 
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLinkActive="active-link"            
+           class="nav-link">
+          <span class="material-symbols-outlined nav-icon">{{ item.icono }}</span>
+          <span class="nav-text">{{ item.titulo }}</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" (click)="cerrarSesion()">
+          <span class="material-symbols-outlined nav-icon">logout</span>
+          <span class="nav-text">Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+  </aside> 
+
+  <div class="main-wrapper">
+    
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2 class="page-title">Sistema Informático Académico</h2>
+      </div>
+      
+      <div class="topbar-right">
+        <span class="role-badge" [ngClass]="rolActual.toLowerCase()">{{rolActual | uppercase}}</span>
+        <div class="user-profile">
+          <div class="avatar">{{ iniciales }}</div>
+          <span class="user-name">{{ nombreAlumno }}</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

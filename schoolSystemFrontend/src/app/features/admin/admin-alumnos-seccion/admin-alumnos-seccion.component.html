@@ -1,0 +1,97 @@
+<div class="main-content">
+  <header class="page-header">
+    <div class="header-info">
+      <h1>Alumnos por Sección</h1>
+      <p>Visualiza y gestiona alumnos según su ubicación académica.</p>
+    </div>
+  </header>
+
+  <section class="panel filters-panel">
+    <div class="filter-row">
+      
+      <div class="filter-group">
+        <label>Grado / Nivel</label>
+        <select class="filter-select">
+          <option value="">Todos los grados</option>
+          <option>1ero Primaria</option>
+          <option>2do Primaria</option>
+          <option>3ero Primaria</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Sección</label>
+        <select class="filter-select">
+          <option value="">Todas</option>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
+      </div>
+
+      <div class="filter-group search-flex">
+        <label>Búsqueda rápida</label>
+        <div class="search-wrapper">
+          <input type="text" placeholder="Apellido o DNI..." class="search-input-alt">
+        </div>
+      </div>
+
+      <button class="btn-filter">
+        <span class="material-symbols-outlined">filter_list</span>
+        Aplicar Filtros
+      </button>
+    </div>
+  </section>
+
+  <section class="panel table-panel">
+    <div class="table-info-bar">
+      <span>Mostrando: <strong>1ero Primaria - Sección A</strong></span>
+      <span class="count-badge">24 Alumnos</span>
+    </div>
+
+    <table class="modern-table-zebra">
+      <thead>
+        <tr>
+          <th>N°</th>
+          <th>Alumno</th>
+          <th>DNI</th>
+          <th>Sexo</th>
+          <th>Estado Matrícula</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>01</td>
+          <td class="font-bold">Alvarado Ruiz, Mateo</td>
+          <td>74859612</td>
+          <td>Varón</td>
+          <td><span class="status-pill activo">Confirmado</span></td>
+          <td class="actions-cell">
+            <button class="btn-action-view">
+                <span class="material-symbols-outlined">visibility</span>
+            </button>
+            <button class="btn-action-edit">
+                <span class="material-symbols-outlined">edit</span>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>02</td>
+          <td class="font-bold">Gonzales Torres, Diana</td>
+          <td>14785236</td>
+          <td>Mujer</td>
+          <td><span class="status-pill activo">Confirmado</span></td>
+          <td class="actions-cell">
+            <button class="btn-action-view">
+                <span class="material-symbols-outlined">visibility</span>
+            </button>
+            <button class="btn-action-edit">
+                <span class="material-symbols-outlined">edit</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

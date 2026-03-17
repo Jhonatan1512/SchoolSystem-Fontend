@@ -1,0 +1,284 @@
+/* --- VARIABLES DE COLOR --- */
+:host {
+  --color-header: #1e293b;   
+  --color-accent: #2563eb;  
+  --bg-zebra: #f8fafc;      
+  --border-color: #e2e8f0;
+}
+
+.main-content {
+  padding: 0.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+ 
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.header-info h1 {
+  font-size: 1.8rem;
+  color: var(--color-header);
+  margin: 0;
+}
+
+.header-info p {
+  color: #64748b;
+  margin-top: 0.3rem;
+}
+
+/* --- BOTÓN NUEVO ALUMNO --- */
+.btn-primary {
+  background-color: var(--color-header);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent);
+}
+
+/* --- PANEL Y BUSCADOR --- */
+.panel {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.table-controls {
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* --- TABLA ESTILO CEBRA --- */
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden; 
+  border: 1px solid var(--border-color);
+}
+
+.modern-table th {
+  background-color: var(--color-header);
+  color: white;
+  text-align: left;
+  padding: 1rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.modern-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: #334155;
+  vertical-align: middle;
+}
+
+.modern-table tbody tr:nth-child(even) {
+  background-color: var(--bg-zebra);
+}
+
+.modern-table tbody tr:hover {
+  background-color: #f1f5ff; 
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--color-header);
+}
+
+.badge-aula {
+  background-color: #eff6ff;
+  color: var(--color-accent);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border: 1px solid #dbeafe;
+}
+
+.status-tag {
+  background-color: #dcfce7;
+  color: #15803d;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon-sm {
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-icon-sm:hover {
+  border-color: var(--color-accent);
+  background-color: #f8fafc;
+}
+
+.btn-icon-sm.danger:hover {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.btn-icon-sm.warning:hover {
+  border-color: #efad44;
+  background-color: #fef2f2;
+}
+
+
+/*Modal CSS*/
+/* --- ESTILOS DEL MODAL --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6); /* Fondo oscuro semitransparente */
+  backdrop-filter: blur(4px);        /* Efecto de desenfoque moderno */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 20px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezado */
+.modal-header {
+  padding: 1.5rem;
+  background: var(--color-header); /* Tu Color 1 */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 { font-size: 1.25rem; margin: 0; }
+
+.btn-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.btn-close:hover { opacity: 1; }
+
+/* Cuerpo y Formulario */
+.modal-body { padding: 1.5rem; }
+
+.modal-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-group input, .form-group select {
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--color-accent); /* Tu Color 2 */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Pie de página */
+.modal-footer {
+  padding: 1.2rem 1.5rem;
+  background: #f8fafc;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-secondary {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.btn-save {
+  background: var(--color-header);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-save:hover { background: var(--color-accent); }

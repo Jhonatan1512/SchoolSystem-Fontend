@@ -1,0 +1,79 @@
+.cursos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.curso-item {
+  display: flex;
+  justify-content: space-between; /* Empuja el botón a la derecha */
+  align-items: center;
+  background-color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.curso-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateX(4px); /* Pequeño efecto de empuje */
+}
+
+.curso-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.grado-seccion {
+  background-color: #eff6ff;
+  color: #1e40af;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.detalles h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #1e293b;
+}
+
+.detalles p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Botón a la derecha */
+.btn-ingresar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-ingresar:hover {
+  background-color: #2563eb;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+}

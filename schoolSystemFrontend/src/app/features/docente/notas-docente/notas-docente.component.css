@@ -1,0 +1,101 @@
+.detalle-container { padding: 20px; }
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.titulo-grupo { display: flex; align-items: center; gap: 15px; }
+
+.highlight { color: #2563eb; font-weight: 700; }
+
+/* Navegación Trimestres */
+.trimestre-nav {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.trimestre-nav button {
+  padding: 10px 20px;
+  border: none;
+  background: #f1f5f9;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.trimestre-nav button.active {
+  background: white;
+  color: #2563eb;
+  border-bottom: 3px solid #2563eb;
+}
+
+/* Tabla y Sticky Column */
+.tabla-wrapper {
+  background: white;
+  border-radius: 0 10px 10px 10px;
+  overflow-x: auto;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.tabla-notas { width: 100%; border-collapse: collapse; }
+
+.tabla-notas th, .tabla-notas td {
+  padding: 12px 15px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.col-estudiante {
+  position: sticky;
+  left: 0;
+  background: #f8fafc;
+  z-index: 10;
+  text-align: left !important;
+  min-width: 280px;
+  font-weight: 600;
+}
+
+/* Inputs de Notas */
+.celda-input input {
+  width: 45px;
+  height: 35px;
+  text-align: center;
+  border: 1px solid transparent;
+  background: transparent;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.celda-input input.active {
+  background: #fff;
+  border: 1px solid #cbd5e1;
+}
+
+/* Botones */
+.btn-edit { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.btn-save { background: #16a34a; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+.btn-cancel { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-left: 5px; }
+
+.btn-back {
+  background: #f1f5f9;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #475569;
+  transition: background 0.2s;
+}
+
+.btn-back:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}

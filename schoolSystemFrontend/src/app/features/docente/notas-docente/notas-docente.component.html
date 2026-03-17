@@ -1,0 +1,62 @@
+<div class="detalle-container">
+  <div class="panel-header">
+    <div class="titulo-grupo">
+      <button (click)="volver()" class="btn-back">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div>
+        <h1>Registro de Calificaciones</h1>
+        <p>
+            Curso: <span class="highlight">{{ infoCurso.nombre }}</span> | 
+            Aula: <span class="highlight">{{ infoCurso.aula }}</span></p>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <button *ngIf="!editando" (click)="editando = true" class="btn-edit">
+        <span class="material-symbols-outlined">edit</span> Editar Notas
+      </button>
+      <div *ngIf="editando" class="btn-group">
+        <button (click)="guardarCambios()" class="btn-save">Guardar</button>
+        <button (click)="editando = false" class="btn-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="trimestre-nav">
+    <button [class.active]="trimestreSeleccionado === 1">1° Trimestre</button>
+    <button [class.active]="trimestreSeleccionado === 2">2° Trimestre</button>
+    <button [class.active]="trimestreSeleccionado === 3">3° Trimestre</button>
+  </div>
+
+  <div class="tabla-wrapper">
+    <table class="tabla-notas">
+      <thead>
+        <tr>
+          <th class="col-estudiante">Estudiante</th>
+          <th *ngFor="let comp of competencias" class="col-competencia">
+            {{ comp.nombre }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alumno of alumnos">
+          <td class="col-estudiante nombre-alumno">
+            {{ alumno.nombreCompleto }}
+          </td>
+          <td *ngFor="let comp of competencias" class="celda-input">
+            <input 
+              type="text" 
+              [disabled]="!editando"
+              [class.active]="editando"
+              [ngModel]="obtenerNota(alumno, comp.id)"
+              (ngModelChange)="actualizarNota(alumno, comp.id, $any($event))"
+              maxlength="2"
+              placeholder="--">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+ 

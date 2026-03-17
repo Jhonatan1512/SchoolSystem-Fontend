@@ -1,0 +1,35 @@
+<div class="dashboard-header">
+  <div class="welcome-text">
+    <h1>Mis Cursos Asignados</h1>
+    <p>Selecciona un curso para gestionar las calificaciones.</p>
+  </div>
+</div>
+
+<div class="cursos-lista">
+  <div class="curso-item" *ngFor="let curso of listaCursos">
+    
+    <div class="curso-info">
+      <div class="grado-seccion">
+        <span>{{ curso.aula }}</span>
+      </div>
+      <div class="detalles">
+        <h3>{{ curso.nombreCurso }}</h3>
+        <p>{{ curso.periodoTrimestre }} • {{ curso.competencias?.length || 0 }} Competencias</p>
+      </div>
+    </div>
+ 
+    <div class="curso-acciones">
+      <button 
+        [routerLink]="['/docente/curso', curso.cursoId, 'seccion', curso.seccionId]"
+        class="btn-ingresar">
+        <span>Ingresar Notas</span>
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="listaCursos.length === 0" class="empty-state">
+  <p>No se encontraron cursos asignados.</p>
+</div>
