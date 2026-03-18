@@ -8,6 +8,10 @@ import { NotasDocenteComponent } from './features/docente/notas-docente/notas-do
 import { DashboardAdminComponent } from './features/admin/dashboard-admin/dashboard-admin.component';
 import { AdminAlumnosComponent } from './features/admin/admin-alumnos/admin-alumnos.component';
 import { AdminAlumnosSeccionComponent } from './features/admin/admin-alumnos-seccion/admin-alumnos-seccion.component';
+import { AdminMatriculasComponent } from './features/admin/admin-matriculas/admin-matriculas.component';
+import { AdminDocentesComponent } from './features/admin/admin-docentes/admin-docentes.component';
+import { AdminAsignacionDocenteComponent } from './features/admin/admin-asignacion-docente/admin-asignacion-docente.component';
+import { AdminCursosComponent } from './features/admin/admin-cursos/admin-cursos.component';
 
 export const routes: Routes = [
     {
@@ -38,7 +42,11 @@ export const routes: Routes = [
         children: [
             {path: '', component: DashboardAdminComponent},
             {path: 'alumnos', component: AdminAlumnosComponent},
-            {path: 'alumnos-seccion', component: AdminAlumnosSeccionComponent}
+            {path: 'alumnos-seccion', component: AdminAlumnosSeccionComponent},
+            {path: 'matriculas', component: AdminMatriculasComponent},
+            {path: 'docentes', component: AdminDocentesComponent},
+            {path: 'asignacion-docente', component: AdminAsignacionDocenteComponent},
+            {path: 'cursos', component: AdminCursosComponent}
         ]
     },
     {

@@ -1,0 +1,237 @@
+<div class="main-content">
+  
+  <div class="gestion-container">
+    
+    <div class="section-header-inline">
+      <h3 class="panel-subtitle">
+        <span class="material-symbols-outlined">assignment_ind</span>
+        Listado de Docentes Asignados
+      </h3>
+      <button class="btn-primary-main" (click)="abrirModal()">
+        <span class="material-symbols-outlined">person_add</span>
+        ASIGNAR NUEVO DOCENTE
+      </button>
+    </div>
+
+    <section class="filters-panel">
+      <div class="search-form-row">
+        <div class="input-with-button">
+          <span class="material-symbols-outlined icon-input">fingerprint</span>
+          <input type="text" placeholder="DNI del docente..." class="input-flat">
+          <button class="btn-search-action">
+            <span class="material-symbols-outlined">search</span>
+            Buscar
+          </button>
+        </div>
+
+        <div class="divider-v"></div>
+
+        <div class="filter-controls">
+          <div class="select-modern-wrapper">
+            <span class="material-symbols-outlined icon-select">leaderboard</span>
+            <select class="select-flat">
+              <option value="">Filtrar por Grado</option>
+              <option>1ero Primaria</option>
+              <option>2do Primaria</option>
+            </select>
+            <span class="material-symbols-outlined arrow-down">expand_more</span>
+          </div>
+
+          <div class="select-modern-wrapper">
+            <span class="material-symbols-outlined icon-select">grid_view</span>
+            <select class="select-flat">
+              <option value="">Sección</option>
+              <option>A</option>
+              <option>B</option>
+            </select>
+            <span class="material-symbols-outlined arrow-down">expand_more</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="table-responsive">
+      <table class="zebra-table">
+        <thead>
+          <tr>
+            <th>Docente</th>
+            <th>DNI</th>
+            <th>Curso / Materia</th>
+            <th>Grado y Sección</th>
+            <th>Estado</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="user-cell">
+                <div class="avatar av-blue">RC</div>
+                <div class="info">
+                  <span class="name">Ricardo Caceres Silva</span>
+                </div>
+              </div>
+            </td>
+            <td><strong>45879632</strong></td>
+            <td><span class="tag-course">Álgebra Avanzada</span></td>
+            <td>5to Secundaria - "A"</td>
+            <td><span class="status-active">Activo</span></td>
+            <td class="text-center">
+              <div class="action-group">
+                <button class="btn-table edit" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+                <button class="btn-table delete" title="Eliminar"><span class="material-symbols-outlined">delete</span></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="user-cell">
+                <div class="avatar av-purple">ML</div>
+                <div class="info">
+                  <span class="name">Maria Lopez Vega</span>
+                </div>
+              </div>
+            </td>
+            <td><strong>12457896</strong></td>
+            <td><span class="tag-course">Literatura Universal</span></td>
+            <td>2do Primaria - "B"</td>
+            <td><span class="status-active">Activo</span></td>
+            <td class="text-center">
+              <div class="action-group">
+                <button class="btn-table edit"><span class="material-symbols-outlined">edit</span></button>
+                <button class="btn-table delete"><span class="material-symbols-outlined">delete</span></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="user-cell">
+                <div class="avatar av-orange">JS</div>
+                <div class="info">
+                  <span class="name">Jorge Sanjinez</span>
+                </div>
+              </div>
+            </td>
+            <td><strong>78451296</strong></td>
+            <td><span class="tag-course">Biología</span></td>
+            <td>4to Secundaria - "C"</td>
+            <td><span class="status-active">Activo</span></td>
+            <td class="text-center">
+              <div class="action-group">
+                <button class="btn-table edit"><span class="material-symbols-outlined">edit</span></button>
+                <button class="btn-table delete"><span class="material-symbols-outlined">delete</span></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--Modal de Asignación-->
+
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="$event.target === overlay && cerrarModal()" #overlay>
+  <div class="modal-content">
+    
+    <header class="modal-header">
+      <div class="header-title">
+        <span class="material-symbols-outlined icon-header">assignment_ind</span>
+        <h2>Nueva Asignación Docente</h2>
+      </div>
+      <button class="btn-close-modal" (click)="cerrarModal()">&times;</button>
+    </header>
+
+    <div class="modal-body">
+      <div class="modal-form-section">
+        
+        <div class="form-group">
+          <label>Identificación del Docente</label>
+          <div class="input-search-group">
+            <span class="material-symbols-outlined">fingerprint</span>
+            <input type="text" placeholder="Ingresar DNI..." class="input-form">
+            <button class="btn-search-inner">
+              <span class="material-symbols-outlined">search</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Nombre del Docente</label>
+          <input type="text" class="input-form readonly" readonly value="Ricardo Caceres Silva">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Grado</label>
+            <select class="select-form">
+              <option>Seleccione...</option>
+              <option>5to Secundaria</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sección</label>
+            <select class="select-form">
+              <option>A</option>
+              <option>B</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Curso a Asignar</label>
+          <div class="input-add-group">
+            <select class="select-form">
+              <option>Seleccione curso...</option>
+              <option>Álgebra</option>
+              <option>Física</option>
+            </select>
+            <button class="btn-add-course" title="Agregar curso">
+              <span class="material-symbols-outlined">add_circle</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Periodo Escolar</label>
+          <input type="text" class="input-form readonly" readonly value="2026 - I">
+        </div>
+      </div>
+
+      <div class="modal-list-section">
+        <h4 class="list-title">Cursos Seleccionados</h4>
+        <div class="courses-stack">
+          <div class="course-item">
+            <div class="course-info">
+              <span class="c-name">Álgebra Avanzada</span>
+              <span class="c-detail">5to Secundaria - Secc. A</span>
+            </div>
+            <button class="btn-remove"><span class="material-symbols-outlined">delete</span></button>
+          </div>
+
+          <div class="course-item">
+            <div class="course-info">
+              <span class="c-name">Trigonometría</span>
+              <span class="c-detail">4to Secundaria - Secc. B</span>
+            </div>
+            <button class="btn-remove"><span class="material-symbols-outlined">delete</span></button>
+          </div>
+        </div>
+
+        <div class="empty-list" style="display: none;">
+          <span class="material-symbols-outlined">auto_stories</span>
+          <p>No hay cursos añadidos</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="modal-footer">
+      <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-save-all">
+        <span class="material-symbols-outlined">save</span>
+        Confirmar Asignación
+      </button>
+    </footer>
+
+  </div>
+</div>

@@ -1,0 +1,319 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.matricula-container {
+  display: grid;
+  grid-template-columns: 420px 1fr; /* Columna de búsqueda fija, resto flexible */
+  gap: 24px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+/* --- ESTILOS DE PANELES Y TÍTULOS --- */
+.panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.panel-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 20px;
+  font-weight: 700;
+  border-left: 4px solid #2563eb;
+  padding-left: 12px;
+}
+
+.panel-subtitle span {
+  color: #2563eb;
+  font-size: 22px;
+}
+
+/* --- BUSCADOR --- */
+.search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  position: relative;
+  flex: 1;
+}
+
+.input-group span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 20px;
+}
+
+.input-flat {
+  width: 100%;
+  padding: 12px 12px 12px 42px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.input-flat:focus {
+  border-color: #2563eb;
+}
+
+.btn-search {
+  background: #1e293b;
+  color: white;
+  border: none;
+  width: 50px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.btn-search:hover {
+  background: #0f172a;
+}
+
+/* --- TARJETA DE ALUMNO E HISTORIAL --- */
+.alumno-card-preview {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.card-header-student {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  border-bottom: 1px solid #f1f5f9;
+  position: relative;
+}
+
+.avatar-box {
+  width: 45px;
+  height: 45px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.student-main-info .name {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.student-main-info .label-id {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.btn-reset {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.last-enrollment-info {
+  padding: 15px;
+  background: #fffbeb; /* Color ámbar muy suave */
+  border-top: 1px dashed #f59e0b;
+}
+
+.history-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #b45309;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.history-label span { font-size: 16px; }
+
+.history-data p {
+  margin: 5px 0;
+  font-size: 0.85rem;
+  color: #451a03;
+}
+
+.history-data span {
+  font-weight: 700;
+}
+
+.condicion-tag {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* --- FORMULARIO DE ASIGNACIÓN (DERECHA) --- */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper span {
+  position: absolute;
+  left: 12px;
+  color: #64748b;
+  font-size: 20px;
+  pointer-events: none;
+}
+
+.select-flat {
+  width: 100%;
+  padding: 12px 12px 12px 42px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  background: white;
+  outline: none;
+  appearance: none; /* Quita la flecha nativa si quieres */
+  cursor: pointer;
+}
+
+.period-status-card {
+  margin-top: 24px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  color: #166534;
+}
+
+.period-status-card strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.period-status-card p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+/* --- FOOTER Y BOTONES --- */
+.panel-footer {
+  margin-top: 32px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.btn-cancel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-cancel:hover { background: #e2e8f0; }
+
+.btn-confirm-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 32px;
+  background: #1e293b; /* Tu color oscuro de marca */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+}
+
+.btn-confirm-main:hover {
+  background: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(30, 41, 59, 0.3);
+}
+
+.btn-confirm-main span {
+  font-size: 20px;
+}
+
+.btn-pdf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fee2e2;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-pdf:hover {
+  background: #fee2e2;
+  transform: translateY(-1px);
+}
+
+.btn-pdf span {
+  font-size: 20px;
+}

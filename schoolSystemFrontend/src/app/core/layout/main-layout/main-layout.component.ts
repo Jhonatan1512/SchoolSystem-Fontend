@@ -37,7 +37,8 @@ export class MainLayoutComponent implements OnInit {
         { titulo: 'Alumnos', ruta: '/admin/alumnos', icono: 'group' },
         { titulo: 'Alumnos por Sección', ruta: '/admin/alumnos-seccion', icono: 'group' },
         { titulo: 'Cursos', ruta: '/admin/cursos', icono: 'menu_book' },
-        { titulo: 'Docentes', ruta: '/admin/docentes', icono: 'person_book' }, 
+        { titulo: 'Docentes', ruta: '/admin/docentes', icono: 'person_book' },
+        { titulo: 'Asignación Docente', ruta: '/admin/asignacion-docente', icono: 'co_present' }, 
         { titulo: 'Matriculas', ruta: '/admin/matriculas', icono: 'how_to_reg' }, 
         { titulo: 'Configuración', ruta: '/admin/ajustes', icono: 'settings' },
       ];

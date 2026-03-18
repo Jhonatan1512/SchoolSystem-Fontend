@@ -1,0 +1,110 @@
+<div class="main-content">
+  <header class="page-header">
+    <div class="header-info">
+      <h1><span class="material-symbols-outlined">how_to_reg</span> Proceso de Matrícula</h1>
+      <p>Gestión de inscripción para el año académico 2026.</p>
+    </div>
+  </header>
+
+  <div class="matricula-container">
+    
+    <div class="column-search">
+      <section class="panel">
+        <h3 class="panel-subtitle">
+          <span class="material-symbols-outlined">person_search</span>
+          1. Identificar Estudiante
+        </h3>
+        
+        <div class="search-form">
+          <div class="input-group">
+            <span class="material-symbols-outlined">fingerprint</span>
+            <input type="text" placeholder="DNI del alumno..." class="input-flat" [(ngModel)]="dni">
+          </div>
+          <button class="btn-search" (click)="obtenerAlumno()">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+        </div>
+
+        <div class="alumno-card-preview">
+          <div class="card-header-student">
+            <div class="avatar-box"></div>
+            <div class="student-main-info">
+              <h4 class="name">{{alumno.nombre}} {{alumno.apellidos}}</h4>
+              <p class="label-id">{{alumno.dni}}</p>
+            </div>
+            <button class="btn-reset" title="Limpiar búsqueda" (click)="limpiarBusqueda()">&times;</button>
+          </div>
+
+          <div class="last-enrollment-info">
+            <div class="history-label">
+               <span class="material-symbols-outlined">history</span>
+               {{alumno.periodoAcademico}}
+            </div>
+            <div class="history-data">
+              <p>Grado y Sección: <span>{{alumno.aula}}</span></p>
+              <p>Condición: <span class="condicion-tag">Promovido</span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="column-config">
+      <section class="panel">
+        <h3 class="panel-subtitle">
+          <span class="material-symbols-outlined">school</span>
+          2. Asignación Nueva Aula
+        </h3>
+        
+        <div class="form-grid">
+          <div class="field-group">
+            <label>Grado / Nivel Destino</label>
+            <div class="select-wrapper">
+              <span class="material-symbols-outlined">leaderboard</span>
+              <select class="select-flat" [(ngModel)]="gradoDetino">
+                <option value="">Seleccione grado...</option>
+                <option *ngFor="let grado of listGrado" [value]="grado.id">{{grado.nombre}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Sección Destino</label>
+            <div class="select-wrapper">
+              <span class="material-symbols-outlined">grid_view</span>
+              <select class="select-flat" [(ngModel)]="seccionDestino">
+                <option value="">Seleccione sección...</option>
+                <option *ngFor="let seccion of listaSecciones" [value]="seccion.id">{{seccion.nombre}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="period-status-card">
+          <span class="material-symbols-outlined">event_available</span>
+          <div class="text">
+            <strong>Periodo </strong>
+            <p>La matrícula se registrará como "Activa" inmediatamente.</p>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <button class="btn-cancel" (click)="cancelar()">
+            <span class="material-symbols-outlined">cancel</span>
+            Cancelar
+          </button>
+          <!--(click)="generarPDF()"-->
+          <button class="btn-pdf">
+            <span class="material-symbols-outlined">picture_as_pdf</span>
+            Descargar Constancia
+          </button>
+
+          <button class="btn-confirm-main" (click)="matricular()">
+            <span class="material-symbols-outlined">save</span>
+            MATRICULAR ALUMNO
+          </button> 
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

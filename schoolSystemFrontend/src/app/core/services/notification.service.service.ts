@@ -21,6 +21,9 @@ export class NotificationServiceService {
   error(message: string){
     this.toast.fire({icon: 'error', title: message});
   }
+  warning(message: string){
+    this.toast.fire({icon: 'warning', title: message});
+  }
   async confirmar(titulo: string, texto: string) {
     return await Swal.fire({
       title: titulo,

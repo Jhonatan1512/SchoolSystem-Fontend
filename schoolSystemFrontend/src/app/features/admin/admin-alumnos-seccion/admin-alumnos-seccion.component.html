@@ -11,21 +11,17 @@
       
       <div class="filter-group">
         <label>Grado / Nivel</label>
-        <select class="filter-select">
+        <select class="filter-select" [(ngModel)]="gradoId">
           <option value="">Todos los grados</option>
-          <option>1ero Primaria</option>
-          <option>2do Primaria</option>
-          <option>3ero Primaria</option>
+          <option *ngFor="let grado of listaGrados" [value]="grado.id">{{grado.nombre}}</option>
         </select>
       </div>
 
       <div class="filter-group">
         <label>Sección</label>
-        <select class="filter-select">
-          <option value="">Todas</option>
-          <option>A</option>
-          <option>B</option>
-          <option>C</option>
+        <select class="filter-select" [(ngModel)]="seccionId">
+          <option value="">Todas las secciones</option>
+          <option *ngFor="let seccion of listaSecciones" [value]="seccion.id">{{seccion.nombre}}</option>
         </select>
       </div>
 
@@ -36,7 +32,7 @@
         </div>
       </div>
 
-      <button class="btn-filter">
+      <button class="btn-filter" (click)="mostrarDetalle()">
         <span class="material-symbols-outlined">filter_list</span>
         Aplicar Filtros
       </button>
@@ -45,53 +41,56 @@
 
   <section class="panel table-panel">
     <div class="table-info-bar">
-      <span>Mostrando: <strong>1ero Primaria - Sección A</strong></span>
-      <span class="count-badge">24 Alumnos</span>
+      <span>Mostrando: <strong>
+        {{nombreGradoSeleccion || 'Grado'}}
+        {{nombreSeccionSelecionada || 'Sección'}}
+      </strong></span>
+      <span class="count-badge">{{dataAlumnos.length}}</span>
     </div>
 
     <table class="modern-table-zebra">
       <thead>
         <tr>
-          <th>N°</th>
           <th>Alumno</th>
           <th>DNI</th>
           <th>Sexo</th>
-          <th>Estado Matrícula</th>
+          <th>Email</th>
+          <th>Aula</th>          
+          <th>Estado</th>
           <th class="text-center">Acciones</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>01</td>
-          <td class="font-bold">Alvarado Ruiz, Mateo</td>
-          <td>74859612</td>
-          <td>Varón</td>
-          <td><span class="status-pill activo">Confirmado</span></td>
-          <td class="actions-cell">
-            <button class="btn-action-view">
-                <span class="material-symbols-outlined">visibility</span>
-            </button>
-            <button class="btn-action-edit">
-                <span class="material-symbols-outlined">edit</span>
-            </button>
+      <tbody *ngIf="dataAlumnos && dataAlumnos.length > 0">
+        <tr *ngFor="let alumno of dataAlumnos">
+          <td class="font-bold">{{alumno.apellidos}}, {{alumno.nombre}}</td>
+          
+          <td class="text-secondary">{{alumno.dni}}</td>
+          <td>{{alumno.sexo}}</td>
+          <td class="text-muted">{{alumno.email}}</td>
+          
+          <td>
+            <span class="badge-aula">{{alumno.aula}}</span>
+          </td>          
+          <td>
+            <span class="status-pill" [ngClass]="alumno.estado.toLowerCase()">
+              {{alumno.estado}}
+            </span>
           </td>
-        </tr>
-        <tr>
-          <td>02</td>
-          <td class="font-bold">Gonzales Torres, Diana</td>
-          <td>14785236</td>
-          <td>Mujer</td>
-          <td><span class="status-pill activo">Confirmado</span></td>
           <td class="actions-cell">
-            <button class="btn-action-view">
-                <span class="material-symbols-outlined">visibility</span>
+            <button class="btn-action-view" title="Ver detalle">
+              <span class="material-symbols-outlined">visibility</span>
             </button>
-            <button class="btn-action-edit">
-                <span class="material-symbols-outlined">edit</span>
+            <button class="btn-action-edit" title="Editar">
+              <span class="material-symbols-outlined">edit</span>
             </button>
           </td>
         </tr>
       </tbody>
+      <tbody *ngIf="!dataAlumnos || dataAlumnos.length === 0">
+        <tr>
+            <td colspan="7" class="text-center">No hay datos disponibles para esta selección</td>
+        </tr>
+    </tbody>
     </table>
   </section>
 </div>

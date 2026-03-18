@@ -42,7 +42,7 @@ export class AdminAlumnosComponent implements OnInit{
     this.adminService.ontenerAlumnos().subscribe({
       next: (data) => {
         this.listaAlumno = data;
-        console.log(data)
+        //console.log(data)
       },
       error: (err) => {
         console.log(err);
