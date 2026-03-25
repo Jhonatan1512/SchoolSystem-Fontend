@@ -1,0 +1,187 @@
+/* Layout Principal */
+.main-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Sidebar del Curso */
+.sticky-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+    position: sticky;
+    top: 20px;
+}
+
+.course-icon-header {
+    width: 60px;
+    height: 60px;
+    background: #1e293b;
+    color: white;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.course-icon-header span {
+    font-size: 32px;
+}
+
+.badge-grade {
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.course-name {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 10px 0;
+}
+
+.course-desc {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.course-meta {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.meta-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.meta-item span {
+    color: #94a3b8;
+    font-size: 24px;
+}
+
+.meta-item strong {
+    display: block;
+    font-size: 0.9rem;
+    color: #1e293b;
+}
+
+.meta-item p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Listado de Competencias */
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.divider {
+    height: 4px;
+    width: 80px;
+    background: #2563eb;
+    margin-top: 8px;
+    border-radius: 2px;
+}
+
+.competencias-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 10px;
+}
+
+.comp-item-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    gap: 20px;
+    border: 1px solid #e2e8f0;
+    transition: 0.2s;
+    align-items: center;
+}
+
+.comp-item-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.comp-number-hex {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #2563eb;
+    background: #f0f7ff;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.comp-info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.comp-info p {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.capacidad-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip-cap {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+/* Botón Regresar */
+.btn-back-link {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-back-link:hover {
+    color: #1e293b;
+}

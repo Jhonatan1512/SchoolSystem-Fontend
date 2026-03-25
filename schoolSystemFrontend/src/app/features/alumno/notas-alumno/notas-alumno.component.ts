@@ -12,7 +12,7 @@ import { CursoService } from '../services/curso.service';
 export class NotasAlumnoComponent {
   private route = inject(ActivatedRoute);
   private cursoService = inject(CursoService);
-
+ 
   cursoId: number = 0;
   nombreCurso: string = 'Cargando curso....'
 
@@ -27,7 +27,7 @@ export class NotasAlumnoComponent {
 
   ngOnInit(){
     const idParam = this.route.snapshot.paramMap.get('id');
-    this.cursoId = idParam ? parseInt(idParam) : 0;
+    this.cursoId = idParam ? parseInt(idParam) : 0; 
 
     if (this.cursoId > 0) {
       this.CargarNotas();
@@ -36,7 +36,7 @@ export class NotasAlumnoComponent {
 
   CargarNotas() {
     this.cursoService.obtenerNotasPorCurso(this.cursoId).subscribe({
-      next: (data) => {
+      next: (data) => { 
         this.nombreCurso = data.nombreCurso;
 
         const grupos = data.competencias.reduce((acc: any, item: any) => {
@@ -65,7 +65,7 @@ export class NotasAlumnoComponent {
         if (this.promedioT1 !== '-' && this.promedioT2 !== '-' && this.promedioT3 !== '-') {
             this.promedioFinalCurso = this.calcularPromedioGrupal([this.promedioT1, this.promedioT2, this.promedioT3]);
         } else {
-            this.promedioFinalCurso = '-'; // Se mantiene vacío si falta algún trimestre
+            this.promedioFinalCurso = '-'; 
         }
         console.log(data);
       },

@@ -17,76 +17,45 @@
         <span class="material-symbols-outlined icon-select">filter_alt</span>
         <select class="select-flat">
           <option value="">Todos los Grados</option>
-          <option>1ero Primaria</option>
-          <option>5to Secundaria</option>
+          <option *ngFor="let grado of listaGrados">{{grado.nombre}}</option>
         </select>
         <span class="material-symbols-outlined arrow-down">expand_more</span>
       </div>
     </div>
 
-    <button class="btn-add-new">
+    <button class="btn-add-new" (click)="abrirModal()">
       <span class="material-symbols-outlined">add</span>
       NUEVO CURSO
     </button>
   </section>
 
-  <div class="courses-vertical-list">
+  <div class="courses-vertical-list" >
     
-    <div class="course-row-item">
+    <div class="course-row-item" *ngFor="let curso of listaCursos">
       <div class="course-indicator secondary"></div>
       <div class="course-main-info">
         <div class="course-icon-box">
-          <span class="material-symbols-outlined">calculate</span>
+          <span class="material-symbols-outlined">menu_book</span>
         </div>
         <div class="course-text">
-          <h3>Matemática Especializada</h3>
-          <span class="course-grade-badge">5to Secundaria</span>
+          <h3>{{curso.nombre}}</h3>
+          <span class="course-grade-badge">{{curso.nombreAula}}Grado</span>
         </div>
       </div>
       
       <div class="course-stats">
         <div class="stat">
-          <span class="stat-value">04</span>
+          <span class="stat-value">{{curso.competencias.length}}</span>
           <span class="stat-label">Competencias</span>
         </div>
       </div>
 
       <div class="course-actions">
-        <button class="btn-action-outline" > <!--(click)="verCompetencias()"-->
+        <button class="btn-action-outline" (click)="verCompetencias(curso)"> 
           <span class="material-symbols-outlined">account_tree</span>
           GESTIONAR COMPETENCIAS
         </button>
         <button class="btn-icon-only" title="Editar curso">
-          <span class="material-symbols-outlined">edit</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="course-row-item">
-      <div class="course-indicator primary"></div>
-      <div class="course-main-info">
-        <div class="course-icon-box color-pink">
-          <span class="material-symbols-outlined">history_edu</span>
-        </div>
-        <div class="course-text">
-          <h3>Comunicación Integral</h3>
-          <span class="course-grade-badge">2do Primaria</span>
-        </div>
-      </div>
-      
-      <div class="course-stats">
-        <div class="stat">
-          <span class="stat-value">03</span>
-          <span class="stat-label">Competencias</span>
-        </div>
-      </div>
-
-      <div class="course-actions">
-        <button class="btn-action-outline">
-          <span class="material-symbols-outlined">account_tree</span>
-          GESTIONAR COMPETENCIAS
-        </button>
-        <button class="btn-icon-only">
           <span class="material-symbols-outlined">edit</span>
         </button>
       </div>
@@ -96,7 +65,7 @@
 
 <!--Modal de Registroo-->
 
-<div class="modal-overlay">
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="$event.target === overlay && cerrarModal()" #overlay>
   <div class="modal-content Registro-curso">
     
     <header class="modal-header">
@@ -104,7 +73,7 @@
         <span class="material-symbols-outlined icon-header">library_add</span>
         <h2>Registrar Nuevo Curso</h2>
       </div>
-      <button class="btn-close-modal">&times;</button>
+      <button class="btn-close-modal" (click)="cerrarModal()">&times;</button>
     </header>
 
     <div class="modal-body">
@@ -114,7 +83,7 @@
           <label>Nombre del Curso</label>
           <div class="input-with-icon">
             <span class="material-symbols-outlined">book</span>
-            <input type="text" placeholder="Ej. Comprensión Lectora" class="input-form">
+            <input type="text" placeholder="Ej. Comprensión Lectora" class="input-form" name="nombre" [(ngModel)]="nuevoCursoComptencias.nombre">
           </div>
         </div>
 
@@ -122,11 +91,9 @@
           <label>Grado Académico</label>
           <div class="select-modern-wrapper">
             <span class="material-symbols-outlined icon-select">school</span>
-            <select class="select-flat">
-              <option value="" disabled selected>Seleccionar grado...</option>
-              <option>1ero Primaria</option>
-              <option>2do Primaria</option>
-              <option>5to Secundaria</option>
+            <select class="select-flat" name="gradoId" [(ngModel)]="nuevoCursoComptencias.gradoId">
+              <option [value]="null" disabled selected>Seleccionar grado...</option>
+              <option *ngFor="let grados of listaGrados" [value]="grados.id">{{grados.nombre}}</option>
             </select>
             <span class="material-symbols-outlined arrow-down">expand_more</span>
           </div>
@@ -137,8 +104,8 @@
         <div class="form-group">
           <label>Nueva Competencia</label>
           <div class="competencia-input-group">
-            <textarea placeholder="Escriba la competencia aquí..." class="textarea-form"></textarea>
-            <button class="btn-add-competencia">
+            <textarea placeholder="Escriba la competencia aquí..." class="textarea-form" [(ngModel)]="competeciaInput"></textarea>
+            <button class="btn-add-competencia" (click)="agregarCompetencia()">
               <span class="material-symbols-outlined">add_circle</span>
               Agregar
             </button>
@@ -150,23 +117,17 @@
       <div class="modal-list-section">
         <div class="list-header">
           <h4 class="list-title">Competencias del Curso</h4>
-          <span class="badge-count">2 Agregadas</span>
+          <span class="badge-count">{{nuevoCursoComptencias.competencias.length || 0}} Agregadas</span>
         </div>
 
         <div class="competencias-preview-list">
-          <div class="competencia-card">
-            <div class="comp-number">01</div>
-            <p>Resuelve problemas de cantidad y regularidad en contextos reales.</p>
-            <button class="btn-del-comp"><span class="material-symbols-outlined">delete</span></button>
-          </div>
-
-          <div class="competencia-card">
-            <div class="comp-number">02</div>
-            <p>Traduce cantidades a expresiones numéricas y operativas.</p>
-            <button class="btn-del-comp"><span class="material-symbols-outlined">delete</span></button>
+          <div class="competencia-card" *ngFor="let item of nuevoCursoComptencias.competencias; let i = index">
+            <div class="comp-number">{{i + 1}}</div>
+            <p>{{item.nombre}}</p>
+            <button class="btn-del-comp"><span class="material-symbols-outlined" (click)="quitarCompetencia(i)">delete</span></button>
           </div>
           
-          <div class="empty-state" style="display: none;">
+          <div class="empty-state" style="display: none;" *ngIf="nuevoCursoComptencias.competencias.length === 0">
             <span class="material-symbols-outlined">format_list_bulleted</span>
             <p>Aún no has agregado competencias.</p>
           </div>
@@ -175,12 +136,11 @@
     </div>
 
     <footer class="modal-footer">
-      <button class="btn-cancel">Cancelar</button>
-      <button class="btn-save-course">
+      <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-save-course" (click)="agregarCursoComptencias()">
         <span class="material-symbols-outlined">check_circle</span>
         GUARDAR CURSO
       </button>
     </footer>
-
   </div>
 </div>

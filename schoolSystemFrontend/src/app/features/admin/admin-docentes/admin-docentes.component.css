@@ -1,0 +1,385 @@
+.main-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.section-subtitle {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-add {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.toolbar-card {
+    background: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    width: 300px;
+}
+
+.input-search-sm {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.85rem;
+    margin-left: 8px;
+    width: 100%;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.select-sm {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 0.85rem;
+    color: #475569;
+    outline: none;
+    background: white;
+}
+
+.table-responsive {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.docente-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.docente-table thead th {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.docente-table tbody td {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+    color: #334155;
+}
+
+.docente-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.name {
+    font-weight: 600;
+    margin: 0;
+    color: #0f172a;
+}
+
+.email {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.dni-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-danger {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.btn-icon {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #64748b;
+}
+
+.btn-icon.edit:hover {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.btn-icon.delete:hover {
+    color: #dc2626;
+    background: #fef2f2;
+}
+
+/*Modal CSS*/
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content.registro-docente {
+    background: white;
+    width: 100%;
+    max-width: 520px;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header-title {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.icon-header {
+    font-size: 2.5rem;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.header-title h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #0f172a;
+}
+
+.header-title p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.info-alert {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.info-alert span {
+    color: #16a34a;
+}
+
+.info-alert p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #166534;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.input-icon-group {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0 12px;
+}
+
+.input-modal-static {
+    border: none;
+    background: transparent;
+    padding: 12px;
+    width: 100%;
+    outline: none;
+    font-size: 0.9rem;
+    border: 2px solid transparent;
+}
+
+.border-all{
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    padding: 10px 14px !important;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.modal-footer {
+    padding: 20px 24px;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-cancel {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-close-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 25%;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-close-circle:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  transform: rotate(90deg); 
+}
+
+.btn-close-circle .material-symbols-outlined {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.btn-save-docente {
+    background: #0f172a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}

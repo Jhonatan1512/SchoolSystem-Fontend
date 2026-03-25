@@ -12,6 +12,7 @@ import { AdminMatriculasComponent } from './features/admin/admin-matriculas/admi
 import { AdminDocentesComponent } from './features/admin/admin-docentes/admin-docentes.component';
 import { AdminAsignacionDocenteComponent } from './features/admin/admin-asignacion-docente/admin-asignacion-docente.component';
 import { AdminCursosComponent } from './features/admin/admin-cursos/admin-cursos.component';
+import { AdminCursosCompetenciasComponent } from './features/admin/admin-cursos/admin-cursos-competencias/admin-cursos-competencias.component';
 
 export const routes: Routes = [
     {
@@ -46,7 +47,8 @@ export const routes: Routes = [
             {path: 'matriculas', component: AdminMatriculasComponent},
             {path: 'docentes', component: AdminDocentesComponent},
             {path: 'asignacion-docente', component: AdminAsignacionDocenteComponent},
-            {path: 'cursos', component: AdminCursosComponent}
+            {path: 'cursos', component: AdminCursosComponent},
+            {path: 'cursos/competencias/:id', component: AdminCursosCompetenciasComponent}
         ]
     },
     {

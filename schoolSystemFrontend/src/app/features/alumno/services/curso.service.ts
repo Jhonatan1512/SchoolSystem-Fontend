@@ -12,10 +12,10 @@ export class CursoService {
 
   private apiUrl = 'https://localhost:7032/api/Alumno';
 
-  obtenerCursosAlumno(): Observable<any>{
-    
+  obtenerCursosAlumno(): Observable<any>{    
     return this.http.get(`${this.apiUrl}/mis-cursos`)    
   }
+
   obtenerNotasPorCurso(cursoId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/mis-cursos/${cursoId}/detalle`);
   }

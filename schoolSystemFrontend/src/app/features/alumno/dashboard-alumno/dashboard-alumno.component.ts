@@ -92,8 +92,7 @@ export class DashboardAlumnoComponent implements OnInit {
     return {icono: 'school', bg: 'bg-science'}
   }
 
-  verNotas(cursoId: number) {
+  verNotas(cursoId: number) { 
     this.router.navigate(['/alumno/notas', cursoId]);
   }
-
 }

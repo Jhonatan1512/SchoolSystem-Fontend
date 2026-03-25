@@ -1,1 +1,126 @@
-<p>admin-docentes works!</p>
+<div class="container-fluid p-4">
+  <div class="header-flex mb-4">
+    <div>
+      <h1 class="main-title">Directorio de Docentes</h1>
+      <p class="section-subtitle">Gestión y registro de personal académico</p>
+    </div>
+    <button class="btn-add" (click)="abrirModal()">
+      <span class="material-symbols-outlined">person_add</span>
+      Registrar Docente
+    </button>
+  </div>
+
+  <div class="toolbar-card mb-4">
+    <div class="search-container">
+      <span class="material-symbols-outlined icon-sm">search</span>
+      <input type="text" placeholder="Buscar por DNI o nombre..." class="input-search-sm">
+    </div>
+    
+    <div class="filter-group">
+      <label>Estado:</label>
+      <select class="select-sm">
+        <option>Todos</option>
+        <option>Activos</option>
+        <option>Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-responsive shadow-sm">
+    <table class="docente-table">
+      <thead>
+        <tr>
+          <th>Docente</th>
+          <th>DNI</th>
+          <th>Estado</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let docente of listaDocentes">
+          <td>
+            <div class="docente-info">
+              <div class="avatar-circle">{{docente.iniciales}}</div>
+              <div>
+                <p class="name">{{docente.nombres}} {{docente.apellidos}}</p>
+                <p class="email">{{docente.email}}</p>
+              </div>
+            </div>
+          </td>
+          <td><span class="dni-text">{{docente.dni}}</span></td>
+          <td>
+            <span class="badge badge-success" [ngClass]="docente.esActivo ? 'badge-succes' : 'badge-danger'">
+                {{docente.esActivo ? 'Activo' : 'Inactivo'}}
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn-icon edit"><span class="material-symbols-outlined">edit</span></button>
+              <button class="btn-icon delete"><span class="material-symbols-outlined">delete</span></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--Modal de Registro-->
+
+  <div class="modal-overlay" *ngIf="isModalOpen" (click)="$event.target === overlay && cerrarModal()" #overlay>
+  <div class="modal-content registro-docente shadow-lg">
+    
+    <header class="modal-header">
+      <div class="header-title">
+        <span class="material-symbols-outlined icon-header">person_add</span>
+        <div>
+          <h2>Registrar Nuevo Docente</h2>
+          <p>Ingrese los datos de identificación</p>
+        </div>
+      </div>
+      <button class="btn-close-circle" (click)="cerrarModal()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </header>
+
+    <div class="modal-body">
+      <div class="info-alert">
+        <span class="material-symbols-outlined">info</span>
+        <p>El docente se registrará con estado <strong>Activo</strong>.</p>
+      </div>
+
+      <div class="form-container">
+        <div class="form-group">
+          <label>Documento de Identidad (DNI)</label>
+          <div class="input-icon-group border-focus">
+            <span class="material-symbols-outlined">fingerprint</span>
+            <input type="text" placeholder="Ingrese 8 dígitos" class="input-modal-static" name="dni" [(ngModel)]="nuevoDocente.dni" maxlength="8">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombres</label>
+            <div class="input-simple-container">
+              <input type="text" placeholder="Nombres completos" class="input-modal-static border-all" name="nmbres" [(ngModel)]="nuevoDocente.nombres">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Apellidos</label>
+            <div class="input-simple-container">
+              <input type="text" placeholder="Apellidos completos" class="input-modal-static border-all" name="apellidos" [(ngModel)]="nuevoDocente.apellidos">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="modal-footer">
+      <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-save-docente" (click)="crearDocente()">
+        <span class="material-symbols-outlined">check_circle</span>
+        Guardar Docente
+      </button>
+    </footer>
+
+  </div>
+</div>

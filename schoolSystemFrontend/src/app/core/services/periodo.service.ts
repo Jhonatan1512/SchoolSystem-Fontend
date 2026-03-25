@@ -5,18 +5,14 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class GradoServiceService {
-
+export class PeriodoService {
   private http = inject(HttpClient);
 
   private apiUrl = 'https://localhost:7032/api';
 
-  getAll(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/Grado`);
+  getPeriodoActivo(): Observable<any>{
+    return this.http.get(`${this.apiUrl}/Periodoacademico`);
   }
 
-  getById(id: number): Observable<any>{
-    return this.http.get(`${this.apiUrl}/Grado/${id}`)
-  }
   constructor() { }
 }

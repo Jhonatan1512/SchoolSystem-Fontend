@@ -1,0 +1,48 @@
+<div class="container-fluid p-4">
+  <div class="mb-4">
+    <button class="btn-back-link" routerLink="/admin/cursos">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Regresar al listado de cursos
+    </button>
+  </div>
+
+  <div class="main-grid">
+    <aside class="course-sidebar">
+      <div class="sticky-card shadow-sm">
+        <div class="course-icon-header">
+          <span class="material-symbols-outlined">calculate</span>
+        </div>
+        <div class="course-identity">
+          <span class="badge-grade">{{cursoInfo.nombreAula}} Grado</span>
+          <h1 class="course-name">{{cursoInfo.nombre}}</h1>
+        </div>
+        
+        <div class="course-meta">
+          <div class="meta-item">
+            <span class="material-symbols-outlined">analytics</span>
+            <div>
+              <strong>{{listaComptencias.length}} Competencias</strong>
+              <p>Estándares MINEDU</p>
+            </div>
+          </div>          
+        </div>
+      </div>
+    </aside>
+
+    <section class="competencias-content">
+      <div class="section-header mb-4">
+        <h2 class="section-title">Estructura Curricular</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="competencias-list" *ngFor="let competencia of listaComptencias; let i = index">
+        <div class="comp-item-card">
+          <div class="comp-number-hex">{{i + 1  | number: '2.0'}}</div>
+          <div class="comp-info">
+            <h3>{{competencia.nombreCompetencia}}</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

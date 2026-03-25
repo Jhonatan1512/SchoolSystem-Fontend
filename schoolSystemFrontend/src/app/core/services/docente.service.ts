@@ -21,6 +21,18 @@ export class DocenteService {
     return this.http.post(`${this.apiUrl}/notas`, notas);
   }
 
+  getByDni(dni: string): Observable<any>{
+    return this.http.get(`${this.apiUrl}/dni/${dni}`);
+  }
+
+  getAll(): Observable<any> {
+    return this.http.get(`${this.apiUrl}`);
+  }
+
+  agregarDocente(docente: any): Observable<any>{
+    return this.http.post(`${this.apiUrl}`, docente);
+  }
+
   constructor() { }
 }
  

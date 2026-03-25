@@ -15,7 +15,7 @@
   font-size: 1.8rem;
   color: #1e293b;
   margin: 0;
-}
+} 
 
 .page-header p {
   color: #64748b;
@@ -75,7 +75,6 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Select Moderno */
 .select-modern-wrapper {
   position: relative;
   display: flex;
