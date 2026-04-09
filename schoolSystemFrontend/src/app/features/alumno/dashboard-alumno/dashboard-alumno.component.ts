@@ -84,7 +84,7 @@ export class DashboardAlumnoComponent implements OnInit {
     const llaveEncontrada = Object.keys(CURRICULO_PERU).find(key => 
       nombreNormalizado.includes(key) || key.includes(nombreNormalizado)
     );
-
+ 
     if(llaveEncontrada){
       return CURRICULO_PERU[llaveEncontrada];
     }

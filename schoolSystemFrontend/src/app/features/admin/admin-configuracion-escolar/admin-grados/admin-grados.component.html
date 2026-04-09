@@ -1,0 +1,60 @@
+<div class="admin-container">
+  <header class="section-header">
+    <div class="title-group">
+      <h2 class="main-title">Administración de Grados</h2>
+    </div>
+
+    <button class="btn-add-premium">
+      <div class="btn-content">
+        <span class="material-symbols-outlined icon-add">add_circle</span>
+        <div class="text-container">
+          <span class="btn-main-text">Nuevo Grado</span>
+        </div>
+      </div>
+      <div class="btn-shine"></div>
+    </button>
+  </header>
+
+  <div class="grados-container-grid">
+    
+    <div class="grado-card" *ngFor="let g of listaGrado">
+      <div class="card-bg-decoration"></div>
+      
+      <div class="card-inner">
+        <div class="card-top">
+          <div class="icon-main">
+            <span class="material-symbols-outlined">menu_book</span>
+          </div>
+          <span class="badge-nivel">Secundaria</span>
+        </div>
+
+        <div class="card-middle">
+          <h3 class="grado-name">{{ g.nombre }}</h3>
+          <p class="grado-desc">Nivel de formación académica para el periodo actual.</p>
+        </div>
+
+        <div class="card-stats">
+          <div class="stat-box">
+            <span class="stat-num">04</span>
+            <span class="stat-label">Secciones</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-box">
+            <span class="stat-num">120</span>
+            <span class="stat-label">Alumnos</span>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="action-btn edit" title="Editar">
+            <span class="material-symbols-outlined">edit_square</span>
+          </button>
+          <button class="action-btn delete" title="Eliminar">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

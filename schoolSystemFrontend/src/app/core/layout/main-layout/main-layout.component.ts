@@ -40,7 +40,8 @@ export class MainLayoutComponent implements OnInit {
         { titulo: 'Docentes', ruta: '/admin/docentes', icono: 'person_book' },
         { titulo: 'Asignación Docente', ruta: '/admin/asignacion-docente', icono: 'co_present' }, 
         { titulo: 'Matriculas', ruta: '/admin/matriculas', icono: 'how_to_reg' }, 
-        { titulo: 'Configuración', ruta: '/admin/ajustes', icono: 'settings' },
+        { titulo: 'Configuración académica', ruta: '/admin/configuracion', icono: 'calendar_clock' },
+        { titulo: 'Configuración', ruta: '/admin/ajustes', icono: 'settings_account_box' },
       ];
     } else if (this.rolActual === 'Docente') {
       this.menuItems = [

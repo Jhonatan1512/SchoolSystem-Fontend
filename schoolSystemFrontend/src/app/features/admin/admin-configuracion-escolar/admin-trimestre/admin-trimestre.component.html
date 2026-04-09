@@ -1,0 +1,187 @@
+<div class="main-dashboard-wrapper">
+  <header class="dashboard-header">
+    <div class="header-left">      
+      <div class="header-text">
+        <h2 class="dynamic-title">
+          Trimestres 
+          <span class="separator"></span> 
+          <span class="year-highlight">{{ periodoNombreActual }}</span>
+        </h2>
+      </div>
+    </div>
+    
+    <button class="btn-create" (click)="abrirModal()">
+      <span class="material-symbols-outlined">add_circle</span>
+      <span>Nuevo Trimestre</span>
+    </button>
+  </header>
+
+  <div class="table-container-full shadow-lg">
+    <table class="modern-table">
+      <thead>
+        <tr>
+          <th class="col-main">Trimestre & Referencia</th>
+          <th class="col-date">Fecha Inicio</th>
+          <th class="col-date">Fecha Cierre</th>
+          <th class="col-status">Estado</th>
+          <th class="col-actions">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of listaTrimestres" [class.active-row]="t.estadoActivo">
+          <td class="col-main">
+            <div class="trimestre-info">
+              <span class="t-name">{{ t.nombre }}</span>
+              <div class="parent-period">
+                <span class="material-symbols-outlined">auto_awesome_motion</span>
+                {{ t.nombrePeriodo }}
+              </div>
+            </div>
+          </td>
+          <td class="col-date">
+            <div class="date-badge start">
+              <span class="material-symbols-outlined">calendar_today</span>
+              {{ t.fechaInicio | date:'dd MMM, yyyy' }}
+            </div>
+          </td>
+          <td class="col-date">
+            <div class="date-badge end">
+              <button class="btn-edit-fecha" title="Modificar Fecha Cierre" (click)="abrirModalFecha(t)">
+                <span class="material-symbols-outlined">event_busy</span>
+              </button>
+              {{ t.fechaCierre | date:'dd MMM, yyyy' }}
+            </div>
+          </td>
+          <td class="col-status">
+            <div class="status-pill" [class.is-active]="t.estadoActivo">
+              <span class="dot"></span>
+              {{ t.estadoActivo ? 'Vigente' : 'Finalizado' }}
+            </div>
+          </td>
+          <td class="col-actions">
+            <div class="action-group">
+              <button class="action-btn edit" title="Editar" (click)="abrirModal(t)"> 
+                <span class="material-symbols-outlined">edit_square</span>
+              </button>
+              <button class="action-btn delete" title="Eliminar" (click)="eliminar(t.id)">
+                <span class="material-symbols-outlined">delete_outline</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--Modal de creación-->
+
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    
+    <header class="modal-header">
+      <div class="header-icon-container">
+        <span class="material-symbols-outlined">add_task</span>
+      </div>
+      <div class="header-text">
+        <h3>Nuevo Trimestre</h3>
+        <p>Registrando para: <strong>{{ periodoNombreActual }}</strong></p>
+      </div>
+      <button class="btn-close-circle" (click)="cerrarModal()">&times;</button>
+    </header>
+
+    <div class="modal-body">
+      <div class="form-floating-custom">
+        <label><span class="material-symbols-outlined">format_list_bulleted</span> Nombre del Trimestre</label>
+        <input type="text" 
+               class="form-control-premium" 
+               [(ngModel)]="nuevoTrimestre.nombre" 
+               placeholder="Ej. Trimestre 1">
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="form-floating-custom">
+            <label><span class="material-symbols-outlined">calendar_today</span> Fecha de Inicio</label>
+            <input type="date" 
+                   class="form-control-premium" 
+                   [(ngModel)]="nuevoTrimestre.fechaInicio">
+          </div>
+        </div> 
+        <div class="col-md-6">
+          <div class="form-floating-custom">
+            <label><span class="material-symbols-outlined">event_busy</span> Fecha de Cierre {{editMode ? '(No editable)': ''}}</label>
+            <input type="date" 
+                   class="form-control-premium" 
+                   name="fechaCierre"
+                   [readOnly]="editMode"
+                   [(ngModel)]="nuevoTrimestre.fechaCierre"
+                   [class.bg-light]="editMode">
+          </div>
+        </div>
+      </div>
+
+      <div class="status-selection-card mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="status-info">
+            <span class="status-label">¿Activar inmediatamente?</span>
+            <p class="m-0 text-muted small">El trimestre estará disponible para registros.</p>
+          </div>
+          <div class="form-check form-switch custom-switch">
+            <input class="form-check-input" 
+                   type="checkbox" 
+                   role="switch" 
+                   [(ngModel)]="nuevoTrimestre.estadoActivo">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="modal-footer">
+      <button class="btn-cancel-text" (click)="cerrarModal()">Descartar</button>
+      <button class="btn-save-full" (click)="guardarTrimestre()"> <!--(click)="guardarTrimestre()"-->
+        <span class="material-symbols-outlined">check_circle</span>
+        {{editMode ? 'Guardar Cambios' : 'Guardar Trimestre'}}
+      </button>
+    </footer>
+  </div>
+</div>
+
+<!--Modal Fecha-->
+
+<div class="modal-overlay" *ngIf="isDateModalOpen" (click)="cerrarModal()">
+  <div class="modal-content modal-small" (click)="$event.stopPropagation()">
+    
+    <header class="modal-header">
+      <div class="header-icon-container">
+        <span class="material-symbols-outlined">add_task</span>
+      </div>
+      <div class="header-text">
+        <h3>Modificar Fecha Cierre</h3>
+        <p> <strong>{{ periodoNombreActual }}</strong></p>
+      </div>
+      <button class="btn-close-circle" (click)="cerrarModal()">&times;</button>
+    </header>
+
+    <div class="modal-body">
+      <div class="row mt-4">        
+        <div class="col-md-6">
+          <div class="form-floating-custom">
+            <label><span class="material-symbols-outlined">event_busy</span> Fecha de Cierre</label>
+            <input type="date" 
+                   class="form-control-premium" 
+                   [(ngModel)]="trimestreSeleccionado.fechaCierre">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <footer class="modal-footer">
+      <button class="btn-cancel-text" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-save-full" (click)="actualizarFechaCierre()"> 
+        <span class="material-symbols-outlined">check_circle</span>
+        Guardar Cambiaos
+      </button>
+    </footer>
+  </div>
+</div>

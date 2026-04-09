@@ -1,0 +1,119 @@
+<div class="section-container">
+  <div class="section-header d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <div>
+        <h2 class="m-0">Periodos Académicos</h2>
+      </div>
+    </div>
+    <button class="btn-primary-custom" (click)="abrirModal()">
+      <span class="material-symbols-outlined">add_circle</span>
+      Nuevo Periodo
+    </button>
+  </div>
+
+  <div class="table-responsive shadow-sm rounded-4 border">
+    <table class="table custom-table m-0">
+      <thead>
+        <tr>
+          <th>Periodo Académico</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Cierre</th>
+          <th>Estado</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of listaPeriodos" [class.row-active]="p.estadoActivo" [class.row-closed]>
+          <td>
+            <span class="fw-bold">{{ p.nombre }}</span>
+          </td>
+          <td>
+            <span class="fw-bold">{{ p.fechaInicio | date: 'yyyy-MM-dd' }}</span>
+          </td>
+          <td>
+            <span class="fw-bold">{{ p.fechaCierre | date: 'yyyy-MM-dd' }}</span>
+          </td>
+          <td>
+            <span class="status-badge" [class.active]="p.estadoActivo">
+              {{ p.estadoActivo ? 'Activo' : 'Cerrado' }}
+            </span>
+          </td>
+          <td class="text-end">
+            <button class="btn-icon edit" (click)="abrirModal(p)">
+              <span class="material-symbols-outlined">edit_note</span>
+            </button>
+            <button class="btn-icon delete" (click)="eliminarPeriodo(p.id)">
+              <span class="material-symbols-outlined">delete_sweep</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--Modal-->
+
+<div class="modal-overlay" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <header class="modal-header">
+      <div class="d-flex align-items-center gap-2">
+        <span class="material-symbols-outlined text-primary">pending_actions</span>
+        <h3>{{ editMode ? 'Editar' : 'Registrar' }} Periodo</h3>
+      </div>
+      <button class="btn-close-modal" (click)="cerrarModal()">&times;</button>
+    </header>
+
+    <div class="modal-body">
+      <div class="form-group mb-3">
+        <label>Nombre del Periodo</label>
+        <div class="input-container">
+          <span class="material-symbols-outlined">label</span>
+          <input type="text" class="form-control" [(ngModel)]="nuevoPeriodo.nombre" placeholder="Ej. Año escolar 2025" name="nombre">
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Etado</label>
+        <div class="input-container">
+          <span class="material-symbols-outlined">settings_power</span>
+          <select class="form-control" [(ngModel)]="nuevoPeriodo.estadoActivo" >
+            <option [ngValue]="true">Activo </option>
+            <option [ngValue]="false">Cerrado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label>Fecha de Inicio {{editMode ? '(No editable)' : ''}}</label>
+          <div class="input-container">
+            <span class="material-symbols-outlined">calendar_today</span>
+            <input type="date" 
+                   name="fechaInicio"
+                   class="form-control" 
+                   [(ngModel)]="nuevoPeriodo.fechaInicio"
+                   [readonly]="editMode"
+                   [class.bg-light]="editMode">
+
+          </div>
+        </div>
+        <div class="col-md-6 form-group">
+          <label>Fecha de Cierre</label>
+          <div class="input-container">
+            <span class="material-symbols-outlined">event_busy</span>
+            <input type="date" class="form-control" [(ngModel)]="nuevoPeriodo.fechaCierre" name="fechaCierre">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="modal-footer border-0 p-4">
+      <button class="btn-cancel" (click)="cerrarModal()">Descartar</button>
+      <button class="btn-save" (click)="guardarPeriodo()">
+        <span class="material-symbols-outlined">save</span>
+        {{ editMode ? 'Guardar Cambios' : 'Confirmar Registro' }}
+      </button>
+    </footer>
+  </div>
+</div>

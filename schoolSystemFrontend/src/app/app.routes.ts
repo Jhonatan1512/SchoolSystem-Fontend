@@ -13,6 +13,9 @@ import { AdminDocentesComponent } from './features/admin/admin-docentes/admin-do
 import { AdminAsignacionDocenteComponent } from './features/admin/admin-asignacion-docente/admin-asignacion-docente.component';
 import { AdminCursosComponent } from './features/admin/admin-cursos/admin-cursos.component';
 import { AdminCursosCompetenciasComponent } from './features/admin/admin-cursos/admin-cursos-competencias/admin-cursos-competencias.component';
+import { AdminPeriodosComponent } from './features/admin/admin-configuracion-escolar/admin-periodos/admin-periodos.component';
+import { AdminConfiguracionComponent } from './features/admin/admin-configuracion/admin-configuracion.component';
+import { AdminConfiguracionEscolarComponent } from './features/admin/admin-configuracion-escolar/admin-configuracion-escolar.component';
 
 export const routes: Routes = [
     {
@@ -48,8 +51,11 @@ export const routes: Routes = [
             {path: 'docentes', component: AdminDocentesComponent},
             {path: 'asignacion-docente', component: AdminAsignacionDocenteComponent},
             {path: 'cursos', component: AdminCursosComponent},
-            {path: 'cursos/competencias/:id', component: AdminCursosCompetenciasComponent}
-        ]
+            {path: 'cursos/competencias/:id', component: AdminCursosCompetenciasComponent},
+            {path: 'configuracion', component: AdminConfiguracionEscolarComponent},
+            {path: 'periodo', component: AdminPeriodosComponent},
+            {path: 'ajustes', component: AdminConfiguracionComponent} 
+        ] 
     },
     {
         path: '**',

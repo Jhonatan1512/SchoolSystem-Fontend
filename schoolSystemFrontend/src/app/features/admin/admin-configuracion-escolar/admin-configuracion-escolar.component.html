@@ -1,0 +1,13 @@
+<nav class="tabs-nav" >
+  <button [class.active]="tabActiva === 'P'" (click)="tabActiva = 'P'">Periodos</button>
+  <button [class.active]="tabActiva === 'T'" (click)="tabActiva = 'T'">Trimestres</button>
+  <button [class.active]="tabActiva === 'G'" (click)="tabActiva = 'G'">Grados</button>
+  <button [class.active]="tabActiva === 'S'" (click)="tabActiva = 'S'">Secciones</button>
+</nav>
+
+<div class="mt-4">
+  <app-tabla-periodos *ngIf="tabActiva === 'P'"></app-tabla-periodos>
+  <app-admin-trimestre  *ngIf="tabActiva === 'T'"></app-admin-trimestre> 
+  <app-admin-grados *ngIf="tabActiva === 'G'"></app-admin-grados>
+  <app-admin-secciones *ngIf="tabActiva === 'S'"></app-admin-secciones>
+</div>  

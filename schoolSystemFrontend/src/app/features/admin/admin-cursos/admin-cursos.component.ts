@@ -13,6 +13,7 @@ import { NotificationServiceService } from '../../../core/services/notification.
   templateUrl: './admin-cursos.component.html',
   styleUrl: './admin-cursos.component.css'
 })
+
 export class AdminCursosComponent implements OnInit{
 
   private cursoService = inject(CursosService);

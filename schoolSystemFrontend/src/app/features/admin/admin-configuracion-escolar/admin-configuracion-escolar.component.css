@@ -1,0 +1,202 @@
+:host {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #64748b;
+  --dark: #1e293b;
+  --light: #f8fafc;
+  --success: #10b981;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.container-fluid {
+  background-color: #f1f5f9;
+  min-height: 100vh;
+}
+
+/* Header y Títulos */
+.page-header h1 {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+}
+
+/* Navegación por Tabs */
+.tabs-nav {
+  display: flex;
+  gap: 8px;
+  background: #e2e8f0;
+  padding: 5px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.tabs-nav button {
+  border: none;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--secondary);
+  background: transparent;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.tabs-nav button.active {
+  background: var(--white);
+  color: var(--primary);
+  box-shadow: var(--shadow);
+}
+
+/* Card Principal */
+.main-card {
+  background: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.card-header-actions {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+
+.card-header-actions h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+/* Botones */
+.btn-primary-custom {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.btn-primary-custom:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+/* Tabla Estilizada */
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.custom-table thead th {
+  background: var(--light);
+  padding: 12px 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.custom-table tbody td {
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  color: var(--dark);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Modal Estilo Glass */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: var(--white);
+  padding: 0;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  background: var(--light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
