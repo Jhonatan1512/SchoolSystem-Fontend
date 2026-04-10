@@ -1,1 +1,94 @@
-<p>admin-secciones works!</p>
+<div class="admin-container">
+  <header class="section-header">
+    <div class="title-group">
+      <h2 class="main-title">Administración de Secciones</h2>
+    </div>
+
+    <button class="btn-add-section" (click)="abrirModal()">
+      <div class="btn-content">
+        <span class="material-symbols-outlined icon-add">group_add</span>
+        <div class="text-container">
+          <span class="btn-main-text">Nueva Sección</span>
+        </div>
+      </div>
+      <div class="btn-shine"></div>
+    </button>
+  </header>
+
+  <div class="secciones-grid"> 
+    
+    <div class="seccion-card" *ngFor="let item of listaSecciones">
+      <div class="card-tag">Activo</div>
+      <div class="card-inner">
+        <div class="card-top">
+          <div class="icon-circle">
+            <span class="material-symbols-outlined">meeting_room</span>
+          </div>
+        </div>
+        <div class="card-middle">
+          <h3 class="seccion-name">Sección "{{item.nombre}}"</h3>
+          <span class="grado-info">Secundaria</span>
+        </div>
+        <div class="card-actions">
+          <button class="action-btn edit" title="Editar">
+            <span class="material-symbols-outlined">edit</span>
+          </button>
+          <button class="action-btn delete" title="Eliminar">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal de Registro-->
+
+<div class="modal-overlay" *ngIf="isModalOpen">
+  <div class="modal-container">
+    
+    <div class="modal-header-accent"></div>
+
+    <div class="modal-content">
+      <header class="modal-header">
+        <div class="header-icon">
+          <span class="material-symbols-outlined">meeting_room</span>
+        </div>
+        <div class="header-text">
+          <h3>Nueva Sección</h3>
+          <p>Asigna un identificador para el aula</p>
+        </div>
+        <button class="btn-close" (click)="cerrarModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <div class="input-group">
+          <label for="seccionNombre">Nombre de la Sección</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined field-icon">label</span>
+            <input 
+              type="text" 
+              id="seccionNombre" 
+              placeholder="Ej. A"
+              autocomplete="off"
+              name="nombre"
+              [(ngModel)]="nuevaSeccion.nombre"
+            >
+          </div>
+          <small class="helper-text">Sugerencia: "A", "B"</small>
+        </div>
+        <br>
+      </div>
+      
+      <footer class="modal-footer">
+        <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn-primary-emerald" (click)="crearSeccion()">
+          <span class="material-symbols-outlined">check_circle</span>
+          Confirmar Registro
+        </button>
+      </footer>
+    </div> 
+  </div>
+</div>

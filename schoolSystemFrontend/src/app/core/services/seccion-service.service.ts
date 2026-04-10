@@ -14,5 +14,10 @@ export class SeccionServiceService {
   getAllSeccion(): Observable<any> {
     return this.http.get(`${this.apiUrl}/Seccion`);
   }
-  constructor() { }
+
+  create(data:any): Observable<any>{
+    return this.http.post(`${this.apiUrl}/Seccion`, data);
+  }
+  
+  constructor() { } 
 }

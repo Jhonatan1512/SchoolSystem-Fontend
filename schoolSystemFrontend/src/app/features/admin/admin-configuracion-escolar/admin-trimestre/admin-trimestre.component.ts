@@ -73,12 +73,18 @@ export class AdminTrimestreComponent implements OnInit{
   }
 
   guardarTrimestre(){
+    if(!this.nuevoTrimestre.nombre || !this.nuevoTrimestre.fechaCierre || !this.nuevoTrimestre.fechaInicio){
+      this.toastService.warning("Todos los campos son obligatorios");
+      this.cerrarModal();
+      return;
+    }
+
     if(this.editMode){
       this.trimestreService.updateTrimestre(this.idTrimestreSeleccionado, this.nuevoTrimestre).subscribe({
         next: () => {
           this.toastService.succes("Datos del trimestre actualizados");
           this.cerrarModal();
-          this.obtenerTrimestres();
+          //this.obtenerTrimestres();
           this.limpiarCampos();
         },
         error: () => {
@@ -95,8 +101,6 @@ export class AdminTrimestreComponent implements OnInit{
         periodoAcademicoId: this.idPeriodo,
         estadoActivo: this.nuevoTrimestre.estadoActivo
       }
-
-      // console.log(datos);
 
       this.trimestreService.create(datos).subscribe({
         next: () => {
@@ -140,7 +144,6 @@ export class AdminTrimestreComponent implements OnInit{
   }
 
   eliminar(id: number){
-    console.log("id a eliminar", id);
     this.toastService.confirmar("Advertencia","¿Estase Seguro de elimnar este Registro")
     .then((result) => {
       if (result.isConfirmed){

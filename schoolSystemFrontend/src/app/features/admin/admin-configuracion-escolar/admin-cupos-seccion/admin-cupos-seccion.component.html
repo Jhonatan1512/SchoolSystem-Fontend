@@ -1,0 +1,61 @@
+<div class="admin-container">
+  <header class="section-header">
+    <div class="title-group">
+      <h2 class="main-title">Administración de Secciones</h2>
+      <div class="status-indicator">
+        <span class="dot"></span>
+        <span>Periodo Académico Activo 2026</span>
+      </div>
+    </div>
+
+    <button class="btn-primary-dark" (click)="abrirModal()">
+      <span class="material-symbols-outlined">add_circle</span>
+      <span>Nueva Sección</span>
+    </button>
+  </header> 
+
+  <div class="table-card">
+    <table class="modern-table">
+      <thead>
+        <tr>
+          <th>Grado</th>
+          <th>Sección</th>
+          <th>Periodo</th>
+          <th>Capacidad</th>
+          <th>Ocupación</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listaDetalles">
+          <td class="font-bold">{{ item.nombreGrado }}</td>
+          <td><span class="badge-section">{{ item.nombreSeccion }}</span></td>
+          <td class="text-muted">{{ item.periodoAcademico }}</td>
+          <td>{{ item.capacidad }}</td>
+          <td>
+            <div class="progress-container">
+              <span class="progress-text">{{ item.totalMatriculados }} / {{ item.capacidad }}</span>
+              <div class="progress-bar">
+                <div class="progress-fill" 
+                     [style.width.%]="(item.totalMatriculados / item.capacidad) * 100"
+                     [class.full]="item.totalMatriculados >= item.capacidad">
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="action-group">
+              <button class="btn-icon edit" > <!--(click)="editar(item)"-->
+                <span class="material-symbols-outlined">edit_square</span>
+              </button>
+              <button class="btn-icon delete" > <!--(click)="eliminar(item.id)"-->
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+ 

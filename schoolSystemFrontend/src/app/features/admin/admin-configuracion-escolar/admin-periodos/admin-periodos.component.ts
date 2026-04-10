@@ -37,7 +37,6 @@ export class AdminPeriodosComponent implements OnInit {
     this.periodoService.getPeriodoAll().subscribe({
       next: (data) => {
         this.listaPeriodos = Array.isArray(data) ? data : [data];
-        //console.log(data);
       },
       error: (err) => {
         console.log(err);
@@ -73,12 +72,16 @@ export class AdminPeriodosComponent implements OnInit {
   }
 
   guardarPeriodo() {
+    if(!this.nuevoPeriodo.nombre || !this.nuevoPeriodo.fechaInicio || !this.nuevoPeriodo.fechaCierre || !this.nuevoPeriodo.estadoActivo){
+      this.toastServie.warning("Todos los campos son obligatorios");
+      this.cerrarModal();
+      return;
+    }
     if (this.editMode) {
       this.periodoService.update(this.nuevoPeriodo, this.idSelecionado).subscribe({
         next: (data) => {
           this.toastServie.succes("Registro Actualizado");
           this.obtenerPeriodos();
-          console.log("Datos a enviar", data);
         },
         error: () => {
           this.toastServie.error("Error al actualizar datos");

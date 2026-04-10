@@ -4,10 +4,10 @@
       <h2 class="main-title">Administración de Grados</h2>
     </div>
 
-    <button class="btn-add-premium">
+    <button class="btn-add-premium" (click)="abrirModal()">
       <div class="btn-content">
         <span class="material-symbols-outlined icon-add">add_circle</span>
-        <div class="text-container">
+        <div class="text-container" >
           <span class="btn-main-text">Nuevo Grado</span>
         </div>
       </div>
@@ -15,11 +15,9 @@
     </button>
   </header>
 
-  <div class="grados-container-grid">
-    
+  <div class="grados-container-grid">    
     <div class="grado-card" *ngFor="let g of listaGrado">
-      <div class="card-bg-decoration"></div>
-      
+      <div class="card-bg-decoration"></div>      
       <div class="card-inner">
         <div class="card-top">
           <div class="icon-main">
@@ -27,34 +25,80 @@
           </div>
           <span class="badge-nivel">Secundaria</span>
         </div>
-
         <div class="card-middle">
-          <h3 class="grado-name">{{ g.nombre }}</h3>
+          <h3 class="grado-name">{{ g.nombre }} Grado</h3>
           <p class="grado-desc">Nivel de formación académica para el periodo actual.</p>
         </div>
-
         <div class="card-stats">
           <div class="stat-box">
-            <span class="stat-num">04</span>
+            <span class="stat-num">{{g.totalSecciones}}</span>
             <span class="stat-label">Secciones</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-box">
-            <span class="stat-num">120</span>
+            <span class="stat-num">{{g.totalAlumnos}}</span>
             <span class="stat-label">Alumnos</span>
-          </div>
+          </div> 
         </div>
-
         <div class="card-actions">
-          <button class="action-btn edit" title="Editar">
+          <button class="action-btn edit" title="Editar" (click)="abrirModal(g)">
             <span class="material-symbols-outlined">edit_square</span>
           </button>
-          <button class="action-btn delete" title="Eliminar">
+          <button class="action-btn delete" title="Eliminar" (click)="eliminar(g.id)">
             <span class="material-symbols-outlined">delete</span>
           </button>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
+<!--Modal de Registro-->
+
+<div class="modal-overlay" *ngIf="isModalOpen">
+  <div class="modal-container">
+    
+    <div class="modal-header-accent"></div>
+
+    <div class="modal-content">
+      <header class="modal-header">
+        <div class="header-icon">
+          <span class="material-symbols-outlined">add_to_photos</span>
+        </div>
+        <div class="header-text">
+          <h3>Nuevo Grado</h3>
+          <p>Define el nombre del nivel académico</p>
+        </div>
+        <button class="btn-close" (click)="cerrarModal()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <div class="input-group">
+          <label for="gradoNombre">Nombre del Grado</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined field-icon">edit</span>
+            <input 
+              type="text" 
+              id="gradoNombre" 
+              name="nombre"
+              placeholder="Ej. 1°"
+              autocomplete="off"
+              [(ngModel)]="nuevoGrado.nombre"
+            >
+          </div>
+          <small class="helper-text">Ejemplo: 1°, 2°</small>
+        </div>
+      </div>
+
+      <footer class="modal-footer">
+        <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn-primary" (click)="crearGrado()">
+          <span class="material-symbols-outlined">check_circle</span>
+          {{isEditMode ? 'Gradar Cambios': 'Guardar Registro'}}
+        </button>
+      </footer>
+    </div>
   </div>
 </div>
