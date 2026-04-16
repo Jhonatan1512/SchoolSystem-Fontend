@@ -2,7 +2,6 @@
   <header class="page-header">
     <div class="header-info">
       <h1>Alumnos por Sección</h1>
-      <p>Visualiza y gestiona alumnos según su ubicación académica.</p>
     </div>
   </header>
 
@@ -25,12 +24,10 @@
         </select>
       </div>
 
-      <div class="filter-group search-flex">
-        <label>Búsqueda rápida</label>
-        <div class="search-wrapper">
-          <input type="text" placeholder="Apellido o DNI..." class="search-input-alt">
-        </div>
-      </div>
+      <button class="btn-dowload" (click)="descargarData()"> 
+        <span class="material-symbols-outlined">sim_card_download</span> 
+        Descargar Data
+      </button>
 
       <button class="btn-filter" (click)="mostrarDetalle()">
         <span class="material-symbols-outlined">filter_list</span>
@@ -46,7 +43,7 @@
         {{nombreSeccionSelecionada || 'Sección'}}
       </strong></span>
       <span class="count-badge">{{dataAlumnos.length}}</span>
-    </div>
+    </div> 
 
     <table class="modern-table-zebra">
       <thead>
@@ -79,9 +76,6 @@
           <td class="actions-cell">
             <button class="btn-action-view" title="Ver detalle">
               <span class="material-symbols-outlined">visibility</span>
-            </button>
-            <button class="btn-action-edit" title="Editar">
-              <span class="material-symbols-outlined">edit</span>
             </button>
           </td>
         </tr>

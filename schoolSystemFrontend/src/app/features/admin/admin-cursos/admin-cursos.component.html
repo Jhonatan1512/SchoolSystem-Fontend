@@ -1,64 +1,144 @@
 <div class="main-content">
   <header class="page-header">
     <div class="header-info">
-      <h1><span class="material-symbols-outlined">menu_book</span> Plan Curricular </h1>
-      <p>Configuración de materias y competencias por grado académico.</p>
+      <h1><span class="material-symbols-outlined">menu_book</span> Plan Curricular</h1>
     </div>
   </header>
 
-  <section class="toolbar-filters">
-    <div class="filter-group">
-      <div class="search-container">
-        <span class="material-symbols-outlined icon-search">search</span>
-        <input type="text" placeholder="Buscar curso por nombre..." class="input-search">
+  <div class="table-container">
+    <div class="table-toolbar">
+      <div class="toolbar-left">
+        <div class="search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" placeholder="Buscar curso..."> <!-- [(ngModel)]="textoBuscar" (keyup.enter)="cargarCursos()"-->
+        </div>
+        
+        <div class="filter-box">
+          <span class="material-symbols-outlined">filter_alt</span>
+          <select class="select-grado" [(ngModel)]="gradoSeleccionado" (change)="cargarCursos()"> 
+            <option value="">Todos los Grados</option>
+            <option *ngFor="let grado of listaGrados" [value]="grado.id">{{grado.nombre}}</option>
+          </select>
+        </div>
       </div>
-      
-      <div class="select-modern-wrapper">
-        <span class="material-symbols-outlined icon-select">filter_alt</span>
-        <select class="select-flat">
-          <option value="">Todos los Grados</option>
-          <option *ngFor="let grado of listaGrados">{{grado.nombre}}</option>
-        </select>
-        <span class="material-symbols-outlined arrow-down">expand_more</span>
+
+      <div class="toolbar-right">
+        <button class="btn-primary-add" (click)="abrirModal()">
+          <span class="material-symbols-outlined">add</span>
+          NUEVO CURSO
+        </button>
       </div>
     </div>
 
-    <button class="btn-add-new" (click)="abrirModal()">
-      <span class="material-symbols-outlined">add</span>
-      NUEVO CURSO
-    </button>
-  </section>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 40%;">Curso / Materia</th>
+          <th style="width: 20%;">Grado</th>
+          <th style="width: 20%;">Competencias</th>
+          <th style="width: 20%; text-align: right;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let curso of listaCursos">
+          <td>
+            <div class="course-cell">
+              <div class="icon-wrapper">
+                <span class="material-symbols-outlined">book</span>
+              </div>
+              <span class="course-name">{{curso.nombre}}</span>
+            </div>
+          </td>
+          <td>
+            <span class="tag-grade">{{curso.nombreAula}} Grado</span>
+          </td>
+          <td>
+            <div class="competencia-count">
+              <span class="material-symbols-outlined">account_tree</span>
+              <strong>{{curso.competencias.length}}</strong>
+            </div>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="btn-table-action" (click)="verCompetencias(curso)" title="Competencias">
+                <span class="material-symbols-outlined">list_alt</span>
+              </button>
+              <button class="btn-table-action" title="Editar">
+                <span class="material-symbols-outlined" (click)="abrirModalEditar(curso)">edit</span>
+              </button>
+              <button class="btn-table-action danger" title="Eliminar">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="courses-vertical-list" >
+    <!-- <div class="table-footer">
+      <div class="footer-info">
+        Página {{paginaActual}} de {{totalPaginas}}
+      </div>
+      <div class="footer-nav">
+        <button [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <div class="page-indicator">{{paginaActual}}</div>
+        <button [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<!--Modal Editar Nombre Curso-->
+
+<div class="modal-overlay" *ngIf="isModalEditOpen">
+  <div class="modal-container">
     
-    <div class="course-row-item" *ngFor="let curso of listaCursos">
-      <div class="course-indicator secondary"></div>
-      <div class="course-main-info">
-        <div class="course-icon-box">
-          <span class="material-symbols-outlined">menu_book</span>
-        </div>
-        <div class="course-text">
-          <h3>{{curso.nombre}}</h3>
-          <span class="course-grade-badge">{{curso.nombreAula}}Grado</span>
+    <div class="modal-header">
+      <div class="header-icon-title">
+        <span class="material-symbols-outlined header-icon">edit_note</span>
+        <div class="text-group">
+          <h2>Editar Curso</h2>
+          <p>Actualiza el nombre de la materia seleccionada.</p>
         </div>
       </div>
+      <button class="btn-close-modal" (click)="isModalEditOpen = false">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body-form">
       
-      <div class="course-stats">
-        <div class="stat">
-          <span class="stat-value">{{curso.competencias.length}}</span>
-          <span class="stat-label">Competencias</span>
+      <div class="field-column">
+        <label class="modal-label">Grado Académico</label>
+        <div class="input-readonly-modal">
+          <span class="material-symbols-outlined field-icon">school</span>
+          <input class="readonly-text" type="text" [(ngModel)]="nuevoCursoComptencias.nombreAula">
         </div>
       </div>
 
-      <div class="course-actions">
-        <button class="btn-action-outline" (click)="verCompetencias(curso)"> 
-          <span class="material-symbols-outlined">account_tree</span>
-          GESTIONAR COMPETENCIAS
-        </button>
-        <button class="btn-icon-only" title="Editar curso">
-          <span class="material-symbols-outlined">edit</span>
-        </button>
+      <div class="field-column">
+        <label class="modal-label" for="nombreCurso">Nombre del Curso</label>
+        <div class="input-editable-modal">
+          <span class="material-symbols-outlined field-icon">book</span>
+          <input 
+            type="text" 
+            id="nombre" 
+            [(ngModel)]="nuevoCursoComptencias.nombre"
+            class="input-modal-field">
+        </div>
       </div>
+
+    </div>
+
+    <div class="modal-footer-adaptive">
+      <button class="btn-cancel-modal" (click)="isModalEditOpen = false">Cancelar</button>
+      <button class="btn-save-modal" (click)="guardarNombreCurso()" [disabled]="!nuevoCursoComptencias.nombre">
+        Guardar Cambios
+      </button>
     </div>
   </div>
 </div>
@@ -83,8 +163,8 @@
           <label>Nombre del Curso</label>
           <div class="input-with-icon">
             <span class="material-symbols-outlined">book</span>
-            <input type="text" placeholder="Ej. Comprensión Lectora" class="input-form" name="nombre" [(ngModel)]="nuevoCursoComptencias.nombre">
-          </div>
+            <input type="text" placeholder="Ej. Comunicación" class="input-form" name="nombre" [(ngModel)]="nuevoCursoComptencias.nombre">
+          </div> 
         </div>
 
         <div class="form-group">

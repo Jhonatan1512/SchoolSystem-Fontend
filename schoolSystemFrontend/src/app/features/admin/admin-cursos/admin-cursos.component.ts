@@ -15,24 +15,30 @@ import { NotificationServiceService } from '../../../core/services/notification.
 })
 
 export class AdminCursosComponent implements OnInit{
-
   private cursoService = inject(CursosService);
   private gradoService = inject(GradoServiceService);
   private toastService = inject(NotificationServiceService);
   private router = inject(Router);
 
   isModalOpen: boolean = false;
+  isEditMode: boolean = false;
+  isModalEditOpen: boolean = false;
 
   listaCursos: any[] = [];
   listaGrados: any[] = [];
 
+  competeciaInput: string = '';
+
+  gradoSeleccionado: number = 0;
+
+  idCursoEdit: number = 0;
+
   nuevoCursoComptencias: any = {
     nombre: '',
     gradoId: 0,
+    nombreAula: '',
     competencias: []
   };
-
-  competeciaInput: string = '';
 
   ngOnInit() { 
     this.obtenerCursos();     
@@ -47,6 +53,17 @@ export class AdminCursosComponent implements OnInit{
     this.isModalOpen = false;
   }
 
+  abrirModalEditar(curso?:any){
+    if(curso){
+      this.nuevoCursoComptencias = {
+        ...curso,
+      }
+      this.isModalEditOpen = true;
+      this.idCursoEdit = curso.id;
+    }
+    this.isModalEditOpen = true;
+  }
+
   mostrarGrado(){
     this.gradoService.getAll().subscribe({
       next: (data) => {
@@ -56,6 +73,14 @@ export class AdminCursosComponent implements OnInit{
         console.log(err);
       }
     });
+  }
+
+  cargarCursos(){
+
+  }
+
+  guardarNombreCurso() {
+
   }
 
   obtenerCursos(){
@@ -87,7 +112,7 @@ export class AdminCursosComponent implements OnInit{
       error: () => {
         this.toastService.error("Error al crear el curso");
       }
-    })
+    });
   }
 
   agregarCompetencia(){
@@ -103,10 +128,8 @@ export class AdminCursosComponent implements OnInit{
 
     this.nuevoCursoComptencias.competencias.push(nuevaComp);
     this.competeciaInput = '';
-
-    //console.log("competencia agregada", nuevaComp);
   }
-
+ 
   quitarCompetencia(index: number){
     this.nuevoCursoComptencias.competencias.splice(indexedDB, 1);
   }

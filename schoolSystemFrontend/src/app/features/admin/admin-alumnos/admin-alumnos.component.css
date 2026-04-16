@@ -130,6 +130,72 @@
   background-color: #f1f5ff; 
 }
 
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-top: 1px solid #edf2f7;
+  border-radius: 0 0 12px 12px;
+}
+
+.pagination-info {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.total-count {
+  margin-left: 8px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-nav:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.btn-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.current-page {
+  font-weight: bold;
+  background: #3b82f6;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.pagination-settings select {
+  padding: 6px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  outline: none;
+  color: #475569;
+}
+
 .user-name {
   font-weight: 600;
   color: var(--color-header);
@@ -484,3 +550,136 @@
 }
 
 .btn-primary:hover { background: #2563eb; transform: translateY(-1px); }
+
+/* Modal Password CSS */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px); 
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.modal-content p {
+  color: #666;
+  margin: 15px 0;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.input-flat {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input-flat:focus {
+  outline: none;
+  border-color: #3b82f6; 
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background-color: #1e293b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #0a0e15;
+}
+
+.btn-secondary {
+  background-color: #e5e7eb;
+  color: #374151;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+.password-strength-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #ff4d4d; 
+  transition: color 0.3s ease;
+}
+
+.password-strength-row span.met {
+  color: #ffbf00; 
+}
+
+.password-strength-row span.met {
+  color: #ffbf00;
+}
+
+.password-strength-row.all-met {
+  color: #2ecc71 !important;
+}
+
+.separator {
+  color: #ccc;
+  letter-spacing: -1px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
