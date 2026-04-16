@@ -6,29 +6,41 @@ import { GradoServiceService } from '../../../core/services/grado-service.servic
 import { SeccionServiceService } from '../../../core/services/seccion-service.service';
 import { MatriculaService } from '../../../core/services/matricula.service';
 import { NotificationServiceService } from '../../../core/services/notification.service.service';
+import { ConfiguracionCuposService } from '../../../core/services/configuracion-cupos.service';
 
 @Component({
   selector: 'app-admin-matriculas',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Importante para ngModel
+  imports: [CommonModule, FormsModule], 
   templateUrl: './admin-matriculas.component.html',
   styleUrl: './admin-matriculas.component.css'
 })
 export class AdminMatriculasComponent implements OnInit {
-
+ 
   private adminService = inject(AdminService);
   private gradoService = inject(GradoServiceService);
   private seccionesService = inject(SeccionServiceService);
   private matriculaService = inject(MatriculaService);
   private alertService = inject(NotificationServiceService);
+  private configSerice = inject(ConfiguracionCuposService);
 
   dni: string = '';
-
   listGrado: any[] = [];
   listaSecciones: any[] = [];
-
   gradoDetino: number = 0;
   seccionDestino: number = 0;
+
+  mostrarModalCupos: boolean = false;
+  verAlternativas: boolean = false;
+  aulaSeleccionadaNombre: string = '';
+  listaAlternativas: any[] = [];
+  listaGeneralCupos: any[] = [];
+
+  idGradoCupos: number = 0;
+
+  mostrarModalModificar: boolean = false;
+
+  nuevaSeccionId: number = 0;
 
   alumno = {
     id: 0,
@@ -36,11 +48,12 @@ export class AdminMatriculasComponent implements OnInit {
     apellidos: '',
     dni: '',
     aula: '',
-    periodoAcademico: ''
+    periodoAcademico: '',
+    gradoId: 0,
+    matriculaId: 0
   };
 
-  ngOnInit() {   
-    //this.obtenerAlumno();  
+  ngOnInit() {    
     this.mostrarGrado() 
     this.mostrarSecciones();
   }
@@ -55,6 +68,7 @@ export class AdminMatriculasComponent implements OnInit {
       next: (dataAlumno) => {
         if(dataAlumno){
           this.alumno = dataAlumno;
+          //console.log(dataAlumno);
         }  else {
         this.limpiarBusqueda();
         this.alertService.warning('No se encontró alumno con ese DNI');
@@ -80,7 +94,9 @@ export class AdminMatriculasComponent implements OnInit {
       apellidos: '',
       dni: '',
       aula: '',
-      periodoAcademico: ''
+      periodoAcademico: '',
+      gradoId: 0,
+      matriculaId: 0
     };
     this.gradoDetino = 0;
     this.seccionDestino = 0;
@@ -89,7 +105,6 @@ export class AdminMatriculasComponent implements OnInit {
   mostrarGrado(){
     this.gradoService.getAll().subscribe({
       next: (data) => {
-        //console.log(data);
         this.listGrado = data;
       },
       error: (err) => {
@@ -121,17 +136,87 @@ export class AdminMatriculasComponent implements OnInit {
       seccionId: Number(this.seccionDestino)
     };
 
-    //console.log("Datos a enviar ", dataMatricula);
-
     this.matriculaService.registrarMatricula(dataMatricula).subscribe({
       next: () => {
         this.alertService.succes('Alumno matriculado correctamente');
         this.limpiarBusqueda();
       },
       error: (err) => {
-        this.alertService.error('Error: no se pudo matricular al alumno');
+        const errorMsg = err.error || '';
+        console.log("Mensaje capturado:", errorMsg);
+
+        if (err.status === 400 && errorMsg.toString().includes('Cupos')) {
+          this.abrirAlertaCupos();
+        } else {
+          this.alertService.error(errorMsg || 'Error al procesar matrícula');
+          
+        }
       }
     });
+  }
+
+  abrirAlertaCupos() {
+    const gNombre = this.listGrado.find(g => g.id == this.gradoDetino)?.nombre;
+    const sNombre = this.listaSecciones.find(s => s.id == this.seccionDestino)?.nombre;
+    
+    this.aulaSeleccionadaNombre = `${gNombre} ${sNombre}`;
+    this.mostrarModalCupos = true;
+    this.verAlternativas = false;
+  }
+
+  consultarDisponibilidad() {
+    if(this.gradoDetino > 0){
+      this.configSerice.getByGrado(this.gradoDetino).subscribe({
+        next: (data) => {
+          this.listaAlternativas = data;
+          this.verAlternativas = true;
+        },
+        error: () => {
+          this.alertService.error("No se pudo cargar la lista de grados disponibles");
+        }
+      })
+    }
+  }
+
+  habilitarModificacion(){
+    this.mostrarModalModificar = true;
+
+    const gradoId = Number(this.alumno.gradoId);
+    
+    this.configSerice.getByGrado(gradoId).subscribe({
+      next: (data) => {
+        this.listaAlternativas = data;        
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  confirmarCambioSeccion(){
+    const idMatricula = Number(this.alumno.matriculaId);
+    const nuevaSeccion = {
+      gradoId: Number(this.alumno.gradoId),
+      seccionId: Number(this.nuevaSeccionId),
+    }
+    
+    this.matriculaService.update(idMatricula, nuevaSeccion).subscribe({
+      next: () => {
+        this.alertService.succes("Cambio de sección realizado");
+        this.mostrarModalModificar = false;
+        this.limpiarBusqueda();
+      },
+      error: () => {
+        this.alertService.error("Error al cambiar de sección");
+        this.mostrarModalModificar = false;
+        this.limpiarBusqueda();
+      }
+    });
+  }
+
+  cerrarModalCupos() {
+    this.mostrarModalCupos = false;
+    this.verAlternativas = false;
   }
 
   cancelar(){
@@ -142,7 +227,9 @@ export class AdminMatriculasComponent implements OnInit {
       apellidos: '',
       dni: '',
       aula: '',
-      periodoAcademico: ''
+      periodoAcademico: '',
+      gradoId: 0,
+      matriculaId: 0
     };
     this.gradoDetino = 0;
     this.seccionDestino = 0;

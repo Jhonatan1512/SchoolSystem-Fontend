@@ -55,14 +55,14 @@ export class AdminPeriodosComponent implements OnInit {
       this.nuevoPeriodo = { 
         ...periodo,
         fechaInicio: this.formatDate(periodo.fechaInicio),
-        fechaCierre: this.formatDate(periodo.fechaCierre) };
+        fechaCierre: this.formatDate(periodo.fechaCierre) 
+      };
       this.editMode = true;
       this.idSelecionado = periodo.id
     } else {
       this.limpiarForm();
       this.editMode = false;
       this.idSelecionado = 0;
-      this.limpiarForm();
     }
     this.isModalOpen = true;
   }
@@ -82,6 +82,7 @@ export class AdminPeriodosComponent implements OnInit {
         next: (data) => {
           this.toastServie.succes("Registro Actualizado");
           this.obtenerPeriodos();
+          this.cerrarModal();
         },
         error: () => {
           this.toastServie.error("Error al actualizar datos");

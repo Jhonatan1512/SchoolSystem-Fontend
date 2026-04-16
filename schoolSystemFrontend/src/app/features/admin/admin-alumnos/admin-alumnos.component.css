@@ -1,4 +1,3 @@
-/* --- VARIABLES DE COLOR --- */
 :host {
   --color-header: #1e293b;   
   --color-accent: #2563eb;  
@@ -9,7 +8,7 @@
 .main-content {
   padding: 0.5rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+} 
  
 .page-header {
   display: flex;
@@ -29,7 +28,6 @@
   margin-top: 0.3rem;
 }
 
-/* --- BOTÓN NUEVO ALUMNO --- */
 .btn-primary {
   background-color: var(--color-header);
   color: white;
@@ -45,7 +43,32 @@
   background-color: var(--color-accent);
 }
 
-/* --- PANEL Y BUSCADOR --- */
+.btn-clear {
+  background: none;
+  border: none;
+  color: #ef4444; /* Rojo suave */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.btn-clear {
+  margin-top: 10px;
+  background: #334155;
+  border: none;
+  color: #fafafa; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 6px 20px;
+  border-radius: 1rem;
+}
+
+.btn-clear:hover {
+  background-color: #991b1b;
+}
+
 .panel {
   background: white;
   border: 1px solid var(--border-color);
@@ -73,7 +96,6 @@
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
-/* --- TABLA ESTILO CEBRA --- */
 .modern-table {
   width: 100%;
   border-collapse: separate;
@@ -124,13 +146,32 @@
 }
 
 .status-tag {
-  background-color: #dcfce7;
-  color: #15803d;
+  display: inline-flex;
+  align-items: center;
   padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  border-radius: 20px; 
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.status-tag.activo {
+  background-color: #dcfce7; 
+  color: #166534;           
+  border: 1px solid #bbf7d0;
+}
+
+.status-tag.retirado {
+  background-color: #fee2e2; 
+  color: #991b1b;          
+  border: 1px solid #fecaca;
+}
+
+.status-tag.trasladado {
+  background-color: #fef3c7; 
+  color: #92400e;           
+  border: 1px solid #fcd34d;
 }
 
 .action-buttons {
@@ -164,15 +205,14 @@
 
 
 /*Modal CSS*/
-/* --- ESTILOS DEL MODAL --- */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(15, 23, 42, 0.6); /* Fondo oscuro semitransparente */
-  backdrop-filter: blur(4px);        /* Efecto de desenfoque moderno */
+  background: rgba(15, 23, 42, 0.6); 
+  backdrop-filter: blur(4px);       
   display: flex;
   justify-content: center;
   align-items: center;
@@ -194,10 +234,9 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Encabezado */
 .modal-header {
   padding: 1.5rem;
-  background: var(--color-header); /* Tu Color 1 */
+  background: var(--color-header);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -217,7 +256,6 @@
 
 .btn-close:hover { opacity: 1; }
 
-/* Cuerpo y Formulario */
 .modal-body { padding: 1.5rem; }
 
 .modal-form { display: flex; flex-direction: column; gap: 1.2rem; }
@@ -250,7 +288,6 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Pie de página */
 .modal-footer {
   padding: 1.2rem 1.5rem;
   background: #f8fafc;
@@ -282,3 +319,168 @@
 }
 
 .btn-save:hover { background: var(--color-accent); }
+
+/*Modal*/
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-status-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  padding: 24px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.header-icon {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+}
+
+.header-text h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.header-text p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.header-text span {
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s;
+}
+
+.btn-close:hover { opacity: 1; }
+
+.modal-body {
+  padding: 24px;
+}
+
+.input-container label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.custom-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.status-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  appearance: none;
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.info-box {
+  margin-top: 20px;
+  background: #f0f9ff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #0369a1;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.modal-footer {
+  padding: 16px 24px 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-secondary:hover { background: #f1f5f9; }
+
+.btn-primary-1 {
+  flex: 2;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #1e293b;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary:hover { background: #2563eb; transform: translateY(-1px); }

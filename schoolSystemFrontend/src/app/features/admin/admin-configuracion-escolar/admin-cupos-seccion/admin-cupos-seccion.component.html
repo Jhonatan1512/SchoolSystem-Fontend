@@ -4,14 +4,14 @@
       <h2 class="main-title">Administración de Secciones</h2>
       <div class="status-indicator">
         <span class="dot"></span>
-        <span>Periodo Académico Activo 2026</span>
+        <span>Periodo Académico 2026</span>
       </div>
     </div>
 
     <button class="btn-primary-dark" (click)="abrirModal()">
       <span class="material-symbols-outlined">add_circle</span>
       <span>Nueva Sección</span>
-    </button>
+    </button> 
   </header> 
 
   <div class="table-card">
@@ -28,7 +28,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of listaDetalles">
-          <td class="font-bold">{{ item.nombreGrado }}</td>
+          <td class="font-bold">{{ item.nombreGrado }} Grado</td>
           <td><span class="badge-section">{{ item.nombreSeccion }}</span></td>
           <td class="text-muted">{{ item.periodoAcademico }}</td>
           <td>{{ item.capacidad }}</td>
@@ -45,10 +45,10 @@
           </td>
           <td>
             <div class="action-group">
-              <button class="btn-icon edit" > <!--(click)="editar(item)"-->
+              <button class="btn-icon edit" (click)="abrirModal(item)">
                 <span class="material-symbols-outlined">edit_square</span>
               </button>
-              <button class="btn-icon delete" > <!--(click)="eliminar(item.id)"-->
+              <button class="btn-icon delete" (click)="eliminarCupos(item.id)"> 
                 <span class="material-symbols-outlined">delete</span>
               </button>
             </div>
@@ -58,4 +58,85 @@
     </table>
   </div>
 </div>
- 
+
+<!--Modal Registro-->
+
+<div class="modal-overlay" *ngIf="isModalOpen">
+  <div class="modal-container">
+    <div class="modal-header-accent"></div>
+
+    <div class="modal-content">
+      <header class="modal-header">
+        <div class="header-icon">
+          <span class="material-symbols-outlined">layers</span>
+        </div>
+        <div class="header-text">
+          <h3>Configurar Cupos</h3>
+          <p>Define la capacidad máxima por aula</p>
+        </div>
+        <button class="btn-close" (click)="cerrarModal()" type="button">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <form #cuposForm="ngForm"(ngSubmit)="crearConfiguracion()" >
+        <div class="modal-body">
+          
+          <div class="input-group" [class.readonly]>
+            <label class="input-label">Periodo Académico</label>
+            <div class="input-wrapper readonly">
+              <span class="material-symbols-outlined field-icon">calendar_month</span>
+              <input type="text" [value]="periodoAcademico" readonly >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="input-group" >
+              <label class="input-label">Grado Escolar</label>
+              <div class="input-wrapper" [class.readonly]="editMode">
+                <span class="material-symbols-outlined field-icon">school</span>
+                <select name="gradoId" [(ngModel)]="nuevaConfig.gradoId"  required [disabled]="editMode">
+                  <option value="" disabled selected>Seleccionar...</option>
+                  <option *ngFor="let g of listaCursos" [value]="g.id">{{g.nombre}}</option>  
+                </select>
+                <span class="material-symbols-outlined select-arrow" *ngIf="!editMode">expand_more</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Sección</label>
+              <div class="input-wrapper" [class.readonly]="editMode">
+                <span class="material-symbols-outlined field-icon">meeting_room</span>
+                <select name="seccionId" [(ngModel)]="nuevaConfig.seccionId" required [disabled]="editMode">
+                  <option value="" disabled selected>Seleccionar...</option>
+                  <option *ngFor="let s of listaSecciones" [value]="s.id">{{s.nombre}}</option>
+                </select>
+                <span class="material-symbols-outlined select-arrow" *ngIf="!editMode">expand_more</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Capacidad de Alumnos</label>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined field-icon">groups</span>
+              <input 
+                type="number" 
+                name="capacidadMax" 
+                placeholder="Ej. 35" 
+                [(ngModel)]="nuevaConfig.capacidadMax"
+                required>
+            </div>
+          </div>
+        </div>
+        
+        <footer class="modal-footer">
+          <button class="btn-cancel"  type="button" (click)="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn-save" [disabled]="cuposForm.invalid">
+            {{editMode ? 'Guardar Cambios' : 'Guardar Configuración'}}
+          </button>
+        </footer>
+      </form>
+    </div> 
+  </div>
+</div>

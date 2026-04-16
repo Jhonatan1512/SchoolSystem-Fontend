@@ -30,10 +30,10 @@
           <span class="grado-info">Secundaria</span>
         </div>
         <div class="card-actions">
-          <button class="action-btn edit" title="Editar">
-            <span class="material-symbols-outlined">edit</span>
+          <button class="action-btn edit" title="Editar" (click)="abrirModal(item)">
+            <span class="material-symbols-outlined">edit</span> 
           </button>
-          <button class="action-btn delete" title="Eliminar">
+          <button class="action-btn delete" title="Eliminar" (click)="deleteSeccion(item.id)">
             <span class="material-symbols-outlined">delete</span>
           </button>
         </div>
@@ -86,7 +86,7 @@
         <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
         <button class="btn-primary-emerald" (click)="crearSeccion()">
           <span class="material-symbols-outlined">check_circle</span>
-          Confirmar Registro
+          {{isEditMode ? 'Guardar Cambios' : 'Confirmar Registro'}}
         </button>
       </footer>
     </div> 

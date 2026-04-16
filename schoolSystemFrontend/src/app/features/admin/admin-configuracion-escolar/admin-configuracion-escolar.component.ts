@@ -14,7 +14,7 @@ import { AdminCuposSeccionComponent } from './admin-cupos-seccion/admin-cupos-se
   styleUrl: './admin-configuracion-escolar.component.css'
 })
 export class AdminConfiguracionEscolarComponent {
-  tabActiva: string = 'S';
+  tabActiva: string = 'P';
 
   cambiarTab(tab: string) {
     this.tabActiva = tab;

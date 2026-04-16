@@ -14,7 +14,7 @@ export class AdminService {
   ontenerAlumnos(): Observable<any>{
     return this.http.get(`${this.apiUrl}`);
   }
-
+ 
   CrearAlumno(data: any): Observable<any>{
     return this.http.post(`${this.apiUrl}`, data);
   }
@@ -23,7 +23,7 @@ export class AdminService {
     return this.http.get(`${this.apiUrl}/gradoId/${gradoId}/seccionId/${seccionId}`);
   }
 
-  getByDni(dni: string): Observable<any> {
+  getByDni(dni:string): Observable<any> {
     return this.http.get(`${this.apiUrl}/dni/${dni}`).pipe(
       catchError(error => {
         if(error.status === 404){
@@ -32,6 +32,10 @@ export class AdminService {
         throw error;
       })
     );
+  }
+
+  updateEstado(id:number, estado:any): Observable<any>{
+    return this.http.patch(`${this.apiUrl}/alumnoId/${id}`, estado);
   }
 
   constructor() { } 

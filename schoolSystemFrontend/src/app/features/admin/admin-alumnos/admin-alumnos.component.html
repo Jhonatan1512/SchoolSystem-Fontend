@@ -9,7 +9,13 @@
   
   <section class="panel table-panel">
     <div class="table-controls">
-      <input type="text" placeholder="Buscar por DNI o Apellido..." class="search-input">
+      <input type="text" placeholder="Buscar por DNI o Apellido..." class="search-input" name="dni" 
+      [(ngModel)]="dniBuscar"
+      (keyup.enter)="buscarPorDni()">
+
+      <button class="btn-clear" *ngIf="dniBuscar" (click)="limpiarFiltro()">
+        Limpiar Busqueda  <span class="material-symbols-outlined">close</span>
+      </button>
     </div>
 
     <table class="modern-table">
@@ -47,7 +53,7 @@
               <button class="btn-icon-sm" title="Editar">
                 <span class="material-symbols-outlined">edit</span>
               </button>
-              <button class="btn-icon-sm danger" title="Eliminar">
+              <button class="btn-icon-sm danger" title="Eliminar" (click)="editarEstado(alumno)"> 
                 <span class="material-symbols-outlined">delete</span>
               </button>
               <button class="btn-icon-sm warning" title="Editar Password">
@@ -84,7 +90,7 @@
           <label>Apellidos</label>
           <input type="text" name="apellidos" [(ngModel)]="nuevoAlumno.apellidos" placeholder="Ej. Flores Rubio">
         </div>
-
+ 
         <div class="form-row">
           <div class="form-group">
             <label>DNI</label>
@@ -108,11 +114,49 @@
 
       </form>
     </div>
-
     <div class="modal-footer">
       <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
       <button class="btn-save" (click)="registrarAlumno()">Guardar Alumno</button>
     </div>
+  </div>
+</div>
 
+<!--Modal editar estado-->
+
+<div class="modal-overlay" *ngIf="modalEstado"> 
+  <div class="modal-status-card">
+    <div class="modal-header">
+      <div class="header-icon">
+        <span class="material-symbols-outlined">person_pin_circle</span>
+      </div>
+      <div class="header-text">
+        <h3>Actualizar Estado</h3>
+        <p>Estudiante: <span>{{nuevoAlumno.nombre}} {{nuevoAlumno.apellidos}}</span></p>
+        <p>Situación: <span>{{nuevoAlumno.estado}}</span></p>
+      </div>
+      <button class="btn-close" (click)="cerrarModalEstado()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="input-container">
+        <label>Situación Académica</label>
+        <div class="custom-select-wrapper">
+          <select class="status-select" [(ngModel)]="estadoAlumno">
+            <option value="activo" class="opt-activo" *ngFor="let estado of listaEstado" [value]="estado.nombre">{{estado.nombre}}</option>
+          </select>
+          <span class="material-symbols-outlined select-arrow">expand_more</span>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <span class="material-symbols-outlined">info</span>
+        <p>Este cambio afectará la disponibilidad de cupos en el aula actual.</p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="cerrarModalEstado()">Cancelar</button> 
+      <button class="btn-primary-1" (click)="acualizarEstado()">Guardar Cambios</button>
+    </div>
   </div>
 </div>

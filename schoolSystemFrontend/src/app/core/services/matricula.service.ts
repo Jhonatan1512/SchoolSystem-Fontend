@@ -13,5 +13,9 @@ export class MatriculaService {
     return this.http.post(`${this.apiUrl}/Matricula`, data);
   }
 
+  update(id:number, data:any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Matricula/${id}`, data);
+  }
+
   constructor() { }
 }

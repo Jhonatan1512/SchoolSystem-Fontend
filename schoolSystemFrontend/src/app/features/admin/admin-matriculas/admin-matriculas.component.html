@@ -2,7 +2,6 @@
   <header class="page-header">
     <div class="header-info">
       <h1><span class="material-symbols-outlined">how_to_reg</span> Proceso de Matrícula</h1>
-      <p>Gestión de inscripción para el año académico 2026.</p>
     </div>
   </header>
 
@@ -18,7 +17,7 @@
         <div class="search-form">
           <div class="input-group">
             <span class="material-symbols-outlined">fingerprint</span>
-            <input type="text" placeholder="DNI del alumno..." class="input-flat" [(ngModel)]="dni">
+            <input type="text" placeholder="DNI del alumno..." class="input-flat" [(ngModel)]="dni" (keyup.enter)="obtenerAlumno()">
           </div>
           <button class="btn-search" (click)="obtenerAlumno()">
             <span class="material-symbols-outlined">search</span>
@@ -46,6 +45,11 @@
             </div>
           </div>
         </div>
+        <button *ngIf="alumno.aula"
+        (click)="habilitarModificacion()"
+        class="btn-modificar-aula">
+        <span class="material-symbols-outlined">edit_square</span>
+        Cambiar de Aula</button>
       </section>
     </div>
 
@@ -79,7 +83,7 @@
             </div>
           </div>
         </div>
-
+ 
         <div class="period-status-card">
           <span class="material-symbols-outlined">event_available</span>
           <div class="text">
@@ -105,6 +109,90 @@
           </button> 
         </div>
       </section>
+    </div>
+  </div>
+</div>
+
+<!--Modal cambiar aula-->
+
+<div class="modal-overlay" *ngIf="mostrarModalModificar">
+  <div class="modal-modificar-content">
+    <div class="modal-header-accent">
+      <span class="material-symbols-outlined">edit_calendar</span>
+      <h3>Reasignar Sección</h3>
+      <button class="btn-close-x" (click)="mostrarModalModificar = false">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="student-info-mini">
+        <p><strong>Alumno:</strong> {{alumno.nombre}} {{alumno.apellidos}}</p>
+        <p><strong>DNI:</strong> {{alumno.dni}}</p>
+        <p><strong>Aula Actual:</strong> <span class="aula-actual-tag">{{alumno.aula}}</span></p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="field-group">
+        <label>Seleccionar Nueva Sección</label>
+        <div class="select-wrapper">
+          <span class="material-symbols-outlined">grid_view</span>
+          <select class="select-flat" [(ngModel)]="nuevaSeccionId">
+            <option [value]="0">Seleccione sección destino...</option>
+            <option *ngFor="let item of listaAlternativas" [value]="item.seccionId">
+              Sección {{item.nombreSeccion}} ({{item.cuposDisponible}} disponibles)
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="info-alert-mini" *ngIf="listaAlternativas.length === 0">
+        <span class="material-symbols-outlined">info</span>
+        No hay otras secciones con cupos disponibles en este grado.
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel-modal" (click)="mostrarModalModificar = false">Cancelar</button>
+      <button class="btn-confirm-change" 
+              [disabled]="nuevaSeccionId === 0" 
+              (click)="confirmarCambioSeccion()">
+        Confirmar Cambio
+      </button>
+    </div>
+  </div>
+</div>
+
+<!--Modal informativo-->
+
+<div class="modal-overlay" *ngIf="mostrarModalCupos">
+  <div class="modal-cupos-content">
+    
+    <div class="modal-cupos-header">
+      <span class="material-symbols-outlined icon-alert">block</span>
+      <h2>Sin Vacantes Disponibles</h2>
+      <p>La sección <strong>{{aulaSeleccionadaNombre}}</strong> ha completado su capacidad máxima.</p>
+    </div>
+
+    <div class="modal-cupos-body" *ngIf="verAlternativas">
+      <h4 class="lista-titulo">Secciones con vacantes en este grado:</h4>
+      <ul class="lista-aulas-disponibles">
+        <li *ngFor="let item of listaAlternativas">
+          <span class="aula-tag">Sección {{item.nombreSeccion}}</span>
+          <span class="cupos-tag">{{item.cuposDisponible}} cupos</span>
+        </li>
+      </ul>
+      <p *ngIf="listaAlternativas.length === 0" class="no-options">
+        No hay vacantes en ninguna otra sección de este grado.
+      </p>
+    </div>
+
+    <div class="modal-cupos-footer">
+      <button class="btn-ver-aulas" *ngIf="!verAlternativas" (click)="consultarDisponibilidad()">
+        <span class="material-symbols-outlined">visibility</span>
+        Ver aulas disponibles en este grado
+      </button>
+
+      <button class="btn-modal-close" (click)="cerrarModalCupos()">Cerrar</button>
     </div>
   </div>
 </div>
