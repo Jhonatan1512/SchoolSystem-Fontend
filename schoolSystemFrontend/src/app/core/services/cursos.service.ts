@@ -10,8 +10,8 @@ export class CursosService {
 
   private apiUrl = 'https://localhost:7032/api/Curso'
 
-  getAll(): Observable<any> {
-    return this.http.get(`${this.apiUrl}`);
+  getAll(pagina:number, cantidad:number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/lista-cursos?pagina=${pagina}&cantidad=${cantidad}`);
   }
 
   getById(cursoId: number): Observable<any> {
@@ -20,6 +20,14 @@ export class CursosService {
 
   create(curso: any): Observable<any> {
     return this.http.post(`${this.apiUrl}`, curso);
+  }
+
+  updateCurso(id:number, data:any): Observable<any>{
+    return this.http.put(`${this.apiUrl}/cursoId/${id}`, data);
+  }
+
+  getByGrado(gradoId:number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/gradoId/${gradoId}`);
   }
 
   constructor() { }

@@ -2,7 +2,6 @@
   <div class="header-flex mb-4">
     <div>
       <h1 class="main-title">Directorio de Docentes</h1>
-      <p class="section-subtitle">Gestión y registro de personal académico</p>
     </div>
     <button class="btn-add" (click)="abrirModal()">
       <span class="material-symbols-outlined">person_add</span>
@@ -49,14 +48,14 @@
           </td>
           <td><span class="dni-text">{{docente.dni}}</span></td>
           <td>
-            <span class="badge badge-success" [ngClass]="docente.esActivo ? 'badge-succes' : 'badge-danger'">
-                {{docente.esActivo ? 'Activo' : 'Inactivo'}}
+            <span class="badge {{ docente.esActivo ? 'badge-success' : 'badge-danger' }}">
+                {{ docente.esActivo ? 'Activo' : 'Inactivo' }}
             </span>
           </td>
           <td>
             <div class="actions">
-              <button class="btn-icon edit"><span class="material-symbols-outlined">edit</span></button>
-              <button class="btn-icon delete"><span class="material-symbols-outlined">delete</span></button>
+              <button class="btn-icon edit"><span class="material-symbols-outlined" (click)="abrirModal(docente)">edit</span></button>
+              <button class="btn-icon delete"><span class="material-symbols-outlined" (click)="modificarEstado(docente)">delete</span></button>
             </div>
           </td>
         </tr>
@@ -118,9 +117,8 @@
       <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
       <button class="btn-save-docente" (click)="crearDocente()">
         <span class="material-symbols-outlined">check_circle</span>
-        Guardar Docente
+        {{isEditMode ? 'Guardar Cambios' : 'Guardar Docente'}}
       </button>
     </footer>
-
   </div>
 </div>

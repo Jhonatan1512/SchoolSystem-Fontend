@@ -33,6 +33,11 @@ export class AdminCursosComponent implements OnInit{
 
   idCursoEdit: number = 0;
 
+  public paginaActual: number = 1;
+  public totalPaginas: number = 0;
+  public totalRegistros: number = 0;
+  public cantidadPorPagina: number = 11;
+
   nuevoCursoComptencias: any = {
     nombre: '',
     gradoId: 0,
@@ -47,6 +52,7 @@ export class AdminCursosComponent implements OnInit{
 
   abrirModal(){
     this.isModalOpen = true;
+    this.limpiardatos();
   }
 
   cerrarModal() {
@@ -57,9 +63,12 @@ export class AdminCursosComponent implements OnInit{
     if(curso){
       this.nuevoCursoComptencias = {
         ...curso,
-      }
+      } 
       this.isModalEditOpen = true;
       this.idCursoEdit = curso.id;
+    } else {
+      this.limpiardatos();
+      this.isModalEditOpen = false;
     }
     this.isModalEditOpen = true;
   }
@@ -76,22 +85,57 @@ export class AdminCursosComponent implements OnInit{
   }
 
   cargarCursos(){
-
+    this.cursoService.getByGrado(this.gradoSeleccionado).subscribe({
+      next: (data) => {
+        //console.log(data);
+        this.listaCursos = data;
+      },
+      error: () => {
+        this.toastService.error("Error al cargar cursos del grado seleccionado");
+      }
+    });
   }
 
   guardarNombreCurso() {
+    if(!this.nuevoCursoComptencias.nombre){
+      this.toastService.warning("El nombre del curso es obligatorio");
+      return;
+    }
 
+    const data = {
+      nombre: this.nuevoCursoComptencias.nombre
+    }
+
+    this.cursoService.updateCurso(this.idCursoEdit, data).subscribe({
+      next: () => {
+        this.toastService.succes("Datos del curso Actualizados");
+        this.isModalEditOpen = false;
+        this.nuevoCursoComptencias.nombre = '';
+        this.obtenerCursos();
+      },
+      error: () => {
+        this.toastService.error("No se puedo modificar los datos del curso");
+        this.isModalEditOpen = false;
+      }
+    });
   }
 
   obtenerCursos(){
-    this.cursoService.getAll().subscribe({
+    this.cursoService.getAll(this.paginaActual, this.cantidadPorPagina).subscribe({
       next: (data) => {
-        this.listaCursos = data;
+        this.listaCursos = data.items;
+        this.totalPaginas = data.totalPaginas;
+        this.totalRegistros = data.totalRegistros;
       },
       error: (err) => {
         console.log(err);
       }
     });
+  }
+
+  cambiarPagina(nueva: number){
+    this.paginaActual = nueva;
+    this.obtenerCursos();
   }
 
   verCompetencias(curso: any){
@@ -101,6 +145,12 @@ export class AdminCursosComponent implements OnInit{
   }
 
   agregarCursoComptencias(){
+    if(!this.nuevoCursoComptencias.nombre || !this.nuevoCursoComptencias.gradoId){
+      this.toastService.warning("Todos los campos son obligatorios");
+      this.cerrarModal();
+      return;
+    }
+
     this.nuevoCursoComptencias.gradoId = Number(this.nuevoCursoComptencias.gradoId);
     this.cursoService.create(this.nuevoCursoComptencias).subscribe({
       next: () => {
@@ -139,6 +189,5 @@ export class AdminCursosComponent implements OnInit{
     this.nuevoCursoComptencias.gradoId = '';
     this.nuevoCursoComptencias.competencias = [];
     this.competeciaInput = '';
-  }
-  
+  }  
 }

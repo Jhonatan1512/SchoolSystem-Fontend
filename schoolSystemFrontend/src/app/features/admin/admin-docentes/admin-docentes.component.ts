@@ -18,6 +18,9 @@ export class AdminDocentesComponent implements OnInit{
   listaDocentes: any[] = [];
 
   isModalOpen: boolean = false;
+
+  idDocente: number = 0;
+  isEditMode: boolean = false;
   
   public nuevoDocente = {
     nombres: '',
@@ -30,7 +33,17 @@ export class AdminDocentesComponent implements OnInit{
     this.obtenerDocentes();
   }
 
-  abrirModal(){
+  abrirModal(docente?:any){
+    if(docente){
+      this.nuevoDocente = {
+        ...docente
+      }
+      this.idDocente = docente.id;
+      this.isEditMode = true;
+    } else{
+      this.isEditMode = false;
+      this.limpiarDatos();
+    }
     this.isModalOpen = true;
   }
 
@@ -64,20 +77,75 @@ export class AdminDocentesComponent implements OnInit{
       }
     });
   }
-
+ 
   crearDocente() {
-    this.docenteService.agregarDocente(this.nuevoDocente).subscribe({
-      next: (dataDocente) => {
-        this.nuevoDocente = dataDocente;
-        this.toastService.succes("Docente creado correctamente");
-        this.cerrarModal();
-        this.obtenerDocentes();
-      },
-      error: (err) => {
-        this.toastService.error("Error al crear docente");
-      }
-    });
+    if(!this.nuevoDocente.nombres || !this.nuevoDocente.apellidos || !this.nuevoDocente.dni){
+      this.toastService.warning("Todos los datos son obligatorios");
+      return;
+    }
+
+    if(this.isEditMode) {
+      this.docenteService.update(this.idDocente, this.nuevoDocente).subscribe({
+        next: () => {
+          this.toastService.succes("Dtos del docente actualizados");
+          this.isModalOpen = false;
+          this.limpiarDatos();
+          this.obtenerDocentes();
+        },
+        error: () => {
+          this.toastService.error("Error al modificar datos del docente");
+          this.isModalOpen = false;
+          this.limpiarDatos();
+        }
+      })
+    } else {
+      this.docenteService.agregarDocente(this.nuevoDocente).subscribe({
+        next: (dataDocente) => {
+          this.nuevoDocente = dataDocente;
+          this.toastService.succes("Docente creado correctamente");
+          this.cerrarModal();
+          this.obtenerDocentes();
+        },
+        error: (err) => {
+          this.toastService.error("Error al crear docente");
+        }
+      });
+    }
   }
 
+  modificarEstado(docente: any) {
+  const nuevoEstado = !docente.esActivo; 
+
+  this.idDocente = docente.id;
+
+  const dto = {
+    estado: nuevoEstado 
+  };
+
+  this.toastService.confirmar(
+    "Confirmación", 
+    `¿Estás seguro de que deseas ${nuevoEstado ? 'activar' : 'desactivar'} al docente?`
+  )
+  .then((result) => {
+    if (result.isConfirmed) {
+      this.docenteService.updateEstado(this.idDocente, dto).subscribe({
+        next: () => {
+          this.toastService.succes(`Docente ${nuevoEstado ? 'activado' : 'desactivado'}`);
+          docente.esActivo = nuevoEstado;
+        },
+        error: (err) => {
+          console.error("Error capturado:", err);
+          this.toastService.error("No se pudo cambiar el estado");
+        }
+      });
+    }
+  });
+}
+
+  limpiarDatos(){
+    this.nuevoDocente.nombres = '';
+    this.nuevoDocente.apellidos = '';
+    this.nuevoDocente.dni = '';
+  }
 }
  

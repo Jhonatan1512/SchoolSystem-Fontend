@@ -16,7 +16,7 @@
           <span class="badge-grade">{{cursoInfo.nombreAula}} Grado</span>
           <h1 class="course-name">{{cursoInfo.nombre}}</h1>
         </div>
-        
+         
         <div class="course-meta">
           <div class="meta-item">
             <span class="material-symbols-outlined">analytics</span>
@@ -26,6 +26,11 @@
             </div>
           </div>          
         </div>
+
+        <button class="btn-add-comp-sidebar" (click)="abrirModal()">
+          <span class="material-symbols-outlined">add_circle</span>
+          NUEVA COMPETENCIA
+        </button>
       </div>
     </aside>
 
@@ -35,14 +40,85 @@
         <div class="divider"></div>
       </div>
 
-      <div class="competencias-list" *ngFor="let competencia of listaComptencias; let i = index">
-        <div class="comp-item-card">
-          <div class="comp-number-hex">{{i + 1  | number: '2.0'}}</div>
-          <div class="comp-info">
-            <h3>{{competencia.nombreCompetencia}}</h3>
+      <div class="competencias-list">
+        <div class="comp-item-card" *ngFor="let competencia of listaComptencias; let i = index">
+          <div class="comp-main-group">
+            <div class="comp-number-hex">{{i + 1  | number: '2.0'}}</div>
+            <div class="comp-info">
+              <h3>{{competencia.nombreCompetencia}}</h3>
+            </div>
+          </div>
+
+          <div class="comp-actions">
+            <button class="btn-icon-action edit" (click)="abrirModal(competencia)" title="Editar">
+              <span class="material-symbols-outlined">edit</span>
+            </button>
+            <button class="btn-icon-action delete" (click)="eliminarCompetencia(competencia.id)" title="Eliminar">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
+  </div>
+</div>
+
+<!--Modal Creación-->
+
+<div class="modal-overlay" *ngIf="isModalCrearComp">
+  <div class="modal-container">
+    
+    <div class="modal-header">
+      <div class="header-icon-title">
+        <span class="material-symbols-outlined header-icon" style="color: #10b981;">add_task</span>
+        <div class="text-group">
+          <h2>Nueva Competencia</h2>
+          <p>Define un nuevo estándar para este curso.</p>
+        </div>
+      </div>
+      <button class="btn-close-modal" (click)="isModalCrearComp = false">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body-form">
+      
+      <div class="field-column">
+        <label class="modal-label">Curso Destino</label>
+        <div class="input-readonly-modal">
+          <span class="material-symbols-outlined field-icon">book</span>
+          <input 
+            class="readonly-text" 
+            type="text" 
+            [value]="cursoId"  
+            [(ngModel)]="cursoInfo.nombre"
+            readonly>
+        </div>
+        <small class="helper-text-modal">La competencia se asignará automáticamente a este curso.</small>
+      </div>
+
+      <div class="field-column">
+        <label class="modal-label" for="nombreComp">Nombre de la Competencia</label>
+        <div class="input-editable-modal">
+          <span class="material-symbols-outlined field-icon">format_list_bulleted</span>
+          <input 
+            type="text" 
+            name="nombre" 
+            [(ngModel)]="nuevaCompetencia.nombre" 
+            placeholder="Ej. Resuelve problemas de cantidad"
+            class="input-modal-field"> 
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer-adaptive">
+      <button class="btn-cancel-modal" (click)="isModalCrearComp = false">Cancelar</button>
+      <button class="btn-save-modal" 
+              (click)="guardarCompetencia()" 
+              [disabled]="!nuevaCompetencia.nombre">
+        {{isEditMode ? 'Guardar Cambios' : 'Crear Competencia'}}
+      </button>
+    </div>
   </div>
 </div>

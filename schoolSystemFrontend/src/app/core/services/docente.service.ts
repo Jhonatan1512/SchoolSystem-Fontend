@@ -33,6 +33,14 @@ export class DocenteService {
     return this.http.post(`${this.apiUrl}`, docente);
   }
 
+  update(id:number, docente:any): Observable<any>{
+    return this.http.put(`${this.apiUrl}/${id}`, docente);
+  }
+
+  updateEstado(id:number, estado:any): Observable<any>{
+    return this.http.patch(`${this.apiUrl}/docenteId/${id}`, estado)
+  }
+
   constructor() { }
 }
  

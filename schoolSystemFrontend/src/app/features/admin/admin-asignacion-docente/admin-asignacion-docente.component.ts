@@ -24,15 +24,14 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   private periodoService = inject(PeriodoService);
   private toastService = inject(NotificationServiceService);
 
-  // Variables de Estado
   listaDocentes: any[] = [];
   isModalOpen: boolean = false;
 
-  // Formulario y Selección
   docenteEncontrado = {
     id: 0,
     dni: '',
-    nombreCompleto: ''
+    nombreCompleto: '',
+    esActivo: false
   };
 
   gradoSeleccionadoId: number | null = null;
@@ -41,7 +40,6 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   cursosDelGrado: any[] = []; 
   cursosSeleccionadosParaAsignar: number[] = []; 
 
-  // Listas maestras
   listaGrados: any[] = [];
   listaSecciones: any[] = [];
   periodoActivo = { id: 0, nombre: '' };
@@ -52,7 +50,6 @@ export class AdminAsignacionDocenteComponent implements OnInit {
     this.obtenerSecciones(); 
     this.obtenerPeriodo();
   }
-
 
   onGradoChange() {
     if (!this.gradoSeleccionadoId) {
@@ -80,17 +77,22 @@ export class AdminAsignacionDocenteComponent implements OnInit {
     
     if (index > -1) {
       this.cursosSeleccionadosParaAsignar.splice(index, 1);
-      console.log("Quitado:", id);
+      //console.log("Quitado:", id);
     } else {
       this.cursosSeleccionadosParaAsignar.push(id);
-      console.log("Agregado:", id);
+      //console.log("Agregado:", id);
     }
     console.log("Seleccionados:", this.cursosSeleccionadosParaAsignar);
   }
 
   confirmarAsignacion() {
+    if(this.docenteEncontrado.esActivo == false){
+      this.toastService.warning("El docente esta inactivo")
+      return;
+    }
+
     if (!this.docenteEncontrado.id || !this.seccionSeleccionadaId || this.cursosSeleccionadosParaAsignar.length === 0) {
-      alert("Por favor complete todos los campos y seleccione al menos un curso.");
+      this.toastService.warning("Compelete todos los campos");
       return;
     }
 
@@ -123,7 +125,7 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   }
 
   resetForm() {
-    this.docenteEncontrado = { id: 0, dni: '', nombreCompleto: '' };
+    this.docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false };
     this.gradoSeleccionadoId = null;
     this.seccionSeleccionadaId = null;
     this.cursosDelGrado = [];
@@ -131,17 +133,24 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   }
 
   ObtenerDocente() {
-    if (!this.docenteEncontrado.dni) return;
+    if (!this.docenteEncontrado.dni) {
+      this.toastService.warning("Ingrese el DNI del docente");
+      return;
+    };
 
     this.docenteService.getByDni(this.docenteEncontrado.dni).subscribe({
       next: (data) => {
         this.docenteEncontrado = {
           id: data.id,
           dni: data.dni,
-          nombreCompleto: `${data.nombres} ${data.apellidos}`.trim()
-        };
+          nombreCompleto: `${data.nombres} ${data.apellidos}`.trim(),
+          esActivo: data.esActivo
+        };        
       },
-      error: () => alert("Docente no encontrado")
+      error: () => {
+        this.toastService.error("No existe un docente con ese DNI");
+        this.docenteEncontrado.dni = '';
+      }
     });
   }
 

@@ -75,20 +75,25 @@
       </tbody>
     </table>
 
-    <!-- <div class="table-footer">
+    <div class="table-footer">
       <div class="footer-info">
         Página {{paginaActual}} de {{totalPaginas}}
+        <span class="total-count">({{ totalRegistros }} cursos en total)</span>
       </div>
       <div class="footer-nav">
-        <button [disabled]="paginaActual === 1" (click)="cambiarPagina(paginaActual - 1)">
+        <button 
+        [disabled]="paginaActual === 1" 
+        (click)="cambiarPagina(paginaActual - 1)">
           <span class="material-symbols-outlined">chevron_left</span>
         </button>
         <div class="page-indicator">{{paginaActual}}</div>
-        <button [disabled]="paginaActual === totalPaginas" (click)="cambiarPagina(paginaActual + 1)">
+        <button 
+        [disabled]="paginaActual === totalPaginas" 
+        (click)="cambiarPagina(paginaActual + 1)">
           <span class="material-symbols-outlined">chevron_right</span>
         </button>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
 
@@ -141,7 +146,7 @@
       </button>
     </div>
   </div>
-</div>
+</div> 
 
 <!--Modal de Registroo-->
 
@@ -163,7 +168,10 @@
           <label>Nombre del Curso</label>
           <div class="input-with-icon">
             <span class="material-symbols-outlined">book</span>
-            <input type="text" placeholder="Ej. Comunicación" class="input-form" name="nombre" [(ngModel)]="nuevoCursoComptencias.nombre">
+            <input 
+            type="text" placeholder="Ej. Comunicación" 
+            class="input-form" name="nombre" 
+            [(ngModel)]="nuevoCursoComptencias.nombre">
           </div> 
         </div>
 
