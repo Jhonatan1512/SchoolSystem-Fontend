@@ -18,6 +18,6 @@ export class CursoService {
 
   obtenerNotasPorCurso(cursoId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/mis-cursos/${cursoId}/detalle`);
-  }
+  } 
   constructor() { } 
 }

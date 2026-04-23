@@ -18,11 +18,20 @@ export class AdminDocentesComponent implements OnInit{
   listaDocentes: any[] = [];
 
   isModalOpen: boolean = false;
+  isModalPassword: boolean = false;
+  nuevaPassword: string = '';
+  dniUsuario: string = '';
 
   idDocente: number = 0;
   isEditMode: boolean = false;
+
+  paginaActual: number = 1;
+  totalPaginas: number = 0;
+  totalRegistros: number = 0;
+  cantidadPorPagina: number = 10;
   
   public nuevoDocente = {
+    id: 0,
     nombres: '',
     apellidos: '',
     dni: '',
@@ -62,25 +71,39 @@ export class AdminDocentesComponent implements OnInit{
 
     return `${incialNombre}${inicalApellido}`;
   }
-
+ 
   obtenerDocentes() {
-    this.docenteService.getAll().subscribe({
+    this.docenteService.getAll(this.paginaActual, this.cantidadPorPagina).subscribe({
       next: (data) => {
-        this.listaDocentes = data.map((docente: any) => ({
+        this.listaDocentes = data.items.map((docente: any) => ({
           ...docente,
           iniciales: this.getInciales(docente.nombres, docente.apellidos),
           estado: docente.esActivo ? 'Activo' : 'Inactivo',
         }));
+        this.totalPaginas = data.totalPaginas;
+        this.totalRegistros = data.totalRegistros;
       }, 
       error: (err) => {
         console.log(err);
       }
     });
   }
+
+  cambiarPagina(nueva: number) {
+    this.paginaActual = nueva;
+    this.obtenerDocentes();
+  }
  
   crearDocente() {
     if(!this.nuevoDocente.nombres || !this.nuevoDocente.apellidos || !this.nuevoDocente.dni){
       this.toastService.warning("Todos los datos son obligatorios");
+      return;
+    }
+
+    const dniDuplicado = this.listaDocentes.find(d => d.dni === this.nuevoDocente.dni && d.id !== this.nuevoDocente.id);
+
+    if(dniDuplicado){
+      this.toastService.warning(`Ya existe un alumno con el DNI ${this.nuevoDocente.dni}`);
       return;
     }
 
@@ -114,33 +137,77 @@ export class AdminDocentesComponent implements OnInit{
   }
 
   modificarEstado(docente: any) {
-  const nuevoEstado = !docente.esActivo; 
+    const nuevoEstado = !docente.esActivo; 
+    this.idDocente = docente.id;
 
-  this.idDocente = docente.id;
+    const dto = {
+      estado: nuevoEstado 
+    };
 
-  const dto = {
-    estado: nuevoEstado 
-  };
+    this.toastService.confirmar(
+      "Confirmación", 
+      `¿Estás seguro de que deseas ${nuevoEstado ? 'activar' : 'desactivar'} al docente?`
+    ) 
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.docenteService.updateEstado(this.idDocente, dto).subscribe({
+          next: () => {
+            this.toastService.succes(`Docente ${nuevoEstado ? 'activado' : 'desactivado'}`);
+            docente.esActivo = nuevoEstado;
+          },
+          error: (err) => {
+            console.error("Error capturado:", err);
+            this.toastService.error("No se pudo cambiar el estado");
+          }
+        });
+      }
+    });
+  }
 
-  this.toastService.confirmar(
-    "Confirmación", 
-    `¿Estás seguro de que deseas ${nuevoEstado ? 'activar' : 'desactivar'} al docente?`
-  )
-  .then((result) => {
-    if (result.isConfirmed) {
-      this.docenteService.updateEstado(this.idDocente, dto).subscribe({
-        next: () => {
-          this.toastService.succes(`Docente ${nuevoEstado ? 'activado' : 'desactivado'}`);
-          docente.esActivo = nuevoEstado;
-        },
-        error: (err) => {
-          console.error("Error capturado:", err);
-          this.toastService.error("No se pudo cambiar el estado");
-        }
-      });
+  modalPassword(docente?:any){
+    if(docente){
+      this.nuevoDocente = {
+        ...docente,
+        nombres: docente.nombres
+      }
+      this.isModalPassword = true;
+      this.dniUsuario = docente.dni;
     }
-  });
-}
+    this.isModalPassword = true;
+  }
+
+  isPasswordComplete(): boolean{
+    return this.hasUpperCase() && this.hasNumber() && this.hasSpecial() && this.nuevaPassword.length >= 6;
+  }
+
+  hasUpperCase() { return /[A-Z]/.test(this.nuevaPassword); }
+  hasNumber()    { return /\d/.test(this.nuevaPassword); }
+  hasSpecial()   { return /[@$!%*?&#]/.test(this.nuevaPassword); }
+
+  confirmarCambioPassword() {
+    const fuerteRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/;
+    if(!fuerteRegex.test(this.nuevaPassword)){
+      this.toastService.warning("La constraseña debe tener al menos 6 caracteres, un número, una mayúscula y un caractér especial");
+      return;
+    }
+
+    const body = {
+      nuevaPassword: this.nuevaPassword
+    }
+
+    this.docenteService.updatePassword(this.dniUsuario, body).subscribe({
+      next: () => {
+        this.toastService.succes("Password modificada");
+        this.isModalPassword = false;
+        this.nuevaPassword = '';
+      },
+      error: () => {
+        this.toastService.error("Error al modificar la password del docente");
+        this.isModalPassword = false;
+        this.nuevaPassword = '';
+      }
+    });
+  }
 
   limpiarDatos(){
     this.nuevoDocente.nombres = '';

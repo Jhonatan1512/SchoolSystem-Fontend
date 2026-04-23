@@ -7,13 +7,13 @@
       </div>
       
       <div class="row-info">
-        <h4 class="course-name">{{ curso.nombre }}</h4>
-        <p class="teacher-name">
+        <h4 class="course-name">{{ curso.nombre }} ({{curso.nombreAula}})</h4>
+        <p class="teacher-name" *ngFor="let profe of curso.docente">
           <span class="material-symbols-outlined small-icon">person</span> 
-          {{ curso.docente }}
+          {{ profe }}  
         </p> 
       </div>   
-
+ 
       <div class="row-action">
         <button class="btn-arrow" (click)="verNotas(curso.id)"> 
           <span class="material-symbols-outlined">arrow_forward_ios</span>

@@ -15,7 +15,7 @@ export class CursosService {
   }
 
   getById(cursoId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${cursoId}`);
+    return this.http.get(`${this.apiUrl}/${cursoId}`); 
   }
 
   create(curso: any): Observable<any> {
@@ -28,6 +28,10 @@ export class CursosService {
 
   getByGrado(gradoId:number): Observable<any>{
     return this.http.get(`${this.apiUrl}/gradoId/${gradoId}`);
+  }
+
+  getByGradoSeccion(gradoId:number, seccionId:number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/gradoId/${gradoId}/seccionId/${seccionId}`);
   }
 
   constructor() { }

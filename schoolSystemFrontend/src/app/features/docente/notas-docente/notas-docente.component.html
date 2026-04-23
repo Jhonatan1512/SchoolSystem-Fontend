@@ -13,20 +13,34 @@
     </div>
 
     <div class="acciones">
-      <button *ngIf="!editando" (click)="editando = true" class="btn-edit">
-        <span class="material-symbols-outlined">edit</span> Editar Notas
+      <button 
+        *ngIf="!editando" 
+        (click)="editando = true" 
+        class="btn-edit"
+        [disabled]="!canEdit"
+        [title]="!canEdit ? 'Trimestre Cerrado' : 'Editar Notas'">
+        <span class="material-symbols-outlined">edit</span> {{!canEdit ? 'Trimestre Cerrado' : 'Editar Notas'}}
       </button>
       <div *ngIf="editando" class="btn-group">
-        <button (click)="guardarCambios()" class="btn-save">Guardar</button>
+        <button [disabled]="!canEdit" (click)="guardarCambios()" class="btn-save">Guardar</button>
         <button (click)="editando = false" class="btn-cancel">Cancelar</button>
       </div>
     </div>
   </div>
 
   <div class="trimestre-nav">
-    <button [class.active]="trimestreSeleccionado === 1">1° Trimestre</button>
-    <button [class.active]="trimestreSeleccionado === 2">2° Trimestre</button>
-    <button [class.active]="trimestreSeleccionado === 3">3° Trimestre</button>
+    <button  *ngFor="let trim of listrimestres"
+      class="trimestre-btn"
+      [class.active]="trimestreSeleccionadoId === trim.id"
+      (click)="seleccionarTrimestre(trim.id)">
+      <div class="btn-content">
+        <span class="tri-name">{{ trim.nombre }}</span>
+        <span class="tri-date">
+          Cierra: {{ trim.fechaCierre | date:'dd/MM/yyyy' }}
+        </span>
+      </div>
+      <span *ngIf="trim.estadoActivo" class="dot-active" title="Trimestre Actual"></span>
+    </button>
   </div>
 
   <div class="tabla-wrapper">
@@ -47,12 +61,13 @@
           <td *ngFor="let comp of competencias" class="celda-input">
             <input 
               type="text" 
-              [disabled]="!editando"
+              [disabled]="!editando || !canEdit"
               [class.active]="editando"
               [ngModel]="obtenerNota(alumno, comp.id)"
+              [disabled]="!canEdit"
               (ngModelChange)="actualizarNota(alumno, comp.id, $any($event))"
               maxlength="2"
-              placeholder="--">
+              placeholder="--"> 
           </td>
         </tr>
       </tbody>

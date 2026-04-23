@@ -8,15 +8,16 @@ import { Observable, tap } from 'rxjs';
 export class DocenteService { 
   private http = inject(HttpClient);
 
-  private apiUrl = 'https://localhost:7032/api/Docente'
+  private apiUrl = 'https://localhost:7032/api/Docente' 
 
   obtenerCursos(): Observable<any>{
     return this.http.get(`${this.apiUrl}/dashboard`)
   }
+
   obtenerDetalleCursos(cursoId: number, seccionId:  number): Observable<any>{
     return this.http.get(`${this.apiUrl}/curso/${cursoId}/seccion/${seccionId}/detalle`)
   } 
-
+  
   registrarNotas(notas: any[]): Observable<any> {
     return this.http.post(`${this.apiUrl}/notas`, notas);
   }
@@ -25,8 +26,8 @@ export class DocenteService {
     return this.http.get(`${this.apiUrl}/dni/${dni}`);
   }
 
-  getAll(): Observable<any> {
-    return this.http.get(`${this.apiUrl}`);
+  getAll(pagina:number, cantidad:number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/lista-docentes?pagina=${pagina}&cantidad=${cantidad}`);
   }
 
   agregarDocente(docente: any): Observable<any>{
@@ -39,6 +40,18 @@ export class DocenteService {
 
   updateEstado(id:number, estado:any): Observable<any>{
     return this.http.patch(`${this.apiUrl}/docenteId/${id}`, estado)
+  }
+
+  updatePassword(dni:string, data:any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${dni}`, data);
+  } 
+
+  getPerfil(): Observable<any>{
+    return this.http.get(`${this.apiUrl}/perfil-docente`);
+  }
+
+  updatePaswordDocente(data:any): Observable<any>{
+    return this.http.put(`${this.apiUrl}/password`, data);
   }
 
   constructor() { }

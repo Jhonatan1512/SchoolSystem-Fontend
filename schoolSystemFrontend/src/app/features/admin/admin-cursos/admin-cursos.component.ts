@@ -87,7 +87,6 @@ export class AdminCursosComponent implements OnInit{
   cargarCursos(){
     this.cursoService.getByGrado(this.gradoSeleccionado).subscribe({
       next: (data) => {
-        //console.log(data);
         this.listaCursos = data;
       },
       error: () => {

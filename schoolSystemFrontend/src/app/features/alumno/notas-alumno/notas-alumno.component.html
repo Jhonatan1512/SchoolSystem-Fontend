@@ -11,54 +11,44 @@
     <h3 class="section-title">{{ nombreCurso }}</h3>
     <p class="section-subtitle">Registro de evaluación por competencias</p>
   </div>
-
-  <div class="final-summary-card" *ngIf="competencias.length > 0">
+ 
+  <div class="final-summary-card" *ngIf="!cargando && competencias.length > 0">
     <span class="summary-label">CALIFICACIÓN FINAL DEL CURSO:</span>
     <span class="summary-value" [ngClass]="obtenerClaseNota(promedioFinalCurso)">
       {{ promedioFinalCurso }}
     </span>
   </div>
-
-  <div class="table-card">
+ 
+  <div class="table-card" *ngIf="!cargando">
     <table class="grades-table">
       <thead>
         <tr>
           <th class="col-competencia">Competencias Evaluadas</th>
-          <th class="col-center">Trimestre I</th>
-          <th class="col-center">Trimestre II</th>
-          <th class="col-center">Trimestre III</th>
+          <th *ngFor="let trim of listadoTrimestresCompletos" class="col-center">
+            {{ trim.nombre }}
+          </th>
           <th class="col-center col-promedio">Promedio Final</th>
         </tr>
       </thead> 
 
       <tbody>
         <tr *ngIf="competencias.length === 0">
-          <td colspan="5" class="td-center">No hay notas registradas para este curso.</td>
+          <td [attr.colspan]="listadoTrimestresCompletos.length + 2" class="td-center">
+            No hay notas registradas para este curso.
+          </td>
         </tr>
 
         <tr *ngFor="let comp of competencias">
           <td class="td-competencia">{{ comp.nombre }}</td>
           
-          <td class="td-center">
-            <span class="badge-nota" [ngClass]="obtenerClaseNota(comp.t1)">
-              {{ comp.t1 }}
-            </span>
-          </td>
-          
-          <td class="td-center">
-            <span class="badge-nota" [ngClass]="obtenerClaseNota(comp.t2)">
-              {{ comp.t2 }}
-            </span>
-          </td>
-          
-          <td class="td-center">
-            <span class="badge-nota" [ngClass]="obtenerClaseNota(comp.t3)">
-              {{ comp.t3 }}
+          <td *ngFor="let trim of listadoTrimestresCompletos" class="td-center">
+            <span class="badge-nota" [ngClass]="obtenerClaseNota(comp.notasPorId[trim.id])">
+              {{ comp.notasPorId[trim.id] }}
             </span>
           </td>
 
           <td class="td-center td-promedio">
-            <span class="text-muted">-</span>
+            
           </td>
         </tr>
       </tbody>
@@ -67,21 +57,9 @@
         <tr class="row-total-averages">
           <td class="td-competencia"><strong>PROMEDIO TRIMESTRAL</strong></td>
           
-          <td class="td-center">
-            <span class="badge-nota badge-final" [ngClass]="obtenerClaseNota(promedioT1)">
-              {{ promedioT1 }}
-            </span>
-          </td>
-          
-          <td class="td-center">
-            <span class="badge-nota badge-final" [ngClass]="obtenerClaseNota(promedioT2)">
-              {{ promedioT2 }}
-            </span>
-          </td>
-          
-          <td class="td-center">
-            <span class="badge-nota badge-final" [ngClass]="obtenerClaseNota(promedioT3)">
-              {{ promedioT3 }}
+          <td *ngFor="let trim of listadoTrimestresCompletos" class="td-center">
+            <span class="badge-nota badge-final" [ngClass]="obtenerClaseNota(promediosTrimestrales[trim.id])">
+              {{ promediosTrimestrales[trim.id] }}
             </span>
           </td>
 
@@ -92,7 +70,11 @@
           </td>
         </tr>
       </tfoot>
-
     </table>
+  </div>
+
+  <div *ngIf="cargando" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando información de notas...</p>
   </div>
 </div>

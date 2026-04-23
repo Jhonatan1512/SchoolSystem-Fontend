@@ -1,0 +1,118 @@
+<div class="main-profile-container" > <!--*ngIf="!loading; else loadingTemplate"-->
+  
+  <div class="profile-layout">
+    
+    <aside class="profile-sidebar glass-effect">
+      <div class="avatar-container">
+        <div class="avatar-big" *ngIf="perfilDocente">
+          {{perfilDocente?.nombres?.[0]}}{{perfilDocente?.apellidos?.[0]}}
+        </div>
+        <span class="status-indicator active" title="Cuenta Activa"></span>
+      </div>
+      
+      <div class="user-info-header">
+        <h1 class="user-full-name"> {{ perfilDocente.nombres }} {{ perfilDocente.apellidos}} </h1>
+        <div class="role-badge">
+          <span class="material-symbols-outlined">school</span>
+          Docente
+        </div>
+      </div>
+
+      <div class="profile-decorations">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+      </div>
+    </aside>
+
+    <main class="profile-content">
+      
+      <section class="info-card glass-effect scroll-reveal">
+        <div class="card-header">
+          <div class="icon-box blue">
+            <span class="material-symbols-outlined">person_pin_circle</span>
+          </div>
+          <h2>Datos Personales</h2>
+        </div>
+        
+        <div class="info-grid">
+          <div class="info-field">
+            <label>Nombres</label>
+            <p> {{perfilDocente.nombres}} </p>
+          </div>
+          <div class="info-field">
+            <label>Apellidos</label>
+            <p> {{perfilDocente.apellidos}} </p>
+          </div>
+          <div class="info-field">
+            <label>Documento Nacional de Identidad</label>
+            <div class="data-with-icon">
+              <span class="material-symbols-outlined text-muted">fingerprint</span>
+              <p> {{perfilDocente.dni}} </p>
+            </div>
+          </div>
+          <div class="info-field">
+            <label>Correo Electrónico Institucional</label>
+            <div class="data-with-icon">
+              <span class="material-symbols-outlined text-muted">mail</span>
+              <p class="email-text"> {{perfilDocente.email}} </p> 
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-card glass-effect scroll-reveal delayed">
+        <div class="card-header">
+          <div class="icon-box orange">
+            <span class="material-symbols-outlined">security</span>
+          </div>
+          <h2>Seguridad de la Cuenta</h2>
+        </div>
+        
+        <p class="section-description">Actualice su contraseña periódicamente para mantener la integridad de sus datos.</p>
+        
+        <div class="password-form">
+          <div class="form-field">
+            <label for="currentPassword">Contraseña Actual</label>
+            <div class="input-group">
+              <span class="material-symbols-outlined input-icon">lock_open</span>
+              <input [type]="showPasswordActual ? 'text' : 'password'"
+                type="password" 
+                id="currentPassword" 
+                placeholder="••••••••" 
+                [(ngModel)]="dataDocente.passwordActual"> 
+                <button type="button" class="btn-toggle-eye" (click)="togglePasswordActual()">
+                    <span class="material-symbols-outlined">
+                    {{ showPasswordActual ? 'visibility_off' : 'visibility' }}
+                    </span>
+                </button>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="newPassword">Nueva Contraseña</label>
+            <div class="input-group">
+              <span class="material-symbols-outlined input-icon">lock</span>
+              <input [type]="showPasswordNueva ? 'text': 'password' " 
+                type="password" id="newPassword" 
+                placeholder="Mín. 6 caracteres" 
+                [(ngModel)]="dataDocente.nuevaPassword"> 
+                <button type="button" class="btn-toggle-eye" (click)="togglePasswordNueva()">
+                    <span class="material-symbols-outlined">
+                    {{ showPasswordNueva ? 'visibility_off' : 'visibility' }}
+                    </span>
+                </button>
+            </div>
+            <small class="password-hint">
+                Mín. 6 caracteres, una mayúscula, un número y símbolo (&#64;$!%*?&)
+            </small> 
+          </div>
+
+          <button class="btn-primary-modern" (click)="onCambiarPassword()"> 
+            <span class="material-symbols-outlined">sync_lock</span>
+            Actualizar Contraseña
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

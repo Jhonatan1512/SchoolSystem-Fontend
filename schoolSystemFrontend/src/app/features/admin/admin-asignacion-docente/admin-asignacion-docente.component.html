@@ -29,23 +29,24 @@
         <div class="filter-controls">
           <div class="select-modern-wrapper">
             <span class="material-symbols-outlined icon-select">leaderboard</span>
-            <select class="select-flat">
+            <select class="select-flat" [(ngModel)]="gradoId">
               <option value="">Filtrar por Grado</option>
-              <option>1ero Primaria</option>
-              <option>2do Primaria</option>
+              <option *ngFor="let grado of listaGrados" [value]="grado.id">{{grado.nombre}}</option>
             </select>
             <span class="material-symbols-outlined arrow-down">expand_more</span>
           </div>
 
           <div class="select-modern-wrapper">
             <span class="material-symbols-outlined icon-select">grid_view</span>
-            <select class="select-flat">
+            <select class="select-flat" [(ngModel)]="seccionId">
               <option value="">Sección</option>
-              <option>A</option>
-              <option>B</option>
+              <option *ngFor="let seccion of listaSecciones" [value]="seccion.id">{{seccion.nombre}}</option>
             </select>
             <span class="material-symbols-outlined arrow-down">expand_more</span>
           </div>
+          <button class="btn-filter" (click)="cursosFiltrados()"> 
+            <span class="material-symbols-outlined">filter_list_off</span>
+            {{isAulaSelected ? 'Todos' : 'Filtrar'}}</button>
         </div>
       </div>
     </section>
@@ -58,40 +59,61 @@
             <th>DNI</th>
             <th>Curso / Materia</th>
             <th>Grado y Sección</th>
+            <th>Horas Asignadas</th>
             <th>Periodo</th>
             <th>Estado</th>
             <th class="text-center">Acciones</th>
           </tr>
         </thead>
-        <tbody *ngFor="let docente of listaDocentes">
+        <tbody *ngFor="let docente of listaFiltrada">
           <tr>
             <td>
               <div class="user-cell">
                 <div class="avatar av-orange">{{docente.iniciales}}</div>
                 <div class="info">
                   <span class="name">{{docente.nombreDocente}}</span>
-                </div>
+                </div> 
               </div>
             </td>
             <td><strong>{{docente.dni}}</strong></td>
             <td><span class="tag-course">{{docente.nombreCurso}}</span></td>
             <td>{{docente.nombreAula}}</td>
+            <td>{{docente.horasAsignadas}}h</td>
             <td>{{docente.nombrePeriodo}}</td>
             <td><span class="status-active">{{docente.textEstado}}</span></td>
             <td class="text-center">
               <div class="action-group">
                 <button class="btn-table edit"><span class="material-symbols-outlined">edit</span></button>
-                <button class="btn-table delete"><span class="material-symbols-outlined">delete</span></button>
+                <button class="btn-table delete" (click)="eliminar(docente.id)"><span class="material-symbols-outlined">delete</span></button>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <div class="table-footer">
+      <div class="footer-info">
+        Página {{paginaActual}} de {{totalPaginas}}
+        <span class="total-count">({{ totalRegistros }} registros en total)</span>
+      </div>
+      <div class="footer-nav">
+        <button   
+        [disabled]="paginaActual === 1" 
+        (click)="cambiarPagina(paginaActual - 1)">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <div class="page-indicator">{{paginaActual}}</div>
+        <button 
+        [disabled]="paginaActual === totalPaginas" 
+        (click)="cambiarPagina(paginaActual + 1)">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-<!--Modal de Asignación-->
+<!--Modal-->
 
 <div class="modal-overlay" *ngIf="isModalOpen" (click)="$event.target === overlay && cerrarModal()" #overlay>
   <div class="modal-content">
@@ -138,7 +160,7 @@
             <select 
               class="select-form" 
               [(ngModel)]="gradoSeleccionadoId" 
-              (change)="onGradoChange()">
+              >
               <option [value]="null">Seleccione...</option>
               <option *ngFor="let grado of listaGrados" [value]="grado.id">{{grado.nombre}}</option>
             </select>
@@ -147,11 +169,13 @@
             <label>Sección</label>
             <select 
               class="select-form" 
-              [(ngModel)]="seccionSeleccionadaId">
+              [(ngModel)]="seccionSeleccionadaId"
+              >
               <option [value]="null">Seleccione...</option>
               <option *ngFor="let seccion of listaSecciones" [value]="seccion.id">{{seccion.nombre}}</option>
             </select>
           </div>
+          <button class="btn-view-cursos" (click)="onGradoChange()">Ver Cursos</button>
         </div>
 
         <div class="form-group">
@@ -167,23 +191,52 @@
       <div class="modal-list-section">
         <label class="list-title">Seleccione los Cursos para este Grado</label>
         
-        <div class="courses-stack" *ngIf="cursosDelGrado.length > 0">
-          <div class="course-item" *ngFor="let curso of cursosDelGrado" [class.selected]="isCursoChecked(curso.id)">
-            <div class="course-info-check">
-              <input 
-                type="checkbox" 
-                [id]="'c-'+curso.id" 
-                [checked]="isCursoChecked(curso.id)"
-                (click)="toggleCurso(curso.id)">
-              <label [for]="'c-'+curso.id" (click)="$event.preventDefault()">
-                <span class="c-name">{{curso.nombre}}</span>
-                <span class="c-detail">{{curso.id}}</span>
-              </label>
+        <div class="courses-stack" *ngIf="cursosDelGrado && cursosDelGrado.length > 0">
+          <div class="course-item" 
+                *ngFor="let curso of cursosDelGrado" 
+                [class.selected]="isCursoChecked(curso.id) || curso.horasRestantes <= 0"
+                [class.is-busy]="curso.horasRestantes <= 0"
+                style="display: flex; flex-direction: column;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              
+              <div [class.disabled-label]="curso.horasRestantes <= 0">
+                <span class="c-name" style="font-size: 0.9rem;">{{curso.nombre}}</span>
+                <div>
+                  <small *ngIf="curso.horasRestantes <= 0" class="status-tag busy" style="margin-left: 0;">Ocupado</small>
+                  <small *ngIf="curso.horasRestantes > 0" class="status-tag free" style="margin-left: 0;">Disponible ({{curso.horasRestantes}}h)</small>
+                </div>
+              </div>
+
+              <button 
+                type="button" 
+                class="btn-toggle-course"
+                [disabled]="curso.horasRestantes <= 0"
+                [class.active]="isCursoChecked(curso.id)"
+                (click)="toggleCurso(curso)">
+                <span *ngIf="curso.horasRestantes <= 0">Ocupado</span>
+                <span *ngIf="curso.horasRestantes > 0 && !isCursoChecked(curso.id)">Seleccionar</span>
+                <span *ngIf="isCursoChecked(curso.id)">Seleccionado ✓</span>
+              </button>
+
             </div>
+
+            <div class="course-hours-assign" *ngIf="isCursoChecked(curso.id) && curso.horasRestantes > 0" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0;">
+              <label style="font-size: 11px; color: #555;">Horas a asignar:</label>
+              <input 
+                type="text" 
+                class="input-form"
+                style="width: 70px; height: 30px; padding: 2px 8px; margin-left: 8px;"
+                [max]="curso.horasRestantes" 
+                min="1" 
+                [value]="getHorasValue(curso.id)"
+                (input)="updateHoras(curso.id, $event)">
+            </div>
+
           </div>
         </div>
 
-        <div class="empty-list" *ngIf="cursosDelGrado.length === 0">
+        <div class="empty-list" *ngIf="!cursosDelGrado || cursosDelGrado.length === 0">
           <span class="material-symbols-outlined">book_5</span>
           <p>Elija un grado para cargar los cursos</p>
         </div>

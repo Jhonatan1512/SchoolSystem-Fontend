@@ -13,7 +13,7 @@
     <div class="search-container">
       <span class="material-symbols-outlined icon-sm">search</span>
       <input type="text" placeholder="Buscar por DNI o nombre..." class="input-search-sm">
-    </div>
+    </div> 
     
     <div class="filter-group">
       <label>Estado:</label>
@@ -56,11 +56,47 @@
             <div class="actions">
               <button class="btn-icon edit"><span class="material-symbols-outlined" (click)="abrirModal(docente)">edit</span></button>
               <button class="btn-icon delete"><span class="material-symbols-outlined" (click)="modificarEstado(docente)">delete</span></button>
+              <button class="btn-icon pass"><span class="material-symbols-outlined" (click)="modalPassword(docente)">key</span></button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <div class="pagination-footer">
+      <div class="pagination-info">
+        Mostrando página <strong>{{ paginaActual }}</strong> de <strong>{{ totalPaginas }}</strong>
+        <span class="total-count">({{ totalRegistros }} docentes en total)</span>
+      </div>
+
+      <div class="pagination-controls">
+        <button 
+          class="btn-nav" 
+          [disabled]="paginaActual === 1" 
+          (click)="cambiarPagina(paginaActual - 1)">
+          <span class="material-symbols-outlined">chevron_left</span> Anterior
+        </button>
+
+        <div class="page-numbers">
+          <span class="current-page">{{ paginaActual }}</span>
+        </div>
+
+        <button 
+          class="btn-nav" 
+          [disabled]="paginaActual === totalPaginas" 
+          (click)="cambiarPagina(paginaActual + 1)">
+          Siguiente <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+
+      <div class="pagination-settings">
+        <select [(ngModel)]="cantidadPorPagina" (change)="obtenerDocentes()">
+          <option [ngValue]="10">10 por página</option>
+          <option [ngValue]="15">15 por página</option>
+          <option [ngValue]="20">20 por página</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <!--Modal de Registro-->
@@ -119,6 +155,39 @@
         <span class="material-symbols-outlined">check_circle</span>
         {{isEditMode ? 'Guardar Cambios' : 'Guardar Docente'}}
       </button>
-    </footer>
+    </footer> 
+  </div>
+</div>
+
+<!--Modal editar Password-->
+
+<div class="modal" *ngIf="isModalPassword">
+  <div class="modal-content">
+    <h3>Cambiar Contraseña</h3>
+    <p>Alumno: <strong>{{ nuevoDocente.nombres }} {{nuevoDocente.apellidos}}</strong></p>
+    
+    <div class="field-group">
+      <label>Nueva Contraseña</label>
+      <input 
+        type="password" 
+        [(ngModel)]="nuevaPassword" 
+        placeholder="Ingrese la nueva contraseña"
+        class="input-flat">
+
+        <div class="password-strength-row" 
+            [style.color]="isPasswordComplete() ? '#2ecc71' : (nuevaPassword.length > 0 ? '#ffbf00' : '#ff4d4d')">
+          
+          <span [style.color]="hasUpperCase() ? 'inherit' : '#ff4d4d'">Mayúscula</span>
+          <span class="separator">---</span>
+          <span [style.color]="hasNumber() ? 'inherit' : '#ff4d4d'">Número</span>
+          <span class="separator">---</span>
+          <span [style.color]="hasSpecial() ? 'inherit' : '#ff4d4d'">Caractér Especial</span>
+        </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="isModalPassword = false">Cancelar</button>
+      <button class="btn-primary" (click)="confirmarCambioPassword()">Actualizar Password</button>
+    </div>
   </div>
 </div>

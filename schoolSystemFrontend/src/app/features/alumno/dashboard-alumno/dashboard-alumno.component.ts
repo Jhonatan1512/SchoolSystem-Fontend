@@ -43,25 +43,28 @@ export class DashboardAlumnoComponent implements OnInit {
 
   cargarCursos(){
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-
     if(!token){
       console.warn('No hay token');
       this.router.navigate(['/login']);
       return;
     }
-    
+      
     this.cursoService.obtenerCursosAlumno().subscribe({
       next: (datosCurso) => {
-        console.log(datosCurso);
         this.misCursos = datosCurso.map((cursoDb: any) => {
           const diseño = this.obtenerDiseñoPorCurso(cursoDb.nombreCurso);
+
+          const docentesCurso = cursoDb.docentes && cursoDb.docentes.length > 0
+            ? cursoDb.docentes.map((d: any) => d.nombre)
+            : ['Sin docente'];
 
           return {
             id: cursoDb.cursoId,
             nombre: cursoDb.nombreCurso,
-            docente: cursoDb.nombreDocente,
+            docente: docentesCurso,
             icono: diseño.icono,
-            bg: diseño.bg
+            bg: diseño.bg,
+            nombreAula: cursoDb.nombreAula
           };
         });
         this.cargando = false;
@@ -71,7 +74,7 @@ export class DashboardAlumnoComponent implements OnInit {
         this.mensjaeError = "No pudimos cargar tus cursos";
         this.cargando = false;
       }
-    })
+    });
   }
 
   obtenerDiseñoPorCurso(nombreCurso: string){

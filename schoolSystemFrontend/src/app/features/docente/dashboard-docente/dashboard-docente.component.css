@@ -7,7 +7,7 @@
 
 .curso-item {
   display: flex;
-  justify-content: space-between; /* Empuja el botón a la derecha */
+  justify-content: space-between; 
   align-items: center;
   background-color: white;
   padding: 16px 24px;
@@ -19,7 +19,7 @@
 .curso-item:hover {
   border-color: #3b82f6;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transform: translateX(4px); /* Pequeño efecto de empuje */
+  transform: translateX(4px); 
 }
 
 .curso-info {
@@ -53,7 +53,6 @@
   font-size: 0.9rem;
 }
 
-/* Botón a la derecha */
 .btn-ingresar {
   display: flex;
   align-items: center;

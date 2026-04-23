@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DocenteService } from '../../../core/services/docente.service';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-docente',
@@ -15,8 +14,8 @@ export class DashboardDocenteComponent implements OnInit {
   private docenteService = inject(DocenteService);
   private router = inject(Router);
 
-  listaCursos: any[] = [];
-  cargando: boolean = true;
+  listaCursos: any[] = []; 
+  cargando: boolean = true; 
   mensajeError: string = '';
 
   ngOnInit(){
@@ -32,11 +31,10 @@ export class DashboardDocenteComponent implements OnInit {
       this.router.navigate(['/login']);
       return; 
     }
-
+ 
     this.docenteService.obtenerCursos().subscribe({
       next: (data:any) => {
         this.listaCursos = data;
-        console.log("datos de la api", data);
         if(data && data.data && Array.isArray(data.data)){
           this.listaCursos = [...data.data];
         }
@@ -47,7 +45,6 @@ export class DashboardDocenteComponent implements OnInit {
         this.cargando = false;
       }
     });
-  }
- 
+  } 
 }
  

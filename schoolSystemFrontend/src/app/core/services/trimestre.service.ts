@@ -10,7 +10,7 @@ export class TrimestreService {
   private apiUrl = "https://localhost:7032/api";
 
   getAll():Observable<any>{
-    return this.http.get(`${this.apiUrl}/trimestre/periodo`);
+    return this.http.get(`${this.apiUrl}/Trimestre/periodo`);
   }
 
   create(data: any): Observable<any>{

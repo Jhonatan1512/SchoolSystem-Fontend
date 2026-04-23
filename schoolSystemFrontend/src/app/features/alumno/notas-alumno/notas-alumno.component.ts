@@ -1,84 +1,98 @@
-import { Component, OnInit, Inject, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CursoService } from '../services/curso.service';
+import { TrimestreService } from '../../../core/services/trimestre.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-notas-alumno',
+  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './notas-alumno.component.html',
   styleUrl: './notas-alumno.component.css'
 })
-export class NotasAlumnoComponent {
+export class NotasAlumnoComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private cursoService = inject(CursoService);
- 
-  cursoId: number = 0;
-  nombreCurso: string = 'Cargando curso....'
+  private trimestreService = inject(TrimestreService);
 
+  cursoId: number = 0;
+  nombreCurso: string = 'Cargando curso...';
+  
   competencias: any[] = [];
+  listadoTrimestresCompletos: any[] = []; 
+  promediosTrimestrales: { [key: string]: string } = {};
+  promedioFinalCurso: string = '-';
   cargando: boolean = true;
 
-  promedioT1: string = '-';
-  promedioT2: string = '-';
-  promedioT3: string = '-';
-
-  promedioFinalCurso: string = '-';
-
-  ngOnInit(){
+  ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
-    this.cursoId = idParam ? parseInt(idParam) : 0; 
+    this.cursoId = idParam ? parseInt(idParam) : 0;
 
     if (this.cursoId > 0) {
-      this.CargarNotas();
+      this.cargarEstructuraYNotas();
     }
   }
 
-  CargarNotas() {
-    this.cursoService.obtenerNotasPorCurso(this.cursoId).subscribe({
-      next: (data) => { 
-        this.nombreCurso = data.nombreCurso;
+  cargarEstructuraYNotas() {
+    this.cargando = true;
+    
+    forkJoin({
+      listaTrimestres: this.trimestreService.getAll(),
+      dataNotas: this.cursoService.obtenerNotasPorCurso(this.cursoId)
+    }).subscribe({
+      next: ({ listaTrimestres, dataNotas }) => {
+        this.nombreCurso = dataNotas.nombreCurso;
 
-        const grupos = data.competencias.reduce((acc: any, item: any) => {
-          if(!acc[item.competenciaId]){
-            acc[item.competenciaId] = {
+        this.listadoTrimestresCompletos = listaTrimestres.sort((a: any, b: any) => a.id - b.id);
+
+        const grupos = dataNotas.competencias.reduce((acc: any, item: any) => {
+          const compId = item.competenciaId;
+
+          if (!acc[compId]) {
+            acc[compId] = {
               nombre: item.nombreCompetencia,
-              t1: '-', t2: '-', t3: '-',
-              promedio: '-'
+              notasPorId: {}, 
+              promedioHorizontal: '-'
             };
+            this.listadoTrimestresCompletos.forEach(t => {
+              acc[compId].notasPorId[t.id] = '-';
+            });
           }
 
-          const notaFinal = item.nota === 'Sin Calificación' ? '-' :item.nota;
-          if (item.nombreTrimestre.includes('1')) acc[item.competenciaId].t1 = notaFinal;
-          if (item.nombreTrimestre.includes('2')) acc[item.competenciaId].t2 = notaFinal;
-          if (item.nombreTrimestre.includes('3')) acc[item.competenciaId].t3 = notaFinal;
+          const valorNota = (item.nota === 'Sin Calificación' || !item.nota) ? '-' : item.nota;
+          acc[compId].notasPorId[item.trimestreId] = valorNota;
 
           return acc;
         }, {});
 
         this.competencias = Object.values(grupos);
-        this.promedioT1 = this.calcularPromedioGrupal(this.competencias.map(c => c.t1));
-        this.promedioT2 = this.calcularPromedioGrupal(this.competencias.map(c => c.t2));
-        this.promedioT3 = this.calcularPromedioGrupal(this.competencias.map(c => c.t3));
 
-        // 3. CALCULAR PROMEDIO FINAL DEL CURSO (De los 3 trimestres)
-        if (this.promedioT1 !== '-' && this.promedioT2 !== '-' && this.promedioT3 !== '-') {
-            this.promedioFinalCurso = this.calcularPromedioGrupal([this.promedioT1, this.promedioT2, this.promedioT3]);
-        } else {
-            this.promedioFinalCurso = '-'; 
-        }
-        console.log(data);
+        this.efectuarCalculos();
+        
+        this.cargando = false;
       },
       error: (err) => {
-        console.error('Error al cargar notas:', err);
-        this.nombreCurso = 'Error al cargar';
+        console.error("Error al cargar datos:", err);
         this.cargando = false;
+        this.nombreCurso = 'Error al cargar información';
       }
-    })
+    });
+  }
+
+  private efectuarCalculos() {
+    this.listadoTrimestresCompletos.forEach(t => {
+      const notasColumna = this.competencias.map(c => c.notasPorId[t.id] || '-');
+      this.promediosTrimestrales[t.id] = this.calcularPromedioGrupal(notasColumna);
+    });
+
+    const valoresPromedios = Object.values(this.promediosTrimestrales);
+    this.promedioFinalCurso = this.calcularPromedioGrupal(valoresPromedios);
   }
 
   calcularPromedioGrupal(notas: string[]): string {
-    const filtradas = notas.filter(n => n !== '-' && n !== 'Sin Calificar');
+    const filtradas = notas.filter(n => n !== '-' && n !== 'Sin Calificar' && n !== '');
     if (filtradas.length === 0) return '-';
 
     const valores: any = { 'AD': 4, 'A': 3, 'B': 2, 'C': 1 };
@@ -91,12 +105,10 @@ export class NotasAlumnoComponent {
 
   obtenerClaseNota(nota: string): string {
     if (!nota || nota === '-' || nota === '') return 'nota-vacia';
-    
     const n = nota.toUpperCase().trim();
     if (n === 'AD' || n === 'A') return 'nota-alta';
     if (n === 'B') return 'nota-media';
     if (n === 'C') return 'nota-baja';
-    
     return 'nota-vacia';
   }
 }

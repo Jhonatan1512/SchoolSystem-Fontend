@@ -1,16 +1,12 @@
-/* Contenedor principal que ocupa toda la pantalla */
 .login-wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  /* 💡 Si quieres una foto de fondo de tu colegio, cambia el background por: 
-     background: url('/foto-colegio.jpg') center/cover no-repeat; */
   padding: 1rem;
 }
 
-/* Tarjeta flotante */
 .login-card {
   background: #ffffff;
   width: 100%;
@@ -26,7 +22,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Cabecera */
 .login-header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -54,7 +49,6 @@
   font-size: 0.95rem;
 }
 
-/* Formulario */
 .input-group {
   margin-bottom: 1.5rem;
   display: flex;
@@ -68,7 +62,6 @@
   margin-bottom: 0.5rem;
 }
 
-/* Input con Icono */
 .input-icon-wrapper {
   position: relative;
   display: flex;
@@ -100,11 +93,9 @@
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
-/* Estilos de Error */
 .input-error { border-color: #ef4444 !important; }
 .error-text { color: #ef4444; font-size: 0.8rem; margin-top: 0.4rem; font-weight: 500; }
 
-/* Opciones (Recordarme y Olvidé mi contraseña) */
 .form-options {
   display: flex;
   justify-content: space-between;
@@ -122,11 +113,10 @@
 
 .forgot-link:hover { color: #2563eb; }
 
-/* Botón Principal */
 .btn-login {
   width: 100%;
   padding: 0.9rem;
-  background: #0b132b; /* Tu azul oscuro institucional */
+  background: #0b132b; 
   color: white;
   border: none;
   border-radius: 12px;

@@ -216,8 +216,7 @@ export class AdminAlumnosComponent implements OnInit{
     });
   }
 
-  confirmarCambioPassword(){
-    
+  confirmarCambioPassword(){    
     const fuerteRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/;
     if(!fuerteRegex.test(this.nuevaPassword)){
       this.notifService.warning("La constraseña debe tener al menos 6 caracteres, un número, una mayúscula y un caractér especial");
