@@ -42,7 +42,16 @@ export class AdminCursosComponent implements OnInit{
     nombre: '',
     gradoId: 0,
     nombreAula: '',
-    competencias: []
+    prioridad: 0,
+    competencias: [],
+    planEstudios: [
+      {
+        horasSemanales: null,
+        horasMaximasPorDia: null,
+        duracionBloque: 0,
+        jornada: null
+    }
+    ]
   };
 
   ngOnInit() { 
@@ -118,7 +127,7 @@ export class AdminCursosComponent implements OnInit{
       }
     });
   }
-
+ 
   obtenerCursos(){
     this.cursoService.getAll(this.paginaActual, this.cantidadPorPagina).subscribe({
       next: (data) => {
@@ -130,7 +139,7 @@ export class AdminCursosComponent implements OnInit{
         console.log(err);
       }
     });
-  }
+  } 
 
   cambiarPagina(nueva: number){
     this.paginaActual = nueva;
@@ -144,14 +153,23 @@ export class AdminCursosComponent implements OnInit{
   }
 
   agregarCursoComptencias(){
-    if(!this.nuevoCursoComptencias.nombre || !this.nuevoCursoComptencias.gradoId){
-      this.toastService.warning("Todos los campos son obligatorios");
-      this.cerrarModal();
-      return;
-    }
 
-    this.nuevoCursoComptencias.gradoId = Number(this.nuevoCursoComptencias.gradoId);
-    this.cursoService.create(this.nuevoCursoComptencias).subscribe({
+    const body = {
+      nombre: this.nuevoCursoComptencias.nombre,
+      gradoId: Number(this.nuevoCursoComptencias.gradoId),
+      prioridad: Number(this.nuevoCursoComptencias.prioridad),
+      
+      planEstudios: this.nuevoCursoComptencias.planEstudios.map((p: any) => ({
+        jornada: Number(p.jornada),
+        horasSemanales: Number(p.horasSemanales),
+        horasMaximasPorDia: Number(p.horasMaximasPorDia),
+        duracionBloque: Number(p.duracionBloque)
+      })),
+
+      competencias: this.nuevoCursoComptencias.competencias
+    };
+
+    this.cursoService.create(body).subscribe({
       next: () => {
         this.toastService.succes("Curso y competencias creados");
         this.obtenerCursos();
@@ -181,12 +199,23 @@ export class AdminCursosComponent implements OnInit{
  
   quitarCompetencia(index: number){
     this.nuevoCursoComptencias.competencias.splice(indexedDB, 1);
-  }
+  } 
 
-  limpiardatos(){
-    this.nuevoCursoComptencias.nombre = '';
-    this.nuevoCursoComptencias.gradoId = '';
-    this.nuevoCursoComptencias.competencias = [];
+  limpiardatos() {
+    this.nuevoCursoComptencias = {
+      nombre: '',
+      gradoId: null,
+      prioridad: 1, 
+      competencias: [],
+      planEstudios: [
+        {
+          jornada: null,
+          horasSemanales: null,
+          horasMaximasPorDia: null,
+          duracionBloque: null
+        }
+      ]
+    };
     this.competeciaInput = '';
   }  
 }

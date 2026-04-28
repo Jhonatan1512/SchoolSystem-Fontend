@@ -603,3 +603,19 @@
   margin-top: 15px;
 }
 .empty-list span { font-size: 40px; margin-bottom: 10px; }
+
+.warning {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  background: rgb(236, 189, 22);
+  color: black;
+  font-weight: 600;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px 10px;
+  border-radius: 0.5rem;
+}

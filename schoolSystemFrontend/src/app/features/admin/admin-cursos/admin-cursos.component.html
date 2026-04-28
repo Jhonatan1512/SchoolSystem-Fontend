@@ -28,14 +28,15 @@
           NUEVO CURSO
         </button>
       </div>
-    </div>
+    </div> 
 
     <table class="data-table">
       <thead>
         <tr>
           <th style="width: 40%;">Curso / Materia</th>
-          <th style="width: 20%;">Grado</th>
-          <th style="width: 20%;">Competencias</th>
+          <th style="width: 10%;">Grado</th>
+          <th style="width: 20%;">Horas Semanales</th>
+          <th style="width: 10%;">Competencias</th>
           <th style="width: 20%; text-align: right;">Acciones</th>
         </tr>
       </thead>
@@ -48,9 +49,12 @@
               </div>
               <span class="course-name">{{curso.nombre}}</span>
             </div>
-          </td>
+          </td> 
           <td>
             <span class="tag-grade">{{curso.nombreAula}} Grado</span>
+          </td>
+          <td>
+            <span class="tag-grade">{{curso.horasSemanales}} H</span>
           </td>
           <td>
             <div class="competencia-count">
@@ -108,7 +112,7 @@
         <div class="text-group">
           <h2>Editar Curso</h2>
           <p>Actualiza el nombre de la materia seleccionada.</p>
-        </div>
+        </div> 
       </div>
       <button class="btn-close-modal" (click)="isModalEditOpen = false">
         <span class="material-symbols-outlined">close</span>
@@ -174,6 +178,59 @@
             [(ngModel)]="nuevoCursoComptencias.nombre">
           </div> 
         </div>
+
+        <div class="horas-curso" *ngFor="let jorE of nuevoCursoComptencias.planEstudios">
+          <div class="form-group">
+            <label>Horas Semanales</label> 
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined">book</span>
+              <input 
+              type="text" placeholder="Ej. 4" 
+              class="input-form" name="horasSemanales" 
+              [(ngModel)]="jorE.horasSemanales">
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label>Horas Por día</label> 
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined">book</span>
+              <input 
+              type="text" placeholder="Ej. 4" 
+              class="input-form" name="horasSemanales" 
+              [(ngModel)]="jorE.horasMaximasPorDia">
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label>Duración Bloque</label> 
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined">book</span>
+              <input 
+              type="text" placeholder="Ej. 2" 
+              class="input-form" name="duracionBloque" 
+              [(ngModel)]="jorE.duracionBloque">
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label>Prioridad</label> 
+             <select class="select" name="prioridad" [(ngModel)]="nuevoCursoComptencias.prioridad">
+              <option [value]="null" disabled selected>Seleccionar opción...</option>
+              <option  [value]="1">Alta</option>
+              <option  [value]="2">Media</option>
+              <option  [value]="3">Baja</option>
+            </select> 
+          </div>
+          <div class="form-group">
+            <label>Tipo Jornada</label> 
+             <select class="select" name="jornada" [(ngModel)]="jorE.jornada">
+              <option [value]="null" disabled selected>Seleccionar opción...</option>
+              <option  [value]="1">JER</option>
+              <option  [value]="2">JEC</option>
+            </select> 
+          </div>
+        </div> 
 
         <div class="form-group">
           <label>Grado Académico</label>

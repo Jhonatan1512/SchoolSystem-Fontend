@@ -30,8 +30,8 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   listaFiltrada: any[] = [];
   isModalOpen: boolean = false;
   isAulaSelected: boolean = false;
-
-  docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false };
+ 
+  docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false, horasAsignadas: 0, horasRestantes: 0 };
   gradoSeleccionadoId: number | null = null;
   seccionSeleccionadaId: number | null = null;
 
@@ -116,6 +116,16 @@ export class AdminAsignacionDocenteComponent implements OnInit {
       return;
     }
 
+     const totalHorasAsignar = this.cursosSeleccionadosParaAsignar
+      .reduce((total, curso) => total + curso.horasAsignadas, 0);
+
+    if (totalHorasAsignar > this.docenteEncontrado.horasRestantes) {
+      this.toastService.warning(
+        `Horas insuficientes. Disponible: ${this.docenteEncontrado.horasRestantes}, intentando asignar: ${totalHorasAsignar}`
+      );
+      return;
+    }
+
     const dto = {
       docenteId: this.docenteEncontrado.id,
       cursosIds: this.cursosSeleccionadosParaAsignar,
@@ -124,7 +134,6 @@ export class AdminAsignacionDocenteComponent implements OnInit {
       periodoAcademicoId: this.periodoActivo.id
     };
 
-    console.log("Datos a enviar:", dto);
 
     this.asignacionService.asignarDocentes(dto).subscribe({
       next: () => {
@@ -139,19 +148,27 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   abrirModal() { this.isModalOpen = true; this.resetForm(); }
   cerrarModal() { this.isModalOpen = false; }
   resetForm() {
-    this.docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false };
+    this.docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false, horasAsignadas: 0, horasRestantes: 0 };
     this.gradoSeleccionadoId = null; this.seccionSeleccionadaId = null;
     this.cursosDelGrado = []; this.cursosSeleccionadosParaAsignar = [];
+  }
+
+  get totalHorasSeleccionadas(): number {
+    return this.cursosSeleccionadosParaAsignar
+      .reduce((total, c) => total + c.horasAsignadas, 0);
   }
 
   ObtenerDocente() {
     if (!this.docenteEncontrado.dni) return;
     this.docenteService.getByDni(this.docenteEncontrado.dni).subscribe({
       next: (data) => {
+        console.log(data);
         this.docenteEncontrado = {
           id: data.id, dni: data.dni,
           nombreCompleto: `${data.nombres} ${data.apellidos}`.trim(),
-          esActivo: data.esActivo
+          esActivo: data.esActivo,
+          horasAsignadas: data.horasAsignadas,
+          horasRestantes: data.horasRestantes
         };
       },
       error: () => this.toastService.error("Docente no encontrado")

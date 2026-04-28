@@ -114,7 +114,7 @@ export class AdminCursosCompetenciasComponent implements OnInit {
     }
     this.isModalCrearComp = true;
   }
-
+ 
   eliminarCompetencia(id:number) {
     this.toastService.confirmar("Advertencia","¿Estas seguro de eliminar este registro?")
       .then((result) => {

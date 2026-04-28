@@ -41,6 +41,7 @@ export class MainLayoutComponent implements OnInit {
         { titulo: 'Asignación Docente', ruta: '/admin/asignacion-docente', icono: 'co_present' }, 
         { titulo: 'Matriculas', ruta: '/admin/matriculas', icono: 'how_to_reg' }, 
         { titulo: 'Configuración académica', ruta: '/admin/configuracion', icono: 'calendar_clock' },
+        { titulo: 'Horarios', ruta: '/admin/horarios', icono: 'calendar_month'},
         { titulo: 'Configuración', ruta: '/admin/ajustes', icono: 'settings_account_box' },
       ]; 
     } else if (this.rolActual === 'Docente') { 

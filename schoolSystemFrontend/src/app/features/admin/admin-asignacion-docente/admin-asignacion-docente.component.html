@@ -22,7 +22,7 @@
             <span class="material-symbols-outlined">search</span>
             Buscar
           </button>
-        </div>
+        </div> 
 
         <div class="divider-v"></div>
 
@@ -218,7 +218,6 @@
                 <span *ngIf="curso.horasRestantes > 0 && !isCursoChecked(curso.id)">Seleccionar</span>
                 <span *ngIf="isCursoChecked(curso.id)">Seleccionado ✓</span>
               </button>
-
             </div>
 
             <div class="course-hours-assign" *ngIf="isCursoChecked(curso.id) && curso.horasRestantes > 0" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0;">
@@ -240,6 +239,10 @@
           <span class="material-symbols-outlined">book_5</span>
           <p>Elija un grado para cargar los cursos</p>
         </div>
+        <div *ngIf="totalHorasSeleccionadas > docenteEncontrado.horasRestantes" class="warning">
+           <span class="material-symbols-outlined">warning</span> Excede las horas de las que dispone el docente 
+           ({{docenteEncontrado.horasRestantes}}H)
+      </div>
       </div>
     </div>
 
@@ -252,6 +255,7 @@
         <span class="material-symbols-outlined">save</span>
         Confirmar Asignación
       </button>
+      
     </footer>
   </div>
 </div>

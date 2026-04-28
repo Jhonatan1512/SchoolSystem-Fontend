@@ -17,6 +17,7 @@ import { AdminPeriodosComponent } from './features/admin/admin-configuracion-esc
 import { AdminConfiguracionComponent } from './features/admin/admin-configuracion/admin-configuracion.component';
 import { AdminConfiguracionEscolarComponent } from './features/admin/admin-configuracion-escolar/admin-configuracion-escolar.component';
 import { CuentaDocenteComponent } from './features/docente/cuenta-docente/cuenta-docente.component';
+import { AdminHorariosComponent } from './features/admin/admin-horarios/admin-horarios.component';
 
 export const routes: Routes = [
     {
@@ -56,7 +57,8 @@ export const routes: Routes = [
             {path: 'cursos/competencias/:id', component: AdminCursosCompetenciasComponent},
             {path: 'configuracion', component: AdminConfiguracionEscolarComponent},
             {path: 'periodo', component: AdminPeriodosComponent},
-            {path: 'ajustes', component: AdminConfiguracionComponent} 
+            {path: 'ajustes', component: AdminConfiguracionComponent},
+            {path: 'horarios', component: AdminHorariosComponent} 
         ] 
     },
     {

@@ -3,6 +3,7 @@
     grid-template-columns: 320px 1fr;
     gap: 30px;
     align-items: start;
+    margin-top: 10px;
 }
 
 .sticky-card {
