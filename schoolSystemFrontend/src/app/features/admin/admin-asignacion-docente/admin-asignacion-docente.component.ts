@@ -30,13 +30,13 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   listaFiltrada: any[] = [];
   isModalOpen: boolean = false;
   isAulaSelected: boolean = false;
- 
+  
   docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false, horasAsignadas: 0, horasRestantes: 0 };
   gradoSeleccionadoId: number | null = null;
   seccionSeleccionadaId: number | null = null;
 
   cursosDelGrado: any[] = [];
-  cursosSeleccionadosParaAsignar: { cursoId: number, horasAsignadas: number }[] = [];
+  cursosSeleccionadosParaAsignar: { planEstudioId: number, horasAsignadas: number }[] = [];
 
   listaGrados: any[] = [];
   listaSecciones: any[] = [];
@@ -49,7 +49,7 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   public totalPaginas: number = 0;
   public totalRegistros: number = 0;
   public cantidadPorPagina: number = 15;
-
+  
   ngOnInit() {
     this.mostrarDocentesAsignados();
     this.obtenerGrados();
@@ -72,36 +72,36 @@ export class AdminAsignacionDocenteComponent implements OnInit {
     });
   }
 
-  isCursoChecked(cursoId: number): boolean {
-    return this.cursosSeleccionadosParaAsignar.some(c => Number(c.cursoId) === Number(cursoId));
+  isCursoChecked(planId: number): boolean {
+    return this.cursosSeleccionadosParaAsignar.some(c => Number(c.planEstudioId) === Number(planId));
   }
 
   toggleCurso(curso: any) {
     if (curso.horasRestantes <= 0) return;
 
-    const id = Number(curso.id);
-    const index = this.cursosSeleccionadosParaAsignar.findIndex(c => Number(c.cursoId) === id);
+    const pId = Number(curso.planId);
+    const index = this.cursosSeleccionadosParaAsignar.findIndex(c => Number(c.planEstudioId) === pId);
 
     if (index > -1) {
       this.cursosSeleccionadosParaAsignar.splice(index, 1);
     } else {
       this.cursosSeleccionadosParaAsignar.push({
-        cursoId: id,
-        horasAsignadas: 1
+        planEstudioId: pId,
+        horasAsignadas: curso.horasRestantes 
       });
     }
   }
 
-  updateHoras(cursoId: number, event: any) {
+  updateHoras(planId: number, event: any) {
     const valor = Number(event.target.value);
-    const item = this.cursosSeleccionadosParaAsignar.find(c => c.cursoId === cursoId);
+    const item = this.cursosSeleccionadosParaAsignar.find(c => c.planEstudioId === planId);
     if (item) {
       item.horasAsignadas = valor;
     }
   }
 
-  getHorasValue(cursoId: number): number {
-    const item = this.cursosSeleccionadosParaAsignar.find(c => c.cursoId === cursoId);
+  getHorasValue(planId: number): number {
+    const item = this.cursosSeleccionadosParaAsignar.find(c => c.planEstudioId === planId);
     return item ? item.horasAsignadas : 1;
   }
 
@@ -112,28 +112,26 @@ export class AdminAsignacionDocenteComponent implements OnInit {
     }
 
     if (!this.docenteEncontrado.id || !this.seccionSeleccionadaId || this.cursosSeleccionadosParaAsignar.length === 0) {
-      this.toastService.warning("Complete todos los campos");
+      this.toastService.warning("Complete todos los campos obligatorios");
       return;
     }
 
-     const totalHorasAsignar = this.cursosSeleccionadosParaAsignar
-      .reduce((total, curso) => total + curso.horasAsignadas, 0);
+    const totalHorasAsignar = this.totalHorasSeleccionadas;
 
     if (totalHorasAsignar > this.docenteEncontrado.horasRestantes) {
       this.toastService.warning(
-        `Horas insuficientes. Disponible: ${this.docenteEncontrado.horasRestantes}, intentando asignar: ${totalHorasAsignar}`
+        `Horas insuficientes. Disponible: ${this.docenteEncontrado.horasRestantes}h`
       );
       return;
     }
 
     const dto = {
       docenteId: this.docenteEncontrado.id,
-      cursosIds: this.cursosSeleccionadosParaAsignar,
+      planesEstudio: this.cursosSeleccionadosParaAsignar,
       gradoId: Number(this.gradoSeleccionadoId),
       seccionId: Number(this.seccionSeleccionadaId),
       periodoAcademicoId: this.periodoActivo.id
     };
-
 
     this.asignacionService.asignarDocentes(dto).subscribe({
       next: () => {
@@ -141,16 +139,11 @@ export class AdminAsignacionDocenteComponent implements OnInit {
         this.cerrarModal();
         this.mostrarDocentesAsignados();
       },
-      error: () => this.toastService.error("Error al asignar docente")
+      error: (err) => {
+        const mensaje = err.error?.mensaje || "Error al asignar docente";
+        this.toastService.error(mensaje);
+      }
     });
-  }
-
-  abrirModal() { this.isModalOpen = true; this.resetForm(); }
-  cerrarModal() { this.isModalOpen = false; }
-  resetForm() {
-    this.docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false, horasAsignadas: 0, horasRestantes: 0 };
-    this.gradoSeleccionadoId = null; this.seccionSeleccionadaId = null;
-    this.cursosDelGrado = []; this.cursosSeleccionadosParaAsignar = [];
   }
 
   get totalHorasSeleccionadas(): number {
@@ -158,11 +151,21 @@ export class AdminAsignacionDocenteComponent implements OnInit {
       .reduce((total, c) => total + c.horasAsignadas, 0);
   }
 
+  abrirModal() { this.isModalOpen = true; this.resetForm(); }
+  cerrarModal() { this.isModalOpen = false; }
+  
+  resetForm() {
+    this.docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false, horasAsignadas: 0, horasRestantes: 0 };
+    this.gradoSeleccionadoId = null; 
+    this.seccionSeleccionadaId = null;
+    this.cursosDelGrado = []; 
+    this.cursosSeleccionadosParaAsignar = [];
+  }
+
   ObtenerDocente() {
     if (!this.docenteEncontrado.dni) return;
     this.docenteService.getByDni(this.docenteEncontrado.dni).subscribe({
       next: (data) => {
-        console.log(data);
         this.docenteEncontrado = {
           id: data.id, dni: data.dni,
           nombreCompleto: `${data.nombres} ${data.apellidos}`.trim(),

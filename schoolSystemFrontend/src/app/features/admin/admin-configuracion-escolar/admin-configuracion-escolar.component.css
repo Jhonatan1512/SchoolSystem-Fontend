@@ -16,7 +16,6 @@
   min-height: 100vh;
 }
 
-/* Header y Títulos */
 .page-header h1 {
   font-size: 1.875rem;
   font-weight: 800;
@@ -25,7 +24,6 @@
   margin-bottom: 0.5rem;
 }
 
-/* Navegación por Tabs */
 .tabs-nav {
   display: flex;
   gap: 8px;
@@ -53,7 +51,6 @@
   box-shadow: var(--shadow);
 }
 
-/* Card Principal */
 .main-card {
   background: var(--white);
   border-radius: 16px;
@@ -75,7 +72,6 @@
   color: var(--dark);
 }
 
-/* Botones */
 .btn-primary-custom {
   background: var(--primary);
   color: white;
@@ -95,7 +91,6 @@
   box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
 }
 
-/* Tabla Estilizada */
 .custom-table {
   width: 100%;
   border-collapse: separate;
@@ -124,7 +119,6 @@
   background-color: #f8fafc;
 }
 
-/* Modal Estilo Glass */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -190,7 +184,6 @@
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

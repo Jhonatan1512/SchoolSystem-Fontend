@@ -4,6 +4,7 @@
   <button [class.active]="tabActiva === 'G'" (click)="tabActiva = 'G'">Grados</button>
   <button [class.active]="tabActiva === 'S'" (click)="tabActiva = 'S'">Secciones</button>
   <button [class.active]="tabActiva === 'C'" (click)="tabActiva = 'C'">Cupos</button>
+  <button [class.active]="tabActiva === 'J'" (click)="tabActiva = 'J'">Definir Jornada</button>
 </nav>
 
 <div class="mt-4">
@@ -12,4 +13,5 @@
   <app-admin-grados *ngIf="tabActiva === 'G'"></app-admin-grados>
   <app-admin-secciones *ngIf="tabActiva === 'S'"></app-admin-secciones>
   <app-admin-cupos-seccion *ngIf="tabActiva === 'C'"></app-admin-cupos-seccion>
+  <app-admin-jornadas *ngIf="tabActiva === 'J'"></app-admin-jornadas> 
 </div>  

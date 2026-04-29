@@ -153,6 +153,21 @@ export class AdminCursosComponent implements OnInit{
   }
 
   agregarCursoComptencias(){
+    const curso = this.nuevoCursoComptencias;
+    const plan = curso.planEstudios[0];
+
+    if (!curso.nombre || !curso.gradoId || !curso.prioridad || 
+        !plan.jornada || !plan.horasSemanales || !plan.horasMaximasPorDia) {
+
+      this.toastService.warning("Todos los campos del curso y del plan son obligatorios");
+      this.cerrarModal();
+      return;
+    }
+
+    if (curso.competencias.length === 0) {
+      this.toastService.warning("Debe agregar al menos una competencia");
+      return;
+    }
 
     const body = {
       nombre: this.nuevoCursoComptencias.nombre,
@@ -176,8 +191,17 @@ export class AdminCursosComponent implements OnInit{
         this.cerrarModal();
         this.limpiardatos();
       },
-      error: () => {
-        this.toastService.error("Error al crear el curso");
+      error: (err) => {
+        let mensajeError = 'Error';
+        if(err.error){
+          if(typeof err.error === 'object' && err.error.mesaje){
+            mensajeError = err.error.mesaje;
+          } else if(typeof err.error === 'string'){
+            mensajeError = err.error;
+          }
+        }
+        this.toastService.error(mensajeError);
+        this.cerrarModal();
       }
     });
   }
@@ -218,4 +242,21 @@ export class AdminCursosComponent implements OnInit{
     };
     this.competeciaInput = '';
   }  
+
+  eliminarCurso(id:number){
+    this.toastService.confirmar("Advertencia","¿Estas seguro de eliminar este registro?")
+      .then((result) => {
+        if(result.isConfirmed){
+          this.cursoService.delete(id).subscribe({
+            next: () => {
+              this.toastService.succes("Registro de curso eliminado");
+              this.obtenerCursos();
+            },
+            error: () => {
+              this.toastService.error("Error el eliminar registro");
+            }
+          });
+        }
+      });
+  }
 }

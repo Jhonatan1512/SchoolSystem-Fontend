@@ -70,40 +70,46 @@ export class AdminPeriodosComponent implements OnInit {
   cerrarModal() {
     this.isModalOpen = false;
   }
-
+ 
   guardarPeriodo() {
-    if(!this.nuevoPeriodo.nombre || !this.nuevoPeriodo.fechaInicio || !this.nuevoPeriodo.fechaCierre || !this.nuevoPeriodo.estadoActivo){
+    if(
+      !this.nuevoPeriodo.nombre || 
+      !this.nuevoPeriodo.fechaInicio ||
+      !this.nuevoPeriodo.fechaCierre || 
+      this.nuevoPeriodo.estadoActivo === null || 
+      this.nuevoPeriodo.estadoActivo === undefined
+    ){
       this.toastServie.warning("Todos los campos son obligatorios");
-      this.cerrarModal();
       return;
     }
+
     if (this.editMode) {
       this.periodoService.update(this.nuevoPeriodo, this.idSelecionado).subscribe({
         next: (data) => {
           this.toastServie.succes("Registro Actualizado");
           this.obtenerPeriodos();
-          this.cerrarModal();
+          this.cerrarModal(); 
         },
         error: () => {
           this.toastServie.error("Error al actualizar datos");
         }
-      })
+      });
     } else {
       this.periodoService.create(this.nuevoPeriodo).subscribe({
         next: () => {
           this.toastServie.succes("Periodo Creado");
           this.obtenerPeriodos();
+          this.cerrarModal(); 
         },
         error: (err) => {
           this.toastServie.error("Error al crear periodo");
         }
-      })
+      });
     }
-    this.cerrarModal();
   }
 
   limpiarForm() {
-    this.nuevoPeriodo = { id: 0, nombre: '', fechaInicio: '', fechaFin: '', estado: true };
+    this.nuevoPeriodo = { id: 0, nombre: '', fechaInicio: '', fechaCierre: '', estadoActivo: true };
   }
 
   eliminarPeriodo(id: number){
@@ -123,5 +129,3 @@ export class AdminPeriodosComponent implements OnInit {
     });
   }
 }
-
-

@@ -34,5 +34,9 @@ export class CursosService {
     return this.http.get(`${this.apiUrl}/gradoId/${gradoId}/seccionId/${seccionId}`);
   }
 
+  delete(id:number): Observable<any>{
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
   constructor() { }
 }

@@ -1,0 +1,173 @@
+<div class="page-container">
+  <h2 class="page-title">Definir la Jornada Escolar (JEC, JER) ({{nombrePeriodo}})</h2>
+
+  <div class="action-bar">
+    <div class="filter-container">
+      <span class="material-symbols-outlined filter-icon">filter_list</span>
+      <select class="custom-select" aria-label="Filtrar por grado">
+        <option value="" selected>Todos los grados</option>
+        <option value="1">Primer Grado</option>
+        <option value="2">Segundo Grado</option>
+        <option value="3">Tercer Grado</option>
+        <option value="4">Cuarto Grado</option>
+        <option value="5">Quinto Grado</option>
+      </select>
+    </div>
+
+    <button class="btn-dark" (click)="abrirModal()">
+      <span class="material-symbols-outlined">add_circle_outline</span>
+      Nuevo Plan
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th class="text-left">CURSO</th>
+          <th>JORNADA</th>
+          <th>HRS. SEMANALES</th>
+          <th>HRS. MÁX / DÍA</th>
+          <th>DURACIÓN BLOQUE</th>
+          <th>PERIODO ACADÉMICO</th>
+          <th>ACCIONES</th>          
+        </tr>
+      </thead>
+      <tbody *ngFor="let dato of listaCompleta">
+        <tr>
+          <td class="text-left">{{dato.nombreCurso}}</td>
+          <td><span class="badge badge-green">{{dato.nombreJornada}}</span></td>
+          <td>{{dato.horasSemanales}}</td>
+          <td>{{dato.horasMaximasPorDia}}</td>
+          <td>{{dato.duracionBloque}}</td>
+          <td>{{dato.nombrePeriodo}}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-icon text-blue" title="Editar">
+                <span class="material-symbols-outlined">edit_note</span>
+              </button>
+              <button class="btn-icon text-red" title="Eliminar">
+                <span class="material-symbols-outlined">delete_outline</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--Modal de registro-->
+
+<div class="modal-overlay" *ngIf="isModelOpen">
+  <div class="modal-content">
+    
+    <div class="modal-header">
+      <div class="header-title-group">
+        <span class="material-symbols-outlined">settings_suggest</span>
+        <h3 class="modal-title">Configurar Plan de Estudio</h3>
+      </div>
+      <button class="btn-close" title="Cerrar modal" (click)="cerrarModal()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form>
+        
+        <div class="selection-grid">
+          
+          <div class="form-group">
+            <label>1. Grado</label>
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined icon-input">filter_alt</span>
+              <select class="form-control custom-select" 
+                      [(ngModel)]="gradoSeleccionadoId" 
+                      (ngModelChange)="obtenerCursos()"
+                      name="grado">
+                <option value="">Seleccione Grado...</option>
+                <option *ngFor="let grado of listaGrados" [value]="grado.id">{{grado.nombre}}</option> 
+              </select>
+            </div>
+            <p class="help-text">Selecciona el grado para filtrar los cursos.</p>
+          </div>
+
+          <div class="form-group">
+            <label>2. Seleccionar Cursos</label>
+            <div class="course-list-container">             
+              <label class="course-item" *ngFor="let curso of listaCursos"
+                     [class.is-disabled]="curso.periodoId === periodoActivoId">
+                <input type="checkbox" 
+                       class="hidden-checkbox" 
+                       [value]="curso.id" name="curso" 
+                       [checked]="cursosSeleccionados.includes(curso.id) || curso.periodoId === periodoActivoId" 
+                       [disabled]="curso.periodoId === periodoActivoId"
+                       (change)="toggleCurso($event, curso.id)">
+                <div class="course-card" 
+                     [ngClass]="{'assigned-locked-card': curso.periodoId === periodoActivoId}">
+                  <div class="course-content">
+                    <span class="material-symbols-outlined icon-course">book_2</span>
+                    <span class="course-name">{{curso.nombre}}</span>
+                  </div>
+                  <span class="material-symbols-outlined check-icon">
+                    {{ curso.periodoId === periodoActivoId ? 'lock' : 'check_circle'}} </span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <hr class="divider">
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label>Tipo de Jornada</label>
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined icon-input">schedule</span>
+              <select class="form-control custom-select" name="jornada" [(ngModel)]="nuevoPlan.jornada">
+                <option value="1">JER (Jornada Escolar Regular)</option>
+                <option value="2">JEC (Jornada Escolar Completa)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group flex-1">
+            <label>Periodo Académico</label>
+            <div class="input-with-icon readonly-field">
+              <span class="material-symbols-outlined icon-input">calendar_today</span>
+              <input type="text" class="form-control" [value]="nombrePeriodo" readonly>
+            </div>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="form-group mb-0">
+            <label>Horas Semanales</label>
+            <input type="number" [(ngModel)]="nuevoPlan.horasSemanales" name="horasSemanales" class="form-control text-center" placeholder="0">
+          </div>
+
+          <div class="form-group mb-0">
+            <label>Máx. Horas / Día</label>
+            <input type="number" [(ngModel)]="nuevoPlan.horasMaximasPorDia" name="horasMaximasPorDia" class="form-control text-center" placeholder="0">
+          </div>
+
+          <div class="form-group mb-0">
+            <label>Duración Bloque</label>
+            <input type="number" [(ngModel)]="nuevoPlan.duracionBloque" name="duracionBloque" class="form-control text-center" placeholder="0">
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      <button type="button" class="btn-dark-modal" (click)="registrarPal()">
+        <span class="material-symbols-outlined">save</span>
+        Guardar Plan
+      </button>
+    </div>
+
+  </div>
+</div>

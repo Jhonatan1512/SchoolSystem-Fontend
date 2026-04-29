@@ -212,15 +212,15 @@
                 type="button" 
                 class="btn-toggle-course"
                 [disabled]="curso.horasRestantes <= 0"
-                [class.active]="isCursoChecked(curso.id)"
+                [class.active]="isCursoChecked(curso.planId)"
                 (click)="toggleCurso(curso)">
                 <span *ngIf="curso.horasRestantes <= 0">Ocupado</span>
-                <span *ngIf="curso.horasRestantes > 0 && !isCursoChecked(curso.id)">Seleccionar</span>
-                <span *ngIf="isCursoChecked(curso.id)">Seleccionado ✓</span>
+                <span *ngIf="curso.horasRestantes > 0 && !isCursoChecked(curso.planId)">Seleccionar</span>
+                <span *ngIf="isCursoChecked(curso.planId)">Seleccionado ✓</span>
               </button>
             </div>
 
-            <div class="course-hours-assign" *ngIf="isCursoChecked(curso.id) && curso.horasRestantes > 0" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0;">
+            <div class="course-hours-assign" *ngIf="isCursoChecked(curso.planId) && curso.horasRestantes > 0" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0;">
               <label style="font-size: 11px; color: #555;">Horas a asignar:</label>
               <input 
                 type="text" 
@@ -228,13 +228,13 @@
                 style="width: 70px; height: 30px; padding: 2px 8px; margin-left: 8px;"
                 [max]="curso.horasRestantes" 
                 min="1" 
-                [value]="getHorasValue(curso.id)"
-                (input)="updateHoras(curso.id, $event)">
+                [value]="getHorasValue(curso.planId)"
+                (input)="updateHoras(curso.planId, $event)">
             </div>
 
           </div>
         </div>
-
+ 
         <div class="empty-list" *ngIf="!cursosDelGrado || cursosDelGrado.length === 0">
           <span class="material-symbols-outlined">book_5</span>
           <p>Elija un grado para cargar los cursos</p>
