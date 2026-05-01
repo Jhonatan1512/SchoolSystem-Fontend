@@ -16,7 +16,7 @@ import { AdminJornadasComponent } from './admin-jornadas/admin-jornadas.componen
   styleUrl: './admin-configuracion-escolar.component.css'
 })
 export class AdminConfiguracionEscolarComponent {
-  tabActiva: string = 'J';
+  tabActiva: string = 'P';
 
   cambiarTab(tab: string) {
     this.tabActiva = tab;

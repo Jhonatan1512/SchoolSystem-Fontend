@@ -194,6 +194,49 @@
     font-size: 1.3rem;
 }
 
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+}
+
+.footer-info {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-nav button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-nav button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0 10px;
+}
+
 /*Modal CSS*/
 
 .modal-overlay {

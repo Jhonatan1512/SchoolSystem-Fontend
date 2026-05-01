@@ -12,7 +12,7 @@ import { TrimestreService } from '../../../core/services/trimestre.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './notas-docente.component.html',
   styleUrl: './notas-docente.component.css'
-})
+}) 
 export class NotasDocenteComponent implements OnInit {
   private trimestreService = inject(TrimestreService);
   private route = inject(ActivatedRoute);
@@ -55,6 +55,7 @@ export class NotasDocenteComponent implements OnInit {
               aula: this.alumnos[0].aula
             }
           }
+          console.log(res);
         },
         error: (err) => {
           console.error("Error en la API:", err);

@@ -48,7 +48,7 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   public paginaActual: number = 1;
   public totalPaginas: number = 0;
   public totalRegistros: number = 0;
-  public cantidadPorPagina: number = 15;
+  public cantidadPorPagina: number = 15; 
   
   ngOnInit() {
     this.mostrarDocentesAsignados();
@@ -205,7 +205,7 @@ export class AdminAsignacionDocenteComponent implements OnInit {
     this.toastService.confirmar("Eliminar", "¿Seguro?").then(r => {
       if (r.isConfirmed) this.asignacionService.delete(id).subscribe(() => this.mostrarDocentesAsignados());
     });
-  }
+  } 
 
   cursosFiltrados() {
     if (this.isAulaSelected) {

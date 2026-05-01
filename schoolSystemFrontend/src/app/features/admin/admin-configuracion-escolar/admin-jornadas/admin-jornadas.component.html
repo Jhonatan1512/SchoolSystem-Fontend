@@ -43,7 +43,7 @@
           <td>{{dato.nombrePeriodo}}</td>
           <td>
             <div class="action-buttons">
-              <button class="btn-icon text-blue" title="Editar">
+              <button class="btn-icon text-blue" title="Editar" (click)="abrirModal(dato)">
                 <span class="material-symbols-outlined">edit_note</span>
               </button>
               <button class="btn-icon text-red" title="Eliminar">
@@ -54,6 +54,27 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="table-footer">
+      <div class="footer-info">
+        Página {{paginaActual}} de {{totalPaginas}}
+        <span class="total-count">({{ totalRegistros }} cursos en total)</span>
+      </div>
+      <div class="footer-nav">
+        <button 
+        [disabled]="paginaActual === 1" 
+        (click)="cambiarPagina(paginaActual - 1)">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <div class="page-indicator">{{paginaActual}}</div>
+        <button 
+        [disabled]="paginaActual === totalPaginas" 
+        (click)="cambiarPagina(paginaActual + 1)">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -91,8 +112,8 @@
             </div>
             <p class="help-text">Selecciona el grado para filtrar los cursos.</p>
           </div>
-
-          <div class="form-group">
+ 
+          <div class="form-group" *ngIf="!isEditMode">
             <label>2. Seleccionar Cursos</label>
             <div class="course-list-container">             
               <label class="course-item" *ngFor="let curso of listaCursos"
@@ -116,6 +137,18 @@
             </div>
           </div>
 
+          <div *ngIf="isEditMode" class="form-group">
+            <label>Curso seleccionado para edición</label>
+            <div class="course-list-container">
+              <div class="course-card assigned-locked-card">
+                <div class="course-content">
+                  <span class="material-symbols-outlined icon-course" >edit_square</span>
+                  <span class="course-name" >{{ nombreCursoEdit }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <hr class="divider">
@@ -125,7 +158,11 @@
             <label>Tipo de Jornada</label>
             <div class="input-with-icon">
               <span class="material-symbols-outlined icon-input">schedule</span>
-              <select class="form-control custom-select" name="jornada" [(ngModel)]="nuevoPlan.jornada">
+              <select class="form-control custom-select" 
+                      name="jornada" 
+                      [(ngModel)]="nuevoPlan.jornada"
+                      [class.is-disabled]="isEditMode" 
+                      [disabled]="isEditMode">
                 <option value="1">JER (Jornada Escolar Regular)</option>
                 <option value="2">JEC (Jornada Escolar Completa)</option>
               </select>

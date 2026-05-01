@@ -14,5 +14,9 @@ export class HorariosService {
   getByGradoSeccion(gradoId: number, seccionId: number): Observable<any>{
     return this.http.get(`${this.apiUrl}/ver/${gradoId}/${seccionId}`);
   }
+
+  generar(data:any): Observable<any>{
+    return this.http.post(`${this.apiUrl}`, data);
+  }
   constructor() { }
 }

@@ -32,8 +32,11 @@ export class AdminJornadasComponent implements OnInit{
   public cantidadPorPagina: number = 11;
 
   isModelOpen: boolean = false;
+  isEditMode: boolean = false;
 
   cursosSeleccionados: number[] = [];
+  nombreCursoEdit: string = '';
+  idRegistroEditar: number = 0;
 
   nuevoPlan = {
     jornada: 0,
@@ -47,21 +50,32 @@ export class AdminJornadasComponent implements OnInit{
     this.obetenerGrado();
   }
 
-  abrirModal(){
+  abrirModal(registro?:any){
+    if(registro){
+      this.nuevoPlan = {
+        ...registro,
+      }
+      this.nombreCursoEdit = registro.nombreCurso;
+      this.idRegistroEditar = registro.id;
+      this.isEditMode = true;
+    } else {
+      this.isEditMode = false;
+      this.limpiarDatos();
+    }
     this.isModelOpen = true;
   }
 
   cerrarModal(){
     this.isModelOpen = false;   
     this.gradoSeleccionadoId = 0; 
+    this.limpiarDatos();
   }
 
   obtenerCursos(){
     this.cursoService.getByGrado(this.gradoSeleccionadoId).subscribe({
       next: (data) => {
         this.listaCursos = data;
-        this.cursosSeleccionados = [];
-        
+        this.cursosSeleccionados = []; 
       }
     });
   }
@@ -74,6 +88,11 @@ export class AdminJornadasComponent implements OnInit{
     }
   }
 
+  cambiarPagina(nueva: number){
+    this.paginaActual = nueva;
+    this.cargardatos();
+  }
+
   obetenerGrado(){
     this.gradoService.getAll().subscribe({
       next: (data) => {
@@ -84,7 +103,7 @@ export class AdminJornadasComponent implements OnInit{
       }
     });
   }
-
+ 
   cargardatos(){
     this.jornadaService.getAll(this.paginaActual, this.cantidadPorPagina).subscribe({
       next: (data) => {
@@ -98,28 +117,58 @@ export class AdminJornadasComponent implements OnInit{
   }
 
   registrarPal(){
-    const body = {
-      CursosId: this.cursosSeleccionados,
-      jornada: Number(this.nuevoPlan.jornada),
-      horasSemanales: Number(this.nuevoPlan.horasSemanales),
-      horasMaximasPorDia: Number(this.nuevoPlan.horasMaximasPorDia),
-      duracionBloque: Number(this.nuevoPlan.duracionBloque)
-    }
-
-    this.jornadaService.create(body).subscribe({
-      next: () => {
-        this.toastService.succes("Jornada asignada al curso");
-        this.cargardatos();
-        this.cerrarModal();
-        this.limpiarDatos();
-      },
-      error: (error) => {
-        this.toastService.error("Error al asignar jornada");
-        this.limpiarDatos();
-        this.cerrarModal();
-        console.log(error);
+    const id = Number(this.idRegistroEditar);
+    if(this.isEditMode){
+      if(!this.nuevoPlan.duracionBloque || 
+        !this.nuevoPlan.horasMaximasPorDia || !this.nuevoPlan.horasSemanales || !this.nuevoPlan.jornada){
+          this.toastService.warning("Todos los campos son boligatorios");
+          this.cerrarModal();
+          this.limpiarDatos();
+          return;
       }
-    });
+      this.jornadaService.update(id, this.nuevoPlan).subscribe({
+        next: () => {
+          this.toastService.succes("Datos modificados");
+          this.cerrarModal();
+          this.cargardatos();
+          this.limpiarDatos();
+        },
+        error: () => {
+          this.toastService.error("Error al modifcar datos del registro");
+          this.cerrarModal();
+          this.limpiarDatos();
+        }
+      })
+    } else {
+      if (this.cursosSeleccionados.length === 0 || !this.nuevoPlan.duracionBloque || 
+          !this.nuevoPlan.horasMaximasPorDia || !this.nuevoPlan.horasSemanales || !this.nuevoPlan.jornada) {
+        
+        this.toastService.warning("Debe seleccionar al menos un curso y llenar todos los campos obligatorios");
+        return; 
+      }
+      const body = {
+        CursosId: this.cursosSeleccionados,
+        jornada: Number(this.nuevoPlan.jornada),
+        horasSemanales: Number(this.nuevoPlan.horasSemanales),
+        horasMaximasPorDia: Number(this.nuevoPlan.horasMaximasPorDia),
+        duracionBloque: Number(this.nuevoPlan.duracionBloque)
+      }
+      
+      this.jornadaService.create(body).subscribe({
+        next: () => {
+          this.toastService.succes("Jornada asignada al curso");
+          this.cargardatos();
+          this.cerrarModal();
+          this.limpiarDatos();
+        },
+        error: (error) => {
+          this.toastService.error("Error al asignar jornada");
+          this.limpiarDatos();
+          this.cerrarModal();
+          console.log(error);
+        }
+      });
+    }
   }
 
   limpiarDatos() {
@@ -127,5 +176,7 @@ export class AdminJornadasComponent implements OnInit{
     this.nuevoPlan.horasMaximasPorDia = 0;
     this.nuevoPlan.horasSemanales = 0;
     this.nuevoPlan.jornada = 0;
+    this.listaCursos = [];
+    this.nombreCursoEdit = '';
   }
 } 

@@ -22,17 +22,22 @@
       </div>
 
       <div class="actions-group">
+        
         <button class="btn-refresh" (click)="cargarHorarios()"><span class="material-symbols-outlined">filter_alt</span> Ver Horario</button>
         <button class="btn-edit" (click)="toggleEdit()" [class.active]="isEditing">
           <span class="material-symbols-outlined">{{ isEditing ? 'save' : 'edit_note' }}</span>
           {{ isEditing ? 'Finalizar' : 'Editar' }}
         </button>
-        <button class="btn-download"><span class="material-symbols-outlined">download</span> Descargar</button>
+        <button class="btn-download" (click)="descargarHorarios()"><span class="material-symbols-outlined">download</span> Descargar</button>
+        <button class="btn-generate" (click)="abrirModalGeneracion()">
+          <span class="material-symbols-outlined">auto_fix_high</span> Generar Horarios
+        </button>
+
       </div>
     </div>
   </header>
 
-  <div class="schedule-grid">
+  <div class="schedule-grid" id="horario-export">
     <div class="grid-header">Módulo</div>
     <div class="grid-header">Lunes</div>
     <div class="grid-header">Martes</div>
@@ -67,5 +72,47 @@
       </ng-container>
       
     </ng-container>
+
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-content">
+    
+    <ng-container *ngIf="isGenerating">
+      <div class="spinner-container">
+        <div class="spinner"></div>
+      </div>
+      <h3>Generando horarios...</h3>
+      <p class="modal-text">Los horarios se estan generando. Por favor, espera un momento.</p>
+    </ng-container>
+
+    <ng-container *ngIf="!isGenerating && generationResult">
+      <div class="icon-success" *ngIf="generationResult.exito">
+        <span class="material-symbols-outlined">check_circle</span>
+      </div>
+      <div class="icon-error" *ngIf="!generationResult.exito">
+        <span class="material-symbols-outlined" 
+              style="color: #ef4444; font-size: 60px; margin-bottom: 1rem;">error</span>
+      </div>
+      
+      <h3>{{ generationResult.exito ? '¡Horarios Generados!' : 'Error en la Generación' }}</h3>
+      <p class="modal-text">{{ generationResult.mensaje }}</p>
+      
+      <div class="warnings-box" *ngIf="generationResult.advertencias?.length > 0">
+        <h4>Horas pendientes ({{ generationResult.advertencias.length }}):</h4>
+        <ul>
+          <li *ngFor="let adv of generationResult.advertencias">
+            <span class="material-symbols-outlined warning-icon">warning</span>
+            {{ adv }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-close" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </ng-container>
+
   </div>
 </div>

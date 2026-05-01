@@ -47,7 +47,9 @@ export class MainLayoutComponent implements OnInit {
     } else if (this.rolActual === 'Docente') { 
       this.menuItems = [
         { titulo: 'Cursos Asignados', ruta: '/docente', icono: 'menu_book' },
+        { titulo: 'Horario', ruta: '/docente/horario', icono: 'calendar_month' },
         { titulo: 'Cuenta', ruta: '/docente/cuenta', icono: 'settings_account_box' },
+        
       ];
     } else {
       this.menuItems = [
