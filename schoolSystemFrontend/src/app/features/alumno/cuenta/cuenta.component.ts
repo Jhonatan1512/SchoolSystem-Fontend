@@ -1,32 +1,40 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DocenteService } from '../../../core/services/docente.service';
+import { AlumnoService } from '../../../core/services/alumno.service';
 import { NotificationServiceService } from '../../../core/services/notification.service.service';
 
 @Component({
-  selector: 'app-cuenta-docente',
+  selector: 'app-cuenta',
   imports: [CommonModule, FormsModule],
-  templateUrl: './cuenta-docente.component.html',
-  styleUrl: './cuenta-docente.component.css'
+  templateUrl: './cuenta.component.html', 
+  styleUrl: './cuenta.component.css'
 })
-export class CuentaDocenteComponent implements OnInit {
-  private docenteService = inject(DocenteService);
+export class CuentaComponent implements OnInit{
+  private alumnoService = inject(AlumnoService);
   private toastService = inject(NotificationServiceService);
- 
-  perfilDocente: any = [];
+
+  dataAlumno: any = [];
 
   showPasswordActual: boolean = false;
   showPasswordNueva: boolean = false;
 
-  dataDocente = {
+  dataPassword = {
     passwordActual: '',
     nuevaPassword: ''
   }
- 
+
   ngOnInit() {
     this.getPerfil();
-  } 
+  }
+
+  getPerfil(){
+    this.alumnoService.getPerfil().subscribe({
+      next: (data) => {
+        this.dataAlumno = data;
+      }
+    });
+  }
 
   togglePasswordActual() {
     this.showPasswordActual = !this.showPasswordActual;
@@ -36,19 +44,8 @@ export class CuentaDocenteComponent implements OnInit {
     this.showPasswordNueva = !this.showPasswordNueva;
   }
 
-  getPerfil(){
-    this.docenteService.getPerfil().subscribe({
-      next: (data) => {
-        this.perfilDocente = data;
-      },
-      error: () => {
-        this.toastService.error("Error al cargar datos del docente");
-      }
-    });
-  }
-  
   onCambiarPassword(){
-    const { passwordActual, nuevaPassword } = this.dataDocente;
+    const { passwordActual, nuevaPassword } = this.dataPassword;
     if(!passwordActual || !nuevaPassword){
       this.toastService.warning("Todos los campos son obligatorios");
       return;
@@ -59,12 +56,12 @@ export class CuentaDocenteComponent implements OnInit {
       this.toastService.warning("La nueva contraseña debe tener al menos una letra mayúscula, un número y un caracter especial");
       return;
     }
-
+ 
     const body = {
       passwordActual, nuevaPassword
     } 
 
-    this.docenteService.updatePaswordDocente(body).subscribe({
+    this.alumnoService.updatePaswordDocente(body).subscribe({
       next: () => {
         this.toastService.succes("Password modificada");
         this.limpiarCampos();
@@ -82,9 +79,8 @@ export class CuentaDocenteComponent implements OnInit {
     });    
   }
 
-  limpiarCampos() {
-    this.dataDocente.nuevaPassword = '';
-    this.dataDocente.passwordActual = '';
+  limpiarCampos(){
+    this.dataPassword.nuevaPassword = '';
+    this.dataPassword.passwordActual = '';
   }
 }
-

@@ -101,6 +101,7 @@ export class AdminAlumnosComponent implements OnInit{
   cerrarModalEstado(){
     this.modalEstado = false;
   }
+  
   cargarAlumnos(){
     this.adminService.ontenerAlumnos(this.paginaActual, this.cantidadPorPagina).subscribe({
       next: (data:any) => {

@@ -39,7 +39,6 @@ export class NotasDocenteComponent implements OnInit {
       this.seccionId = Number(this.route.snapshot.paramMap.get('seccionId'));
 
       this.cargarDatos();
-
       this.obtenerTrimestres();
   }
 

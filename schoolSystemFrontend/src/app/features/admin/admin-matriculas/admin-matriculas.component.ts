@@ -12,7 +12,7 @@ import { ConfiguracionCuposService } from '../../../core/services/configuracion-
   selector: 'app-admin-matriculas',
   standalone: true,
   imports: [CommonModule, FormsModule], 
-  templateUrl: './admin-matriculas.component.html',
+  templateUrl: './admin-matriculas.component.html', 
   styleUrl: './admin-matriculas.component.css'
 })
 export class AdminMatriculasComponent implements OnInit {

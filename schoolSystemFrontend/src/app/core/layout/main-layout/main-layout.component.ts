@@ -54,8 +54,8 @@ export class MainLayoutComponent implements OnInit {
     } else {
       this.menuItems = [
         { titulo: 'Dashboard', ruta: '/alumno', icono: 'dashboard' },
-        { titulo: 'Horario', ruta: '/horario', icono: 'calendar_month' },
-        { titulo: 'Mi Perfil', ruta: '/perfil', icono: 'person' },
+        { titulo: 'Horario', ruta: '/alumno/horario', icono: 'calendar_month' },
+        { titulo: 'Cuenta', ruta: '/alumno/cuenta', icono: 'settings_account_box' }, 
       ];
     }
   }

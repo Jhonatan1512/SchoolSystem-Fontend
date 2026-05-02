@@ -1,0 +1,48 @@
+<div class="schedule-container">
+  <header class="schedule-header">
+    <div class="header-info">
+      <h2><span class="material-symbols-outlined">calendar_today</span> Horario Académico</h2>
+    </div>
+    
+    <div class="filters-row">  
+      <div class="actions-group">       
+        <button class="btn-download" (click)="descargarHorarios()">
+            <span class="material-symbols-outlined">download</span> Descargar</button> 
+      </div>
+    </div>
+  </header>
+
+  <div class="schedule-grid" id="horario-export">
+    <div class="grid-header">Módulo</div>
+    <div class="grid-header">Lunes</div>
+    <div class="grid-header">Martes</div>
+    <div class="grid-header">Miércoles</div>
+    <div class="grid-header">Jueves</div>
+    <div class="grid-header">Viernes</div>
+
+    <ng-container *ngFor="let fila of horarioData">
+      
+      <div class="break-row" *ngIf="!fila.esProductiva">
+        <span class="material-symbols-outlined">share_eta</span>
+        {{ fila.bloque }} - {{ fila.rangoHora }}
+      </div>
+
+      <ng-container *ngIf="fila.esProductiva">
+        <div class="time-cell">
+          {{ fila.bloque.split(' ')[0] }}<br>
+          <small>{{ fila.rangoHora }}</small>
+        </div>
+
+        <ng-container *ngFor="let dia of ['lunes', 'martes', 'miercoles', 'jueves', 'viernes']">
+          <div class="course-cell" [ngClass]="getCursoClass(fila[dia])">
+            <strong>{{ parseContent(fila[dia]).curso }}</strong>
+            <span class="teacher">{{ parseContent(fila[dia]).docente }}</span>
+
+          </div>
+        </ng-container>
+      </ng-container>
+      
+    </ng-container>
+
+  </div>
+</div>

@@ -1,1 +1,78 @@
-<p>horario-docente works!</p>
+<button class="btn-download" (click)="descargarExcelModerno()">
+    <span class="material-symbols-outlined">download</span>
+    Descargar Horario
+</button>
+<div class="horario-container" *ngIf="horarioData.length > 0">  
+  <h2 class="horario-titulo">{{ horarioData[0].gradoSeccion }}</h2>
+
+  <div class="table-wrapper" id="">
+    <table class="horario-table">
+      <thead>
+        <tr>
+          <th class="th-modulo">MÓDULO</th>
+          <th>LUNES</th>
+          <th>MARTES</th>
+          <th>MIÉRCOLES</th>
+          <th>JUEVES</th>
+          <th>VIERNES</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr *ngFor="let fila of horarioData">
+          
+          <ng-container *ngIf="!fila.esProductiva">
+            <td colspan="6" class="celda-recreo-wrapper">
+              <div class="card-recreo">
+                <span class="material-symbols-outlined icon-recreo">schedule</span>
+                <span>Recreo - {{ extraerRango(fila.rangoHora) }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="fila.esProductiva">
+            
+            <td class="td-modulo">
+              <div class="bloque-card">
+                <span class="bloque-num">{{ fila.bloque }}</span>
+                <span class="bloque-hora">{{ fila.rangoHora }}</span>
+              </div>
+            </td>
+            
+            <td>
+              <div class="curso-card" [ngClass]="obtenerClaseAula(fila.lunes)">
+                <span class="curso-nombre">{{ extraerCurso(fila.lunes) }}</span>
+                <span class="curso-aula" *ngIf="extraerAula(fila.lunes)">{{ extraerAula(fila.lunes) }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="curso-card" [ngClass]="obtenerClaseAula(fila.martes)">
+                <span class="curso-nombre">{{ extraerCurso(fila.martes) }}</span>
+                <span class="curso-aula" *ngIf="extraerAula(fila.martes)">{{ extraerAula(fila.martes) }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="curso-card" [ngClass]="obtenerClaseAula(fila.miercoles)">
+                <span class="curso-nombre">{{ extraerCurso(fila.miercoles) }}</span>
+                <span class="curso-aula" *ngIf="extraerAula(fila.miercoles)">{{ extraerAula(fila.miercoles) }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="curso-card" [ngClass]="obtenerClaseAula(fila.jueves)">
+                <span class="curso-nombre">{{ extraerCurso(fila.jueves) }}</span>
+                <span class="curso-aula" *ngIf="extraerAula(fila.jueves)">{{ extraerAula(fila.jueves) }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="curso-card" [ngClass]="obtenerClaseAula(fila.viernes)">
+                <span class="curso-nombre">{{ extraerCurso(fila.viernes) }}</span>
+                <span class="curso-aula" *ngIf="extraerAula(fila.viernes)">{{ extraerAula(fila.viernes) }}</span>
+              </div>
+            </td>
+
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

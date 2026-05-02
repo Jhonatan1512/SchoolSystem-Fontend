@@ -19,6 +19,8 @@ import { AdminConfiguracionEscolarComponent } from './features/admin/admin-confi
 import { CuentaDocenteComponent } from './features/docente/cuenta-docente/cuenta-docente.component';
 import { AdminHorariosComponent } from './features/admin/admin-horarios/admin-horarios.component';
 import { HorarioDocenteComponent } from './features/docente/horario-docente/horario-docente.component';
+import { HorarioAlumnoComponent } from './features/alumno/horario-alumno/horario-alumno.component';
+import { CuentaComponent } from './features/alumno/cuenta/cuenta.component';
 
 export const routes: Routes = [
     {
@@ -32,7 +34,9 @@ export const routes: Routes = [
         component: MainLayoutComponent,
         children: [
             { path: '', component: DashboardAlumnoComponent },
-            { path: 'notas/:id', component: NotasAlumnoComponent }
+            { path: 'notas/:id', component: NotasAlumnoComponent },
+            { path: 'horario', component: HorarioAlumnoComponent},
+            { path: 'cuenta', component: CuentaComponent}
         ]
     },
     {

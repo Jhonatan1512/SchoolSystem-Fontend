@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx'; 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';

@@ -34,16 +34,16 @@
           <td>{{ item.capacidad }}</td>
           <td>
             <div class="progress-container">
-              <span class="progress-text">{{ item.totalMatriculados }} / {{ item.capacidad }}</span>
+              <span class="progress-text">{{ item.vacantesOcupadas }} / {{ item.capacidad }}</span>
               <div class="progress-bar">
                 <div class="progress-fill" 
-                     [style.width.%]="(item.totalMatriculados / item.capacidad) * 100"
-                     [class.full]="item.totalMatriculados >= item.capacidad">
+                     [style.width.%]="(item.vacantesOcupadas / item.capacidad) * 100"
+                     [class.full]="item.vacantesOcupadas >= item.capacidad">
                 </div>
               </div>
             </div>
           </td>
-          <td>
+          <td> 
             <div class="action-group">
               <button class="btn-icon edit" (click)="abrirModal(item)">
                 <span class="material-symbols-outlined">edit_square</span>

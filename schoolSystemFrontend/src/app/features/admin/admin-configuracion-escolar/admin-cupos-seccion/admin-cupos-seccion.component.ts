@@ -167,7 +167,7 @@ export class AdminCuposSeccionComponent implements OnInit{
       });
     }    
   }
-
+ 
   eliminarCupos(id:number){
     this.toastService.confirmar("Advertencia","¿Estas seguro de eliminar este registro?")
     .then((result) => {
