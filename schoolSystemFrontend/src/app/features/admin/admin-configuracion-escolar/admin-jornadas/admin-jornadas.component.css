@@ -2,7 +2,7 @@
     --bg-dark-blue: #0b132b;
     --bg-page: #f8f9fa;
     --text-dark: #1e293b;
-    --border-light: #f1f5f9;
+    --border-light: #f1f5f9; 
 
     --row-active-bg: #eafff0;
     --row-active-border: #10b981;
@@ -16,7 +16,7 @@
 
 .page-container {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    max-width: 1200px;
+    
     margin: 0 auto;
     padding: 20px;
 }
@@ -161,6 +161,11 @@
     color: #055139;
 }
 
+.badge-grado{
+    background-color: #2893c98b;
+    color: #040f74;
+}
+
 .action-buttons {
     display: flex;
     justify-content: center;
@@ -221,7 +226,7 @@
   background: white;
   border-radius: 6px;
   cursor: pointer;
-  display: flex;
+  display: flex; 
   align-items: center;
   justify-content: center;
 }

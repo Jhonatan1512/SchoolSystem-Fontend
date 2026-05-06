@@ -1,23 +1,110 @@
-<div class="courses-list">
+<div class="modal-overlay" *ngIf="mostrarModal">
+  <div class="modal-content">
     
-    <div class="course-row" *ngFor="let curso of misCursos">
+    <h2 class="modal-title">Confirmación de Matrícula</h2>
+
+    <div class="datos-matricula mb-3">
       
-      <div class="row-icon" [ngClass]="curso.bg">
-        <span class="material-symbols-outlined">{{ curso.icono }}</span>
-      </div>
-      
-      <div class="row-info">
-        <h4 class="course-name">{{ curso.nombre }} ({{curso.nombreAula}})</h4>
-        <p class="teacher-name" *ngFor="let profe of curso.docente">
-          <span class="material-symbols-outlined small-icon">person</span> 
-          {{ profe }}  
-        </p> 
-      </div>   
- 
-      <div class="row-action">
-        <button class="btn-arrow" (click)="verNotas(curso.id)"> 
-          <span class="material-symbols-outlined">arrow_forward_ios</span>
-        </button>
-      </div>       
+      <ng-container *ngIf="esAlumnoNuevo">
+        <div class="form-group">
+          <label>Selecciona tu Grado:</label>
+          <select [(ngModel)]="gradoId" (change)="alCambiarGrado()">
+            <option [value]="0">-- Seleccione un grado --</option>
+            <option *ngFor="let grado of listaCronogramas" [value]="grado.gradoId">
+               {{ grado.nombreGrado }} - Grado
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="gradoId !== 0 && estadoCronograma === 'ACTIVO'">
+          <label>Selecciona tu Sección:</label>
+          <select [(ngModel)]="seccionId">
+            <option [value]="0">-- Elige una sección --</option>
+            <option *ngFor="let sec of seccionesFiltradas" [value]="sec.seccionId" [disabled]="sec.cuposDisponible <= 0">
+              Sección {{ sec.nombreSeccion }} 
+              <span *ngIf="sec.cuposDisponible > 0">({{ sec.cuposDisponible }} cupos)</span>
+              <span *ngIf="sec.cuposDisponible <= 0">(AGOTADO)</span>  
+            </option>  
+          </select>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!esAlumnoNuevo && cupoAlumnoAntiguo">
+        <div class="alert-box alert-blue">
+          <div class="alert-content">
+            <p><strong>Grado a cursar:</strong> {{ cupoAlumnoAntiguo.nombreGrado }}</p>
+            <p><strong>Sección mantenida:</strong> {{ cupoAlumnoAntiguo.nombreSeccion }}</p>
+          </div>
+        </div>
+      </ng-container>
+
     </div>
+
+    <div class="estado-matricula" *ngIf="gradoId !== 0">
+      
+      <ng-container *ngIf="estadoCronograma === 'ACTIVO'">
+        <div class="timer-box mb-3">
+          <span class="material-symbols-outlined">timer</span>
+          <strong>Cierre de matrículas en: {{ tiempoRestante }}</strong>
+        </div>
+
+        <button class="btn-matricular" 
+                [disabled]="(esAlumnoNuevo && seccionId == 0) || (!esAlumnoNuevo && cupoAlumnoAntiguo?.cuposDisponible <= 0)" 
+                (click)="matricular()">
+          Confirmar Matrícula
+        </button>
+      </ng-container>
+
+      <div class="alert-box alert-danger" *ngIf="estadoCronograma === 'VENCIDO'">
+        <span class="material-symbols-outlined icon-status">error</span>
+        <div class="alert-content">
+          <p><strong>Matrículas Cerradas</strong></p>
+          <small>El periodo de matrícula para este grado ha finalizado.</small>
+        </div>
+      </div>
+
+      <div class="alert-box alert-info" *ngIf="estadoCronograma === 'FUTURO'">
+        <span class="material-symbols-outlined icon-status">calendar_clock</span>
+        <div class="alert-content">
+          <p><strong>Aún no inicia</strong></p>
+          <small>Las matrículas abren el: {{ fechaInicioVisible | date:'dd/MM/yyyy hh:mm a' }}</small>
+        </div>
+      </div>
+
+    </div>
+
   </div>
+</div>
+
+<div *ngIf="cargando" class="text-center mt-3">
+  <p>Cargando información...</p>
+</div>
+
+<div class="courses-list" *ngIf="!cargando && !mostrarModal && misCursos.length > 0">
+  
+  <div class="course-row" *ngFor="let curso of misCursos">
+    <div class="row-icon" [ngClass]="curso.bg">
+      <span class="material-symbols-outlined">{{ curso.icono }}</span>
+    </div>
+    
+    <div class="row-info">
+      <h4 class="course-name">{{ curso.nombre }} ({{curso.nombreAula}})</h4>
+      <p class="teacher-name" *ngFor="let profe of curso.docente">
+        <span class="material-symbols-outlined small-icon">person</span> 
+        {{ profe }}  
+      </p> 
+    </div>   
+
+    <div class="row-action">
+      <button class="btn-arrow" (click)="verNotas(curso.id)"> 
+        <span class="material-symbols-outlined">arrow_forward_ios</span>
+      </button>
+    </div>       
+  </div>
+</div>
+
+<div *ngIf="!cargando && !mostrarModal && misCursos.length === 0" class="alert-box alert-info">
+  <div class="alert-content">
+    <p>No tienes cursos asignados actualmente.</p>
+  </div>
+</div>

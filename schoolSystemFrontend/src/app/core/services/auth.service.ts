@@ -44,7 +44,6 @@ export class AuthService {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       
-      // Esta es la forma correcta de decodificar UTF-8 en un navegador
       const jsonPayload = decodeURIComponent(
         atob(base64)
           .split('')
@@ -57,6 +56,30 @@ export class AuthService {
     } catch (e) {
       console.error('Error decodificando token:', e);
       return 'Usuario';
+    }
+  }
+
+  obtenerIdUsuario(): number {
+    const token = localStorage.getItem('token');
+    if (!token) return 0;
+
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+
+      const payload = JSON.parse(jsonPayload);
+      //console.log('Payload completo del Token:', payload);
+      return payload.id || 0;
+    } catch (e) {
+      console.error('Error decodificando token:', e);
+      return 0;
     }
   }
 

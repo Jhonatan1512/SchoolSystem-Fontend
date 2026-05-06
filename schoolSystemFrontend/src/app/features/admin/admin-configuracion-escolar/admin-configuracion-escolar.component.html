@@ -5,6 +5,7 @@
   <button [class.active]="tabActiva === 'S'" (click)="tabActiva = 'S'">Secciones</button>
   <button [class.active]="tabActiva === 'C'" (click)="tabActiva = 'C'">Cupos</button>
   <button [class.active]="tabActiva === 'J'" (click)="tabActiva = 'J'">Definir Jornada</button>
+  <button [class.active]="tabActiva === 'CE'" (click)="tabActiva = 'CE'">Cronograma Matrícula</button>
 </nav>
 
 <div class="mt-4">
@@ -14,4 +15,5 @@
   <app-admin-secciones *ngIf="tabActiva === 'S'"></app-admin-secciones>
   <app-admin-cupos-seccion *ngIf="tabActiva === 'C'"></app-admin-cupos-seccion>
   <app-admin-jornadas *ngIf="tabActiva === 'J'"></app-admin-jornadas> 
+  <app-admin-cronograma *ngIf="tabActiva === 'CE'"></app-admin-cronograma>  
 </div>  

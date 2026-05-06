@@ -22,5 +22,9 @@ export class JornadaService {
     return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
+  delete(id:number):Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
   constructor() { }
 }

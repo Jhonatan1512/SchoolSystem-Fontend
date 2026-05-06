@@ -17,5 +17,9 @@ export class AlumnoService {
     return this.http.put(`${this.apiUrl}/password`, data);
   }
 
+  getUltimaMatricula(id:number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/ultima-Matricula/${id}`);
+  }
+
   constructor() { }
 }

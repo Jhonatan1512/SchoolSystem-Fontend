@@ -84,6 +84,8 @@ export class AdminCursosCompetenciasComponent implements OnInit {
         nombre: this.nuevaCompetencia.nombre,
         cursoId: Number(this.cursoId)
       }
+
+      console.log("Datos", body);
       this.competenciaService.create(body).subscribe({
         next: () => {
           this.toastService.succes("Competencia Creada");
@@ -127,13 +129,13 @@ export class AdminCursosCompetenciasComponent implements OnInit {
             error: () => {
               this.toastService.error("Error al eliminar registro de competencia");
             }
-          });
+          }); 
         }
       });
   }
 
   limpiarDatos(){
     this.nuevaCompetencia.nombre = '';
-    this.cursoId = 0;
+    //this.cursoId = 0;
   }
 }

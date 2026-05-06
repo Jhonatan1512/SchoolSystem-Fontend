@@ -6,18 +6,20 @@ import { AdminGradosComponent } from './admin-grados/admin-grados.component';
 import { AdminSeccionesComponent } from './admin-secciones/admin-secciones.component';
 import { AdminCuposSeccionComponent } from './admin-cupos-seccion/admin-cupos-seccion.component';
 import { AdminJornadasComponent } from './admin-jornadas/admin-jornadas.component';
+import { AdminCronogramaComponent } from './admin-cronograma/admin-cronograma.component';
 
 @Component({
   selector: 'app-admin-configuracion-escolar',
   standalone: true,
   imports: [CommonModule, AdminPeriodosComponent, 
-    AdminTrimestreComponent, AdminGradosComponent, AdminSeccionesComponent, AdminCuposSeccionComponent, AdminJornadasComponent ],
+    AdminTrimestreComponent, AdminGradosComponent, AdminSeccionesComponent, AdminCuposSeccionComponent, 
+    AdminJornadasComponent, AdminCronogramaComponent ],
   templateUrl: './admin-configuracion-escolar.component.html',
   styleUrl: './admin-configuracion-escolar.component.css'
 })
 export class AdminConfiguracionEscolarComponent {
   tabActiva: string = 'P';
-
+ 
   cambiarTab(tab: string) {
     this.tabActiva = tab;
   } 

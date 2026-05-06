@@ -1,0 +1,108 @@
+<div class="admin-container">
+  <div class="table-header-actions">
+    <div>
+      <strong><h2 class="table-title">Cronogramas de Matrícula</h2></strong>
+    </div>
+    <button class="btn btn-add" (click)="abrirModal()">
+      <span class="material-symbols-outlined">add</span>
+      Nuevo Cronograma
+    </button>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="cronograma-table">
+      <thead>
+        <tr>
+          <th>Grado</th>
+          <th>Periodo Académico</th>
+          <th>Fecha de Inicio</th>
+          <th>Fecha de Fin</th>
+          <th>Estado</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataCronograma">
+          <td class="fw-medium">{{item.nombreGrado}} Grado</td>
+          <td>{{ item.nombrePeriodo }}</td>
+          <td>{{ item.fechaHoraInicio | date: 'yyyy-MM-dd' }} 
+            <span class="badge-time">{{item.fechaHoraInicio | date: 'hh:mm a'}}</span> 
+          </td>
+          <td>{{ item.fechaHoraCierre | date: 'yyyy-MM-dd' }}  
+            <span class="badge-time">{{item.fechaHoraCierre | date: 'hh:mm a'}}</span>
+          </td>
+          <td>
+            <span class="badge badge-active" *ngIf="item.estadoActivo">Activo</span>
+            <span class="badge badge-future" *ngIf="esFututro(item.fechaHoraInicio)">Programado</span>
+            <span class="badge badge-inactive" *ngIf="esPasado(item.fechaHoraCierre)">Cerrado</span>
+          </td>
+          <td class="text-center">
+            <button class="btn-icon-only" title="Editar" (click)="abrirModal(item)">&#9998;</button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--Modal Registro-->
+
+<div class="modal-overlay" *ngIf="isModalOpe">
+  <div class="modal-content">
+    
+    <div class="modal-header">
+      <div>
+        <h3>Definir Cronograma</h3>
+        <p class="modal-subtitle">Establezca las fechas de matrícula para el grado.</p>
+      </div>
+      <button class="btn-close" (click)="cerrarModal()">&times;</button>
+    </div>
+
+    <form class="modal-body">
+      
+      <div class="form-group">
+        <label>Periodo Académico</label>
+        <div class="input-readonly-wrapper">
+          <input type="text" [value]="nombrePeriodo" readonly class="form-control readonly">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Grado Escolar</label>
+        <select class="form-control" [(ngModel)]="gradoId" name="grado" [disabled]="isEditeMode">
+          <option value="0" disabled selected>Seleccione un grado...</option>
+          <option *ngFor="let grado of listaGrados" [value]="grado.id">{{grado.nombre}}</option> 
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha y Hora Inicio</label>
+          <input type="datetime-local" class="form-control" name="fechaHoraInicio" [(ngModel)]="nuevoCronograma.fechaHoraInicio">
+        </div>
+        <div class="form-group">
+          <label>Fecha y Hora Cierre</label>
+          <input type="datetime-local" class="form-control" name="fechaHoraCierre" [(ngModel)]="nuevoCronograma.fechaHoraCierre">
+        </div>
+      </div>
+
+      <div class="status-indicator-card programmed">
+        <div class="status-icon">
+          &#9202; </div>
+        <div class="status-info">
+          <span class="status-title">Inactivo (Programado)</span>
+          <p class="status-desc">La fecha de inicio aún no llega. El cronograma se activará automáticamente para los alumnos en la fecha indicada.</p>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" (click)="cerrarModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="agregarCronograma()">
+          {{isEditeMode ? 'Guardar Cambios' : 'Guardar Registro'}}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import { JornadaService } from '../../../../core/services/jornada.service';
 import { NotificationServiceService } from '../../../../core/services/notification.service.service';
 import { GradoServiceService } from '../../../../core/services/grado-service.service';
 import { CursosService } from '../../../../core/services/cursos.service';
+import { PeriodoService } from '../../../../core/services/periodo.service';
 
 @Component({
   selector: 'app-admin-jornadas',
@@ -17,6 +18,7 @@ export class AdminJornadasComponent implements OnInit{
   private toastService = inject(NotificationServiceService);
   private gradoService = inject(GradoServiceService);
   private cursoService = inject(CursosService);
+  private periodoSerice = inject(PeriodoService);
 
   listaCompleta: any[] = [];
   listaGrados: any[] = [];
@@ -47,7 +49,8 @@ export class AdminJornadasComponent implements OnInit{
 
   ngOnInit() {
     this.cargardatos();
-    this.obetenerGrado();
+    this.obetenerGrado(); 
+    this.obtenerPeriodActivo();
   }
 
   abrirModal(registro?:any){
@@ -102,7 +105,7 @@ export class AdminJornadasComponent implements OnInit{
         }
       }
     });
-  }
+  } 
  
   cargardatos(){
     this.jornadaService.getAll(this.paginaActual, this.cantidadPorPagina).subscribe({
@@ -110,8 +113,16 @@ export class AdminJornadasComponent implements OnInit{
         this.listaCompleta = data.items;
         this.totalPaginas = data.totalPaginas;
         this.totalRegistros = data.totalRegistros;
-        this.nombrePeriodo = data.items[0].nombrePeriodo; 
-        this.periodoActivoId = data.items[0].periodoId;
+        //console.log(data);
+      }
+    });
+  }
+
+  obtenerPeriodActivo(){
+    this.periodoSerice.getActivo().subscribe({
+      next: (data) => {
+        this.periodoActivoId = data.id;
+        this.nombrePeriodo = data.nombre;
       }
     });
   }
@@ -153,7 +164,7 @@ export class AdminJornadasComponent implements OnInit{
         horasMaximasPorDia: Number(this.nuevoPlan.horasMaximasPorDia),
         duracionBloque: Number(this.nuevoPlan.duracionBloque)
       }
-      
+      console.log(body);
       this.jornadaService.create(body).subscribe({
         next: () => {
           this.toastService.succes("Jornada asignada al curso");
@@ -165,10 +176,27 @@ export class AdminJornadasComponent implements OnInit{
           this.toastService.error("Error al asignar jornada");
           this.limpiarDatos();
           this.cerrarModal();
-          console.log(error);
+          //console.log(error.error);
         }
       });
     }
+  }
+
+  eliminarRegistro(id:number){
+    this.toastService.confirmar("Advertencia","¿Estas seguro de eliminar esta registro?")
+      .then((result) => {
+        if(result.isConfirmed){
+          this.jornadaService.delete(id).subscribe({
+            next: () => {
+              this.toastService.succes("Registro eliminado");
+              this.cargardatos();
+            },
+            error: () => {
+              this.toastService.error("Error al eliminar registro");
+            }
+          });
+        }
+      })
   }
 
   limpiarDatos() {

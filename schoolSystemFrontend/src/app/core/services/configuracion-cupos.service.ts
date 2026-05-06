@@ -30,5 +30,9 @@ export class ConfiguracionCuposService {
     return this.http.get(`${this.apiUrl}/Configuracion/grado/${gradoId}`);
   }
 
+  getByGradoSeccion(gradoId: number, seccionId: number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/Configuracion/grado/${gradoId}/seccion/${seccionId}`);
+  }
+
   constructor() { }
 }

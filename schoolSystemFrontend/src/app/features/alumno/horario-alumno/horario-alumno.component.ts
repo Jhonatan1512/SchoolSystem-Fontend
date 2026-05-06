@@ -34,7 +34,6 @@ export class HorarioAlumnoComponent implements OnInit{
         this.gradoId = data.gradoId;
         this.seccionId = data.seccionId;
         this.cargarHorario();
-
       }
     });
   }

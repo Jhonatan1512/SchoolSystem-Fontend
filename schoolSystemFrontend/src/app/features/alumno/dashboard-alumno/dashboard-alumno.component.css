@@ -1,165 +1,293 @@
-.dashboard-container {
+/* ====================================================
+   1. MODAL OVERLAY Y CONTENEDOR
+   ==================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 1000px; 
-  animation: fadeIn 0.4s ease-out;
+  height: 100%;
+  background-color: rgba(33, 43, 54, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.modal-content {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 480px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  animation: modalFadeIn 0.3s ease-out;
 }
 
-.section-header {
-  margin-bottom: 2rem;
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.95) translateY(-20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
-.section-title {
-  font-size: 1.6rem;
-  color: #1e293b;
-  margin: 0 0 0.3rem 0;
+
+.modal-title {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 1.5rem;
   font-weight: 700;
+  margin-bottom: 24px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #edf2f7;
 }
-.section-subtitle {
-  color: #64748b;
-  margin: 0;
+
+.btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #a0aec0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-close:hover { color: #e53e3e; }
+
+/* ====================================================
+   2. FORMULARIOS Y SELECTS
+   ==================================================== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 8px;
   font-size: 0.95rem;
 }
 
-.courses-list {
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  color: #2d3748;
+  font-size: 1rem;
+  transition: all 0.2s;
+  outline: none;
+  appearance: none; /* Opcional: quita la flecha nativa para un look más limpio */
+}
+
+.form-group select:focus {
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  background-color: #fff;
+}
+
+.form-group select:disabled, .select-disabled {
+  background-color: #edf2f7;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* ====================================================
+   3. CAJAS DE ALERTA (Basado en tu diseño)
+   ==================================================== */
+.alert-box {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.alert-content p {
+  margin: 0;
+  color: inherit;
+}
+
+.alert-content small {
+  display: block;
+  margin-top: 4px;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+/* Azul (Para Grado Asignado) */
+.alert-blue {
+  background-color: #ebf8ff;
+  border-left: 6px solid #3182ce;
+  color: #2b6cb0;
+}
+
+/* Verde (Contenedor principal activo) */
+.alert-green {
+  background-color: #f0fff4;
+  border-left: 6px solid #38a169;
+  color: #276749;
+  flex-direction: column; /* Para apilar el timer, select y botón */
+}
+
+/* Info neutra / Advertencia (Futuro) */
+.alert-info {
+  background-color: #edf2f7;
+  border-left: 6px solid #718096;
+  color: #4a5568;
+}
+
+/* Peligro (Vencido) */
+.alert-danger {
+  background-color: #fff5f5;
+  border-left: 6px solid #e53e3e;
+  color: #c53030;
+}
+
+.icon-status {
+  margin-right: 12px;
+  font-size: 24px;
+  margin-top: 2px;
+}
+
+/* ====================================================
+   4. TEMPORIZADOR Y BOTONES
+   ==================================================== */
+.timer-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  color: #dd6b20; /* Naranja estilo urgencia */
+  border: 1px solid #fbd38d;
+  font-size: 1.15rem;
+  width: 100%;
+}
+
+.btn-matricular {
+  width: 100%;
+  padding: 14px;
+  background-color: #48bb78; /* Verde sólido */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-matricular:hover:not(:disabled) {
+  background-color: #38a169;
+  transform: translateY(-1px);
+}
+
+.btn-matricular:disabled {
+  background-color: #cbd5e0;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* ====================================================
+   5. UTILIDADES Y ESTADO DE CARGA
+   ==================================================== */
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-3 { margin-bottom: 1rem !important; }
+.mt-2 { margin-top: 0.5rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.text-muted { color: #718096 !important; font-size: 0.85rem; }
+.d-block { display: block !important; }
+
+.loading-state { 
   display: flex;
   flex-direction: column;
-  gap: 1.2rem; 
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px; 
+  color: #718096; 
+}
+
+.spin-icon {
+  font-size: 40px;
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 15px;
+  color: #4299e1;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* ====================================================
+   6. LISTA DE CURSOS BASE (Tu diseño original)
+   ==================================================== */
+.courses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
 }
 
 .course-row {
   display: flex;
   align-items: center;
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 1.2rem 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(226, 232, 240, 0.6);
-  transition: all 0.3s ease;
-  gap: 1.5rem;
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .course-row:hover {
-  transform: translateX(6px); 
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.08);
-  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
 .row-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   color: white;
+  margin-right: 15px;
   flex-shrink: 0;
 }
-.row-icon .material-symbols-outlined { font-size: 1.8rem; }
 
-.bg-math { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-.bg-science { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-
-.row-info {
-  flex: 1; 
-}
+.row-info { flex-grow: 1; }
 
 .course-name {
-  margin: 0 0 0.4rem 0;
-  color: #0f172a;
-  font-size: 1.2rem;
-  font-weight: 600;
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  color: #2d3748;
 }
 
 .teacher-name {
   margin: 0;
-  color: #64748b;
   font-size: 0.9rem;
+  color: #718096;
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-.small-icon { font-size: 1.1rem; color: #94a3b8; }
-
-.row-meta {
-  display: flex;
-  gap: 0.8rem;
 }
 
-.badge {
-  padding: 0.4rem 1rem;
-  border-radius: 30px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-
-.grade-badge {
-  background: #f1f5f9;
-  color: #475569;
-}
-
-.section-badge {
-  background: #eff6ff;
-  color: #2563eb;
-}
-
-.row-action {
-  margin-left: 0.5rem;
-}
+.small-icon { font-size: 16px; margin-right: 4px; }
 
 .btn-arrow {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
   background: transparent;
-  color: #94a3b8;
+  border: none;
+  color: #cbd5e0;
   cursor: pointer;
+  transition: color 0.2s;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
 }
 
-.btn-arrow .material-symbols-outlined {
-  font-size: 1.2rem;
-}
+.btn-arrow:hover { color: #4299e1; }
 
-.course-row:hover .btn-arrow {
-  background: #0b132b; 
-  color: white;
-  transform: scale(1.1);
-}
-
-@media (max-width: 768px) {
-  .course-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    position: relative;
-  }
-  .row-action {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-  }
-}
-
-.bg-socials {
-  background-color: #eef2ff;
-  color: #4f46e5;
-}
-
-.bg-tech {
-  background-color: #ecfdf5;
-  color: #059669;
-}
-
-.bg-art {
-  background-color: #fffbeb;
-  color: #d97706;
-}
+/* Degradados para asignaturas */
+.bg-math { background: linear-gradient(135deg, #e53e3e, #c53030); }
+.bg-science { background: linear-gradient(135deg, #4299e1, #2b6cb0); }

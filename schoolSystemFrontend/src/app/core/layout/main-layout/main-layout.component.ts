@@ -14,7 +14,8 @@ export class MainLayoutComponent implements OnInit {
   private authService = inject(AuthService);
 
   nombreAlumno: string = 'Cargargando...';
-  iniciales: string = '??';
+  alumnoId: number = 0;
+  iniciales: string = 'XX';
   rolActual = '';
 
   menuItems: any[] = [];
@@ -58,11 +59,11 @@ export class MainLayoutComponent implements OnInit {
         { titulo: 'Cuenta', ruta: '/alumno/cuenta', icono: 'settings_account_box' }, 
       ];
     }
-  }
+  } 
 
   cargarDatosUsuario(){
     const nombre = this.authService.obtenerNombreUsuario();
-    this.nombreAlumno = nombre;
+    this.nombreAlumno = nombre; 
 
     const partes = nombre.split(' ');
     this.iniciales = partes.length > 1 

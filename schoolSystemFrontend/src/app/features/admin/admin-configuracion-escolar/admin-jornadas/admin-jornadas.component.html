@@ -17,7 +17,7 @@
     <button class="btn-dark" (click)="abrirModal()">
       <span class="material-symbols-outlined">add_circle_outline</span>
       Nuevo Plan
-    </button>
+    </button> 
   </div>
 
   <div class="table-container">
@@ -25,6 +25,7 @@
       <thead>
         <tr>
           <th class="text-left">CURSO</th>
+          <th>Grado</th>
           <th>JORNADA</th>
           <th>HRS. SEMANALES</th>
           <th>HRS. MÁX / DÍA</th>
@@ -36,6 +37,7 @@
       <tbody *ngFor="let dato of listaCompleta">
         <tr>
           <td class="text-left">{{dato.nombreCurso}}</td>
+          <td> <span class="badge badge-grado">{{dato.nombreGrado}} Grado</span></td>
           <td><span class="badge badge-green">{{dato.nombreJornada}}</span></td>
           <td>{{dato.horasSemanales}}</td>
           <td>{{dato.horasMaximasPorDia}}</td>
@@ -46,7 +48,7 @@
               <button class="btn-icon text-blue" title="Editar" (click)="abrirModal(dato)">
                 <span class="material-symbols-outlined">edit_note</span>
               </button>
-              <button class="btn-icon text-red" title="Eliminar">
+              <button class="btn-icon text-red" title="Eliminar" (click)="eliminarRegistro(dato.id)">
                 <span class="material-symbols-outlined">delete_outline</span>
               </button>
             </div>
@@ -166,7 +168,7 @@
                 <option value="1">JER (Jornada Escolar Regular)</option>
                 <option value="2">JEC (Jornada Escolar Completa)</option>
               </select>
-            </div>
+            </div> 
           </div>
           
           <div class="form-group flex-1">
