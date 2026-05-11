@@ -50,7 +50,7 @@ export class MainLayoutComponent implements OnInit {
         { titulo: 'Cursos Asignados', ruta: '/docente', icono: 'menu_book' },
         { titulo: 'Horario', ruta: '/docente/horario', icono: 'calendar_month' },
         { titulo: 'Cuenta', ruta: '/docente/cuenta', icono: 'settings_account_box' },
-        
+         
       ];
     } else {
       this.menuItems = [
@@ -62,7 +62,7 @@ export class MainLayoutComponent implements OnInit {
   } 
 
   cargarDatosUsuario(){
-    const nombre = this.authService.obtenerNombreUsuario();
+    const nombre = this.authService.obtenerNombreUsuario() || "XX";
     this.nombreAlumno = nombre; 
 
     const partes = nombre.split(' ');
@@ -70,7 +70,6 @@ export class MainLayoutComponent implements OnInit {
       ? (partes[0][0] + partes[1][0]).toUpperCase()
       : nombre.substring(0, 2).toUpperCase();      
   }
-
 
   cerrarSesion(){
     localStorage.removeItem('token');

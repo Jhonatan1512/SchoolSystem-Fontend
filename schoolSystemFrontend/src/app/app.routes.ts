@@ -21,6 +21,7 @@ import { AdminHorariosComponent } from './features/admin/admin-horarios/admin-ho
 import { HorarioDocenteComponent } from './features/docente/horario-docente/horario-docente.component';
 import { HorarioAlumnoComponent } from './features/alumno/horario-alumno/horario-alumno.component';
 import { CuentaComponent } from './features/alumno/cuenta/cuenta.component';
+import { DocenteLibretasComponent } from './features/docente/docente-libretas/docente-libretas.component';
 
 export const routes: Routes = [
     {
@@ -46,7 +47,8 @@ export const routes: Routes = [
             {path: '', component: DashboardDocenteComponent},
             {path: 'curso/:cursoId/seccion/:seccionId', component: NotasDocenteComponent},
             {path: 'cuenta', component: CuentaDocenteComponent},
-            {path: 'horario', component: HorarioDocenteComponent}
+            {path: 'horario', component: HorarioDocenteComponent},
+            {path: 'libretas', component: DocenteLibretasComponent},
         ]
     },
     {

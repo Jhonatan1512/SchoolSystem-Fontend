@@ -18,9 +18,10 @@ export class DashboardDocenteComponent implements OnInit {
   cargando: boolean = true; 
   mensajeError: string = '';
 
+  esTutor: boolean = false;
+
   ngOnInit(){
-    this.cargarCursos();
-    
+    this.cargarCursos();    
   }
 
   cargarCursos(): void{
@@ -30,20 +31,23 @@ export class DashboardDocenteComponent implements OnInit {
       console.warn('No hay token');
       this.router.navigate(['/login']);
       return; 
-    }
+    } 
  
     this.docenteService.obtenerCursos().subscribe({
       next: (data:any) => {
         this.listaCursos = data;
         if(data && data.data && Array.isArray(data.data)){
           this.listaCursos = [...data.data];
+          this.esTutor = data.data.length > 0 && data.data[0].esTutor;
         }
+        
         this.cargando = false;
+        //console.log(data);
       }, 
       error: (err) => {
         console.log(err);
         this.cargando = false;
-      }
+      } 
     });
   } 
 }

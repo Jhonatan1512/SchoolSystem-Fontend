@@ -1,0 +1,112 @@
+.tutoria-container {
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.header-section {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.back-arrow {
+    display: flex;
+    height: 25px;
+    border: none;
+    background: #3182ce50;
+    color: rgb(7, 38, 57);
+    padding: 5px 15px;
+    align-items: center;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+.back-arrow:hover{
+    background: #133c62;
+}
+
+.header-section h2 {
+  color: #000001;
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+}
+
+.header-section p {
+  color: #040e1b;
+  font-size: 0.9rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  box-shadow: #f1f5f9;
+}
+
+.tutoria-table {
+  width: 100%;
+  border-collapse: separate; 
+  border-spacing: 0;
+}
+
+.tutoria-table thead tr th {
+  background-color: #061325; 
+  color: #ffffff;
+  padding: 15px;
+  font-weight: 500;
+  text-align: left;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+}
+
+.tutoria-table thead tr th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.tutoria-table thead tr th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.tutoria-table tbody tr td {
+  padding: 15px;
+  color: #4a5568;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #cfd5db; 
+}
+
+.tutoria-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.student-name {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.col-n {
+  width: 50px;
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #ebf4ff;
+  color: #3182ce;
+  border: 1px solid #bee3f8;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-download:hover {
+  background-color: #3182ce;
+  color: white;
+  border-color: #3182ce;
+}
+
+.text-center {
+  text-align: center;
+}

@@ -11,6 +11,9 @@ import { NotificationServiceService } from '../../../core/services/notification.
 import { AuthService } from '../../../core/services/auth.service';
 import { AlumnoService } from '../../../core/services/alumno.service';
 
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 const CURRICULO_PERU: { [key: string]: { icono: string, bg: string } } = {
   'MATEMÁTICA': { icono: 'calculate', bg: 'bg-math' },
   'COMUNICACIÓN': { icono: 'menu_book', bg: 'bg-science' },
@@ -26,14 +29,14 @@ const CURRICULO_PERU: { [key: string]: { icono: string, bg: string } } = {
   'HISTÓRIA': { icono: 'public', bg: 'bg-math' },
 }; 
 
-@Component({
+@Component({ 
   selector: 'app-dashboard-alumno',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './dashboard-alumno.component.html',
   styleUrl: './dashboard-alumno.component.css'
 }) 
-export class DashboardAlumnoComponent implements OnInit { 
+export class DashboardAlumnoComponent implements OnInit, OnDestroy { 
   
   private cursoService = inject(CursoService);
   private router = inject(Router);
@@ -70,9 +73,21 @@ export class DashboardAlumnoComponent implements OnInit {
   intervaloTemporizador: any;
   fechaInicioVisible!: Date;
 
+  descargandoPDF: boolean = false;
+  fechaImpresion: string = '';
+  infoAlumno = {
+    nombreAlumno: '', 
+    dni: 'Por actualizar', 
+    periodo: '',
+    email: ''
+  };
+
   ngOnInit() {
     this.obtenerAlumnoId(); 
     this.obtenerGrdos();
+
+    const opciones: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
+    this.fechaImpresion = new Date().toLocaleDateString('es-PE', opciones);
   }
 
   ngOnDestroy() {
@@ -108,6 +123,13 @@ export class DashboardAlumnoComponent implements OnInit {
             ? cursoDb.docentes.map((d: any) => d.nombre)
             : ['Sin docente'];
 
+          if(cursoDb.nombreAlumno && !this.infoAlumno.nombreAlumno) {
+            this.infoAlumno.nombreAlumno = cursoDb.nombreAlumno;
+            this.infoAlumno.dni = cursoDb.dniAlumno || 'Por actualizar';
+            this.infoAlumno.email = cursoDb.email || 'Por Actualizar';
+            this.infoAlumno.periodo = cursoDb.nombrePeriodo || 'Sin Periodo Académico'
+          }
+
           return {
             id: cursoDb.cursoId,
             nombre: cursoDb.nombreCurso,
@@ -120,7 +142,6 @@ export class DashboardAlumnoComponent implements OnInit {
         this.cargando = false;
       },
       error: (err) => {
-        console.log(err);
         this.mensajeError = "No pudimos cargar tus cursos";
         this.cargando = false;
       }
@@ -226,12 +247,12 @@ export class DashboardAlumnoComponent implements OnInit {
 
     this.matriculaService.registrarMatricula(body).subscribe({
       next: () => {
-        this.toastService.succes("Su matrícula a sido registrada");
+        this.toastService.succes("Su matrícula ha sido registrada");
         this.cargarCursos();
         this.cerrarModal();
       },
       error: () => {
-        this.toastService.error("Error al registrar su matícula");
+        this.toastService.error("Error al registrar su matrícula");
       }
     });
   }
@@ -317,4 +338,125 @@ export class DashboardAlumnoComponent implements OnInit {
   verNotas(cursoId: number) { 
     this.router.navigate(['/alumno/notas', cursoId]);
   }
+ 
+  descargarPDF() {
+    this.descargandoPDF = true;
+    
+    try {
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const colorTexto: [number, number, number] = [51, 65, 85]; 
+
+      doc.setFillColor(14, 165, 233); 
+      doc.rect(0, 0, 210, 22, 'F');
+
+      doc.setFillColor(37, 99, 235); 
+      doc.ellipse(40, 22, 90, 12, 'F');
+
+      doc.setFillColor(30, 58, 138); 
+      doc.ellipse(170, 22, 110, 18, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(13); 
+      doc.setFont('helvetica', 'bold');
+      doc.text('I.E. NOMBRE DE TU INSTITUCIÓN', 105, 11, { align: 'center' });
+      doc.setFontSize(8.5); 
+      doc.setFont('helvetica', 'normal');
+      doc.text('Resolución Directoral N° XXX-XXXX | UGEL - Cajamarca', 105, 16, { align: 'center' });
+
+
+      doc.setTextColor(30, 58, 138); 
+      doc.setFontSize(18); 
+      doc.setFont('helvetica', 'bold');
+      doc.text('CONSTANCIA DE MATRÍCULA', 105, 45, { align: 'center' });
+
+      doc.setDrawColor(203, 213, 225);
+      doc.setLineWidth(0.4); 
+      doc.line(70, 48, 140, 48);
+
+
+      doc.setTextColor(colorTexto[0], colorTexto[1], colorTexto[2]);
+      doc.setFontSize(9.5); 
+      doc.setFont('helvetica', 'normal');
+      const introText = 'El/La Director(a) de la Institución Educativa que suscribe, hace constar que el/la estudiante cuyos datos se detallan a continuación, se encuentra legalmente matriculado(a) en nuestra institución para el presente periodo.';
+      
+      const splitIntro = doc.splitTextToSize(introText, 170);
+      doc.text(splitIntro, 20, 58);
+
+      autoTable(doc, {
+        startY: 68,
+        theme: 'plain',
+        styles: { fontSize: 9.5, cellPadding: 2.5, textColor: colorTexto }, 
+        columnStyles: { 
+          0: { fontStyle: 'bold', cellWidth: 45, textColor: [30, 58, 138] }, 
+          1: { fontStyle: 'normal' } 
+        },
+        body: [
+          ['Estudiante:', this.infoAlumno.nombreAlumno.toUpperCase()],
+          ['DNI / Documento:', this.infoAlumno.dni],
+          ['Correo Electrónico:', this.infoAlumno.email],
+          ['Grado y Sección:', this.misCursos[0]?.nombreAula || 'Por asignar'],
+          ['Periodo Académico:', this.infoAlumno.periodo]
+        ],
+      });
+
+      let nextY = (doc as any).lastAutoTable.finalY + 12; 
+      
+      doc.setFontSize(9.5);
+      doc.text('Encontrándose inscrito(a) en las siguientes áreas curriculares:', 20, nextY);
+
+      const dataCursos = this.misCursos.map((curso, index) => [
+        (index + 1).toString(),
+        curso.nombre
+      ]);
+
+      autoTable(doc, {
+        startY: nextY + 4,
+        head: [['N°', 'ÁREA CURRICULAR / CURSO']],
+        body: dataCursos,
+        theme: 'striped',
+        headStyles: { 
+          fillColor: [30, 58, 138], 
+          textColor: 255, 
+          fontStyle: 'bold', 
+          halign: 'center' 
+        },
+        columnStyles: {
+          0: { halign: 'center', cellWidth: 15 }, 
+          1: { halign: 'left' }
+        },
+        styles: { fontSize: 8.5, cellPadding: 3.5 }, 
+        alternateRowStyles: { fillColor: [241, 245, 249] },
+        margin: { left: 20, right: 20 }
+      });
+
+      nextY = (doc as any).lastAutoTable.finalY + 15;
+      doc.setFontSize(9);
+      doc.text('Se expide la presente constancia a solicitud de la parte interesada.', 190, nextY, { align: 'right' });
+      doc.text(`Cajamarca, ${this.fechaImpresion}.`, 190, nextY + 5, { align: 'right' });
+
+      nextY += 35; 
+      doc.setDrawColor(0, 0, 0); 
+      doc.line(75, nextY, 135, nextY); 
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Dirección General', 105, nextY + 5, { align: 'center' });
+      
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(100, 100, 100);
+      doc.text('Sello y Postfirma', 105, nextY + 9, { align: 'center' });
+
+      const nombreArchivo = `Constancia_Matricula_${this.infoAlumno.dni !== 'Por actualizar' ? this.infoAlumno.dni : this.alumnoId}.pdf`;
+      doc.save(nombreArchivo);
+
+      this.descargandoPDF = false;
+
+    } catch (error) {
+      console.error("Error al generar el PDF nativo", error);
+      // this.toastService.error("Hubo un problema al generar el PDF");
+      this.descargandoPDF = false;
+    }
+  }
+  
 }

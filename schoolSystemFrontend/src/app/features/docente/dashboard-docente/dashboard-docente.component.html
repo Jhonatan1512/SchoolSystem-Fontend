@@ -2,6 +2,10 @@
   <div class="welcome-text">
     <h1>Mis Cursos Asignados</h1>
   </div>
+  <div>
+    <button *ngIf="esTutor"
+            [routerLink]="['/docente/libretas']">Descargar Libretas</button> 
+  </div>
 </div>
 
 <div class="cursos-lista">
@@ -16,7 +20,7 @@
         <p>{{ curso.periodoTrimestre }} • {{ curso.competencias?.length || 0 }} Competencias</p>
       </div>
     </div>
- 
+  
     <div class="curso-acciones">
       <button 
         [routerLink]="['/docente/curso', curso.cursoId, 'seccion', curso.seccionId]"

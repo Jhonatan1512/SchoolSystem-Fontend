@@ -1,0 +1,42 @@
+<div class="tutoria-container">
+  <div class="header-section">
+    <button class="material-symbols-outlined back-arrow" [routerLink]="['/docente']">
+        <span>arrow_back</span>
+    </button>
+    <div>
+        <h2>Alumnos de Tutoría</h2>
+        <p>Gestión de libretas y seguimiento académico</p>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="tutoria-table">
+      <thead>
+        <tr>
+          <th class="col-n">N°</th>
+          <th>Apellidos y Nombres</th>
+          <th>Aula (Grado/Sección)</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let alumno of listaAlumnos; let i = index">
+        <tr>
+          <td>{{i + 1}}</td>
+          <td class="student-name">{{ alumno.nombreCompelto }}</td>
+          <td>{{ alumno.nombreAula }} Grado</td>
+          <td class="text-center">
+            <button class="btn-download" (click)="decargarLibreta(alumno.alumnoId)">
+                <span class="material-symbols-outlined">download</span>
+                Libreta
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="listaAlumnos.length === 0">
+            <td colspan="4" class="text-center" style="padding: 20px; color: #a0aec0;">
+            No hay alumnos asignados en tu sección de tutoría.
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

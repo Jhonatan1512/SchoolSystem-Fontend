@@ -54,6 +54,14 @@ export class DocenteService {
     return this.http.put(`${this.apiUrl}/password`, data);
   }
 
+  getAlumnosTutoria(): Observable<any>{
+    return this.http.get(`${this.apiUrl}/alumnos-tutoria`);
+  }
+
+  getLibreta(alumnoId:number): Observable<any>{
+    return this.http.get(`${this.apiUrl}/libretas/${alumnoId}`);
+  }
+
   constructor() { }
 }
  

@@ -54,7 +54,6 @@ export class NotasDocenteComponent implements OnInit {
               aula: this.alumnos[0].aula
             }
           }
-          //console.log(res);
         },
         error: (err) => {
           console.error("Error en la API:", err);

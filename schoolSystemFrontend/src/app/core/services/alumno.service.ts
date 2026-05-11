@@ -21,5 +21,4 @@ export class AlumnoService {
     return this.http.get(`${this.apiUrl}/ultima-Matricula/${id}`);
   }
 
-  constructor() { }
 }

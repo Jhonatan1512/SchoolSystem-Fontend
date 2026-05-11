@@ -1,6 +1,3 @@
-/* ====================================================
-   1. MODAL OVERLAY Y CONTENEDOR
-   ==================================================== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -54,9 +51,6 @@
 
 .btn-close:hover { color: #e53e3e; }
 
-/* ====================================================
-   2. FORMULARIOS Y SELECTS
-   ==================================================== */
 .form-group {
   margin-bottom: 16px;
 }
@@ -79,7 +73,7 @@
   font-size: 1rem;
   transition: all 0.2s;
   outline: none;
-  appearance: none; /* Opcional: quita la flecha nativa para un look más limpio */
+  appearance: none; 
 }
 
 .form-group select:focus {
@@ -94,9 +88,6 @@
   cursor: not-allowed;
 }
 
-/* ====================================================
-   3. CAJAS DE ALERTA (Basado en tu diseño)
-   ==================================================== */
 .alert-box {
   display: flex;
   align-items: flex-start;
@@ -117,29 +108,25 @@
   line-height: 1.4;
 }
 
-/* Azul (Para Grado Asignado) */
 .alert-blue {
   background-color: #ebf8ff;
   border-left: 6px solid #3182ce;
   color: #2b6cb0;
 }
 
-/* Verde (Contenedor principal activo) */
 .alert-green {
   background-color: #f0fff4;
   border-left: 6px solid #38a169;
   color: #276749;
-  flex-direction: column; /* Para apilar el timer, select y botón */
+  flex-direction: column; 
 }
 
-/* Info neutra / Advertencia (Futuro) */
 .alert-info {
   background-color: #edf2f7;
   border-left: 6px solid #718096;
   color: #4a5568;
 }
 
-/* Peligro (Vencido) */
 .alert-danger {
   background-color: #fff5f5;
   border-left: 6px solid #e53e3e;
@@ -152,9 +139,6 @@
   margin-top: 2px;
 }
 
-/* ====================================================
-   4. TEMPORIZADOR Y BOTONES
-   ==================================================== */
 .timer-box {
   display: flex;
   align-items: center;
@@ -163,7 +147,7 @@
   background: #ffffff;
   padding: 12px;
   border-radius: 8px;
-  color: #dd6b20; /* Naranja estilo urgencia */
+  color: #dd6b20; 
   border: 1px solid #fbd38d;
   font-size: 1.15rem;
   width: 100%;
@@ -172,7 +156,7 @@
 .btn-matricular {
   width: 100%;
   padding: 14px;
-  background-color: #48bb78; /* Verde sólido */
+  background-color: #48bb78; 
   color: white;
   border: none;
   border-radius: 8px;
@@ -194,9 +178,6 @@
   cursor: not-allowed;
 }
 
-/* ====================================================
-   5. UTILIDADES Y ESTADO DE CARGA
-   ==================================================== */
 .mb-1 { margin-bottom: 0.25rem !important; }
 .mb-3 { margin-bottom: 1rem !important; }
 .mt-2 { margin-top: 0.5rem !important; }
@@ -222,9 +203,6 @@
 
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* ====================================================
-   6. LISTA DE CURSOS BASE (Tu diseño original)
-   ==================================================== */
 .courses-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -288,6 +266,38 @@
 
 .btn-arrow:hover { color: #4299e1; }
 
-/* Degradados para asignaturas */
 .bg-math { background: linear-gradient(135deg, #e53e3e, #c53030); }
 .bg-science { background: linear-gradient(135deg, #4299e1, #2b6cb0); }
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.btn-descargar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #10151d;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-descargar:hover:not(:disabled) {
+  background-color: rgb(1, 1, 17);
+}
+
+.btn-descargar:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+}
+

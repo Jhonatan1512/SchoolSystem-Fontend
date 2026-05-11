@@ -1,20 +1,18 @@
 <div class="modal-overlay" *ngIf="mostrarModal">
   <div class="modal-content">
-    
     <h2 class="modal-title">Confirmación de Matrícula</h2>
 
     <div class="datos-matricula mb-3">
-      
       <ng-container *ngIf="esAlumnoNuevo">
         <div class="form-group">
           <label>Selecciona tu Grado:</label>
           <select [(ngModel)]="gradoId" (change)="alCambiarGrado()">
             <option [value]="0">-- Seleccione un grado --</option>
             <option *ngFor="let grado of listaCronogramas" [value]="grado.gradoId">
-               {{ grado.nombreGrado }} - Grado
+                {{ grado.nombreGrado }} - Grado
             </option>
           </select>
-        </div>
+        </div> 
 
         <div class="form-group" *ngIf="gradoId !== 0 && estadoCronograma === 'ACTIVO'">
           <label>Selecciona tu Sección:</label>
@@ -37,11 +35,9 @@
           </div>
         </div>
       </ng-container>
-
     </div>
 
     <div class="estado-matricula" *ngIf="gradoId !== 0">
-      
       <ng-container *ngIf="estadoCronograma === 'ACTIVO'">
         <div class="timer-box mb-3">
           <span class="material-symbols-outlined">timer</span>
@@ -70,9 +66,7 @@
           <small>Las matrículas abren el: {{ fechaInicioVisible | date:'dd/MM/yyyy hh:mm a' }}</small>
         </div>
       </div>
-
     </div>
-
   </div>
 </div>
 
@@ -80,26 +74,38 @@
   <p>Cargando información...</p>
 </div>
 
-<div class="courses-list" *ngIf="!cargando && !mostrarModal && misCursos.length > 0">
-  
-  <div class="course-row" *ngFor="let curso of misCursos">
-    <div class="row-icon" [ngClass]="curso.bg">
-      <span class="material-symbols-outlined">{{ curso.icono }}</span>
-    </div>
-    
-    <div class="row-info">
-      <h4 class="course-name">{{ curso.nombre }} ({{curso.nombreAula}})</h4>
-      <p class="teacher-name" *ngFor="let profe of curso.docente">
-        <span class="material-symbols-outlined small-icon">person</span> 
-        {{ profe }}  
-      </p> 
-    </div>   
 
-    <div class="row-action">
-      <button class="btn-arrow" (click)="verNotas(curso.id)"> 
-        <span class="material-symbols-outlined">arrow_forward_ios</span>
-      </button>
-    </div>       
+<div *ngIf="!cargando && !mostrarModal && misCursos.length > 0">
+  
+  <div class="dashboard-header mb-3">
+    <h3 style="margin: 0;">Mis Cursos: Grado y Sección ({{ misCursos[0]?.nombreAula }})</h3>
+    <button class="btn-descargar" (click)="descargarPDF()" [disabled]="descargandoPDF">
+      <span class="material-symbols-outlined" *ngIf="!descargandoPDF">download</span>
+      <span class="material-symbols-outlined" *ngIf="descargandoPDF">hourglass_empty</span>
+      {{ descargandoPDF ? 'Generando PDF...' : 'Descargar Constancia' }}
+    </button>
+  </div>
+
+  <div class="courses-list">
+    <div class="course-row" *ngFor="let curso of misCursos">
+      <div class="row-icon" [ngClass]="curso.bg">
+        <span class="material-symbols-outlined">{{ curso.icono }}</span>
+      </div>
+      
+      <div class="row-info">
+        <h4 class="course-name">{{ curso.nombre }}</h4>
+        <p class="teacher-name" *ngFor="let profe of curso.docente">
+          <span class="material-symbols-outlined small-icon">person</span> 
+          {{ profe }}  
+        </p> 
+      </div>   
+
+      <div class="row-action">
+        <button class="btn-arrow" (click)="verNotas(curso.id)"> 
+          <span class="material-symbols-outlined">arrow_forward_ios</span>
+        </button>
+      </div>       
+    </div>
   </div>
 </div>
 
@@ -108,3 +114,4 @@
     <p>No tienes cursos asignados actualmente.</p>
   </div>
 </div>
+
