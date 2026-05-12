@@ -46,7 +46,7 @@
 .btn-clear {
   background: none;
   border: none;
-  color: #ef4444; /* Rojo suave */
+  color: #ef4444; 
   cursor: pointer;
   display: flex;
   align-items: center;

@@ -12,7 +12,11 @@
   <div class="toolbar-card mb-4">
     <div class="search-container">
       <span class="material-symbols-outlined icon-sm">search</span>
-      <input type="text" placeholder="Buscar por DNI o nombre..." class="input-search-sm">
+      <input type="text" placeholder="Buscar por DNI o nombre..." class="input-search-sm" 
+              (keyup.enter)="obtenerDocentePorDni()" [(ngModel)]="dniDocente">
+      <button class="btn-clear" (click)="limpiarfiltro()" *ngIf="dniDocente">
+        <span class="material-symbols-outlined">close</span>
+      </button>
     </div> 
     
     <div class="filter-group">

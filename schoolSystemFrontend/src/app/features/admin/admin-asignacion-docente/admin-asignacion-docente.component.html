@@ -17,10 +17,12 @@
       <div class="search-form-row">
         <div class="input-with-button">
           <span class="material-symbols-outlined icon-input">fingerprint</span>
-          <input type="text" placeholder="DNI del docente..." class="input-flat">
-          <button class="btn-search-action">
-            <span class="material-symbols-outlined">search</span>
-            Buscar
+          <input type="text" placeholder="DNI del docente..." class="input-flat" [(ngModel)]="dniDocente">
+          <button class="btn-search-action" (click)="obtenerPorDniDocente()" *ngIf="!busquedaRealizada">
+            <span class="material-symbols-outlined">search</span>Buscar
+          </button>
+          <button class="btn-limpiar" (click)="limpiarBusqueda()" *ngIf="busquedaRealizada">
+            <span class="material-symbols-outlined">close</span>Limpiar
           </button>
         </div> 
 

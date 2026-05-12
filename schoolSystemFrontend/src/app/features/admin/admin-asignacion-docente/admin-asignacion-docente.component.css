@@ -70,6 +70,19 @@
   cursor: pointer;
 }
 
+.btn-limpiar {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
 .btn-filter:hover{
   background: #080b11;
 }

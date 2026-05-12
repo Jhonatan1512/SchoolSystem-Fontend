@@ -3,8 +3,10 @@
     <h1>Mis Cursos Asignados</h1>
   </div>
   <div>
-    <button *ngIf="esTutor"
-            [routerLink]="['/docente/libretas']">Descargar Libretas</button> 
+    <button class="btn-route"
+            *ngIf="esTutor"
+            [routerLink]="['/docente/libretas']"> <span class="material-symbols-outlined">arrow_circle_right</span> 
+            Descargar Libretas</button> 
   </div>
 </div>
 

@@ -16,6 +16,20 @@
   align-items: center;
 }
 
+.btn-clear{
+  border: none;
+  background: transparent;
+  color: red;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 0.8rem;
+}
+
+.btn-clear:hover{
+  background: rgba(253, 1, 1, 0.095);
+}
+
 .btn-add {
   background: #1e293b;
   color: white;

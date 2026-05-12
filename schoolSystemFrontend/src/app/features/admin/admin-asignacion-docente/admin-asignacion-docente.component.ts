@@ -34,6 +34,8 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   docenteEncontrado = { id: 0, dni: '', nombreCompleto: '', esActivo: false, horasAsignadas: 0, horasRestantes: 0 };
   gradoSeleccionadoId: number | null = null;
   seccionSeleccionadaId: number | null = null;
+  dniDocente: string = '';
+  busquedaRealizada: boolean = false;
 
   cursosDelGrado: any[] = [];
   cursosSeleccionadosParaAsignar: { planEstudioId: number, horasAsignadas: number }[] = [];
@@ -41,7 +43,7 @@ export class AdminAsignacionDocenteComponent implements OnInit {
   listaGrados: any[] = [];
   listaSecciones: any[] = [];
   periodoActivo = { id: 0, nombre: '' };
-
+ 
   gradoId: number | null = null;
   seccionId: number = 0;
 
@@ -55,6 +57,30 @@ export class AdminAsignacionDocenteComponent implements OnInit {
     this.obtenerGrados();
     this.obtenerSecciones();
     this.obtenerPeriodo();
+  }
+
+  obtenerPorDniDocente(){
+    this.asignacionService.getByDniDocente(this.dniDocente).subscribe({
+      next: (data) => {
+        this.listaDocentes = data.map((d: any) => ({
+          ...d, textEstado: d.estado ? 'Activo' : 'Inactivo',
+          iniciales: this.getIciales(d.nombreDocente)
+        }));
+        this.listaFiltrada = [...this.listaDocentes];
+        this.busquedaRealizada = true;
+      },
+      error: () => {
+        this.toastService.warning("Docente no encontrado");
+        this.listaDocentes = [];
+        this.listaFiltrada = [];
+      }
+    });
+  }
+
+  limpiarBusqueda(){
+    this.mostrarDocentesAsignados();
+    this.dniDocente = '';
+    this.busquedaRealizada = false;
   }
 
   onGradoChange() {
@@ -173,6 +199,7 @@ export class AdminAsignacionDocenteComponent implements OnInit {
           horasAsignadas: data.horasAsignadas,
           horasRestantes: data.horasRestantes
         };
+        
       },
       error: () => this.toastService.error("Docente no encontrado")
     });

@@ -10,7 +10,7 @@ import { NotificationServiceService } from '../../../core/services/notification.
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './admin-docentes.component.html',
   styleUrl: './admin-docentes.component.css'
-})
+}) 
 export class AdminDocentesComponent implements OnInit{
   private docenteService = inject(DocenteService);
   private toastService = inject(NotificationServiceService);
@@ -24,6 +24,7 @@ export class AdminDocentesComponent implements OnInit{
 
   idDocente: number = 0;
   isEditMode: boolean = false;
+  dniDocente: string = '';
 
   paginaActual: number = 1;
   totalPaginas: number = 0;
@@ -87,6 +88,29 @@ export class AdminDocentesComponent implements OnInit{
         console.log(err);
       }
     });
+  }
+
+  obtenerDocentePorDni(){
+    this.docenteService.getByDni(this.dniDocente).subscribe({
+      next: (data) => {
+        const result = Array.isArray(data) ? data : [data]
+        this.listaDocentes = result.map((docente: any) => ({
+          ...docente,
+          iniciales: this.getInciales(docente.nombres, docente.apellidos),
+          estado: docente.esActivo ? 'Activo' : 'Inactivo',
+        }));
+      },
+      error: (err) => {
+        console.log(err);
+        this.listaDocentes = [];
+        this.toastService.warning("Docente no encontrado");
+      }
+    });
+  }
+
+  limpiarfiltro(){
+    this.dniDocente = '';
+    this.obtenerDocentes();
   }
 
   cambiarPagina(nueva: number) {

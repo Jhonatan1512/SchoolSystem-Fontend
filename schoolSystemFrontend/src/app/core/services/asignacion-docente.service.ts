@@ -30,5 +30,7 @@ export class AsignacionDocenteService {
     return this.http.get(`${this.apiUrl}/AsignacionDocente/gradoId/${gradoId}/seccionId/${seccionId}`);
   }
   
-  constructor() { }
+  getByDniDocente(dni:string): Observable<any>{
+    return this.http.get(`${this.apiUrl}/AsignacionDocente/docente/${dni}`);
+  }
 }
